@@ -1,0 +1,49 @@
+apiVersion: apps/v1
+kind: StatefulSet
+metadata:
+   name: db-sfs
+spec:
+   serviceName: "db-service"
+   replicas: 1
+   selector:
+      matchLabels:
+         app: mssqlexpress
+   template:
+       metadata:
+          labels:
+             app: mssqlexpress
+       spec:
+          containers:
+          - name: db-cnt
+            image: mcr.microsoft.com/mssql/server
+            ports:
+            - containerPort: 1433
+              name: sql-port
+            env:
+               - name: ACCEPT_EULA
+                 valueFrom:
+                    configMapKeyRef:
+                       name: db-config
+                       key: ACCEPTEULA
+               - name: MSSQL_PID
+                 valueFrom:
+                    configMapKeyRef:
+                       name: db-config
+                       key: MSSQLPID
+               - name: SA_PASSWORD
+                 valueFrom:
+                    secretKeyRef:
+                       name: db-secret
+                       key: DBPASSWORD
+            volumeMounts:
+            - name: mssqlexpressvolume
+              mountPath: /var/opt/mssql
+   volumeClaimTemplates:
+   - metadata:
+        name: mssqlexpressvolume
+     spec:
+        accessModes: ["ReadWriteOnce"]
+        storageClassName: standard
+        resources:
+           requests:
+              storage: 1Gi
