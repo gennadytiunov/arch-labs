@@ -1,0 +1,39 @@
+apiVersion: batch/v1
+kind: Job
+metadata:
+   name: db-job
+spec:
+   backoffLimit: 3
+   template:
+      metadata:
+         name: db-initializer
+      spec:
+         restartPolicy: Never
+         initContainers:
+         - name: db-service-awaiter
+           image: {{ .Values.app.dbAwaiterImage }}
+           command: [
+                       'sh',
+                       '-c',
+                       'until nslookup {{ include "dbservice.fullname" . }}.$(cat /var/run/secrets/kubernetes.io/serviceaccount/namespace).svc.cluster.local; do echo waiting for {{ include "dbservice.fullname" . }}; sleep 2; done'
+                    ]
+         containers:
+         - name:  db-init-container
+           image: {{ .Values.db.msTools.image }}
+           command:
+           - sh
+           - "-c"
+           - |
+              sleep 15;
+              export PATH="$PATH:{{ .Values.db.msTools.path }}";
+              sqlcmd -S $DB_URI -U sa -P $SA_PASSWORD -Q "CREATE DATABASE {{ .Values.db.name }}";
+              sqlcmd -S $DB_URI -U sa -P $SA_PASSWORD -Q "USE {{ .Values.db.name }}; CREATE TABLE [User] (Id INT IDENTITY(1,1) NOT NULL, Email NVARCHAR(50) NOT NULL, FirstName NVARCHAR(50) NOT NULL, LastName NVARCHAR(50) NOT NULL)";
+              sqlcmd -S $DB_URI -U sa -P $SA_PASSWORD -Q "USE {{ .Values.db.name }}; INSERT INTO [User] (Email, FirstName, LastName) VALUES ('john.dow@gmail.com', 'John', 'Dow')"
+           env:
+              - name: DB_URI
+                value: {{ include "dbservice.fullname" . }}
+              - name: SA_PASSWORD
+                valueFrom:
+                   secretKeyRef:
+                      name: {{ .Values.db.secret}}
+                      key: DBPASSWORD

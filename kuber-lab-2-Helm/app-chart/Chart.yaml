@@ -1,0 +1,11 @@
+apiVersion: v2
+name: labs-app
+description: A Helm chart for Kubernetes
+type: application
+version: 1.0.0
+appVersion: 1.0.0
+
+dependencies:
+   - name: mssql-linux
+     version: 0.11.x
+     repository: https://kubernetes-charts.storage.googleapis.com/

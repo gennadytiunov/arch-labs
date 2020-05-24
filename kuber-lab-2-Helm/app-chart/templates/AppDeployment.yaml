@@ -1,0 +1,36 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+   name: app-deployment
+spec:
+   replicas: {{ .Values.app.replicaCount }}
+   selector:
+      matchLabels:
+         app: {{ .Values.app.label }}
+   template:
+      metadata:
+         labels:
+            app: {{ .Values.app.label }}
+         annotations:
+            checksum/dbsecret: {{ include (print $.Template.BasePath "/DbSecret.yaml") . | sha256sum }}
+      spec:
+         initContainers:
+         - name: db-service-awaiter
+           image: {{ .Values.app.dbAwaiterImage }}
+           command: [
+                       'sh',
+                       '-c',
+                       'until nslookup {{ include "dbservice.fullname" . }}.$(cat /var/run/secrets/kubernetes.io/serviceaccount/namespace).svc.cluster.local; do echo waiting for {{ include "dbservice.fullname" . }}; sleep 2; done'
+                     ]
+         containers:
+         - name: app-container  
+           image: {{ .Values.app.image }}
+           ports:
+           - name: {{ .Values.app.port.name }}
+             containerPort: {{ .Values.app.port.number }}
+           env:
+              - name: DB_URI
+                valueFrom:
+                   secretKeyRef:
+                      name: {{ .Values.db.secret }}
+                      key: DBURI

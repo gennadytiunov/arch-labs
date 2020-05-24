@@ -1,0 +1,40 @@
+app:
+  label: app
+  replicaCount: 3
+  host: arch.homework
+  virtualPath: otusapp
+  image: gennadytiunov/kuber-lab:v20
+  dbAwaiterImage: busybox:1.28
+  port:
+    number: 8000
+    name: app-port
+  service:
+    name: app-service
+    type: NodePort
+    port:
+      number: "9000"
+      protocol: TCP
+
+mssql-linux:
+   replicaCount: 1
+   acceptEula:
+      value: "Y"
+   edition:
+      value: "Express"
+   sapassword: "0tuS1@b$"
+   persistence:
+      dataSize: 100Mi
+      transactionLogSize: 100Mi
+      backupSize: 100Mi
+      masterSize: 100Mi
+   resources:
+      limits:
+         memory: 1Gi
+
+db:
+  secret: db-secret
+  name: OtusLabs
+  user: sa
+  msTools:
+    image: mcr.microsoft.com/mssql-tools
+    path: /opt/mssql-tools/bin
