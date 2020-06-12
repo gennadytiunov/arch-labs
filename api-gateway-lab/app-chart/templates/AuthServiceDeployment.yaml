@@ -1,0 +1,56 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+   name: {{ .Values.authService.label }}-deployment
+spec:
+   replicas: {{ .Values.authService.replicaCount }}
+   selector:
+      matchLabels:
+         app: {{ .Values.authService.label }}
+   template:
+      metadata:
+         labels:
+            app: {{ .Values.authService.label }}
+         annotations:
+            checksum/secret: {{ include (print $.Template.BasePath "/Secret.yaml") . | sha256sum }}
+            checksum/config: {{ include (print $.Template.BasePath "/Config.yaml") . | sha256sum }}
+      spec:
+         containers:
+         - name: {{ .Values.authService.label }}-container  
+           image: {{ .Values.authService.image }}
+           ports:
+           - name: {{ .Values.authService.port.name }}
+             containerPort: {{ .Values.authService.port.number }}
+           env:
+              - name: {{ .Values.common.env.appPort }}
+                value: {{ .Values.authService.port.number | quote }}
+              - name: {{ .Values.identityService.env.uri }}
+                valueFrom:
+                   configMapKeyRef:
+                      name: {{ .Values.common.config }}
+                      key: {{ .Values.identityService.env.uri }}
+              - name: {{ .Values.sessionService.env.uri }}
+                valueFrom:
+                   configMapKeyRef:
+                      name: {{ .Values.common.config }}
+                      key: {{ .Values.sessionService.env.uri }}
+              - name: {{ .Values.userService.env.uri }}
+                valueFrom:
+                   configMapKeyRef:
+                      name: {{ .Values.common.config }}
+                      key: {{ .Values.userService.env.uri }}
+              - name: {{ .Values.identityService.env.token }}
+                valueFrom:
+                   secretKeyRef:
+                      name: {{ .Values.common.secret }}
+                      key: {{ .Values.identityService.env.token }}
+              - name: {{ .Values.sessionService.env.token }}
+                valueFrom:
+                   secretKeyRef:
+                      name: {{ .Values.common.secret }}
+                      key: {{ .Values.sessionService.env.token }}
+              - name: {{ .Values.userService.env.token }}
+                valueFrom:
+                   secretKeyRef:
+                      name: {{ .Values.common.secret }}
+                      key: {{ .Values.userService.env.token }}

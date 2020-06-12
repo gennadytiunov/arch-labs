@@ -1,0 +1,8 @@
+apiVersion: v1
+kind: ConfigMap
+metadata:
+   name: {{ .Values.common.config }}
+data:
+   {{ .Values.identityService.env.uri }}: "http://{{ .Values.identityService.service.name }}:{{ .Values.identityService.port.number }}"
+   {{ .Values.sessionService.env.uri }}: "http://{{ .Values.sessionService.service.name }}:{{ .Values.sessionService.port.number }}"
+   {{ .Values.userService.env.uri }}: "http://{{ .Values.userService.service.name }}:{{ .Values.userService.port.number }}"

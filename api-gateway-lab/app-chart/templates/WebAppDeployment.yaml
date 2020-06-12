@@ -1,0 +1,36 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+   name: {{ .Values.webApp.label }}-deployment
+spec:
+   replicas: {{ .Values.webApp.replicaCount }}
+   selector:
+      matchLabels:
+         app: {{ .Values.webApp.label }}
+   template:
+      metadata:
+         labels:
+            app: {{ .Values.webApp.label }}
+         annotations:
+            checksum/secret: {{ include (print $.Template.BasePath "/Secret.yaml") . | sha256sum }}
+            checksum/config: {{ include (print $.Template.BasePath "/Config.yaml") . | sha256sum }}
+      spec:
+         containers:
+         - name: {{ .Values.webApp.label }}-container  
+           image: {{ .Values.webApp.image }}
+           ports:
+           - name: {{ .Values.webApp.port.name }}
+             containerPort: {{ .Values.webApp.port.number }}
+           env:
+              - name: {{ .Values.common.env.appPort }}
+                value: {{ .Values.webApp.port.number | quote }}
+              - name: {{ .Values.userService.env.uri }}
+                valueFrom:
+                   configMapKeyRef:
+                      name: {{ .Values.common.config }}
+                      key: {{ .Values.userService.env.uri }}
+              - name: {{ .Values.userService.env.token }}
+                valueFrom:
+                   secretKeyRef:
+                      name: {{ .Values.common.secret }}
+                      key: {{ .Values.userService.env.token }}

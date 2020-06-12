@@ -1,0 +1,129 @@
+newman
+
+API Gateway Scenario
+
+→ Sign Up User 1
+  POST http://arch.homework/signup [201 Created, 420B, 585ms]
+  √  [INFO] Request: {
+    "email" : "Marge39@hotmail.com",
+    "password" : "oQCEojJOa1ex8rK",
+    "firstName" : "Ila",
+    "lastName" : "Rice"
+}
+  √  [INFO] Response: {"id":45,"email":"Marge39@hotmail.com","password":"oQCEojJOa1ex8rK","firstName":"Ila","lastName":"Rice"}
+  √  Status code is 201
+
+→ Sign Out User 1
+  POST http://arch.homework/signout [204 No Content, 111B, 28ms]
+  √  [INFO] Request: [object Object]
+  √  [INFO] Response: 
+  √  Status code is 204
+
+→ Get Profile for Not Logged User - Failure
+  GET http://arch.homework/profile [400 Bad Request, 224B, 26ms]
+  √  [INFO] Request: [object Object]
+  √  [INFO] Response: Please, submit your credentials to sign in.
+  √  Status code is 400
+
+→ Update Profile for Not Logged User - Failure
+  PUT http://arch.homework/profile [400 Bad Request, 224B, 23ms]
+  √  [INFO] Request: {
+    "id" : 45,
+    "email" : "Marge39@hotmail.com",
+    "password" : "oQCEojJOa1ex8rK",
+    "firstName" : "Ila",
+    "lastName" : "Rice"
+}
+  √  [INFO] Response: Please, submit your credentials to sign in.
+  √  Status code is 400
+
+→ Sign In User 1
+  POST http://arch.homework/signin [200 OK, 171B, 35ms]
+  √  [INFO] Request: {
+    "email": "Marge39@hotmail.com",
+    "password": "oQCEojJOa1ex8rK"
+}
+  √  [INFO] Response: 
+  √  Status code is 200
+
+→ Update Profile for User 1 - Success
+  PUT http://arch.homework/profile [200 OK, 122B, 62ms]
+  √  [INFO] Request: {
+    "id" : 45,
+    "email" : "Nella.Zemlak94@yahoo.com",
+    "password" : "ssNZ4ge7PpAWvjf",
+    "firstName" : "Mark",
+    "lastName" : "Stoltenberg"
+}
+  √  [INFO] Response: 
+  √  Status code is 200
+
+→ Get Profile - Success
+  GET http://arch.homework/profile [200 OK, 342B, 29ms]
+  √  [INFO] Request: [object Object]
+  √  [INFO] Response: {"id":45,"email":"Nella.Zemlak94@yahoo.com","password":"ssNZ4ge7PpAWvjf","firstName":"Mark","lastName":"Stoltenberg"}
+  √  Status code is 200
+
+→ Sign Out User 1
+  POST http://arch.homework/signout [204 No Content, 111B, 21ms]
+  √  [INFO] Request: [object Object]
+  √  [INFO] Response: 
+  √  Status code is 204
+
+→ Sign Up User 2
+  POST http://arch.homework/signup [201 Created, 430B, 32ms]
+  √  [INFO] Request: {
+    "email" : "Brionna.Funk8@yahoo.com",
+    "password" : "iOq1uQk7b5PC5oa",
+    "firstName" : "Hollie",
+    "lastName" : "Schultz"
+}
+  √  [INFO] Response: {"id":46,"email":"Brionna.Funk8@yahoo.com","password":"iOq1uQk7b5PC5oa","firstName":"Hollie","lastName":"Schultz"}
+  √  Status code is 201
+
+→ Sign Out User 2
+  POST http://arch.homework/signout [204 No Content, 111B, 19ms]
+  √  [INFO] Request: [object Object]
+  √  [INFO] Response: 
+  √  Status code is 204
+
+→ Sign In User 2
+  POST http://arch.homework/signin [200 OK, 171B, 25ms]
+  √  [INFO] Request: {
+    "email": "Brionna.Funk8@yahoo.com",
+    "password": "iOq1uQk7b5PC5oa"
+}
+  √  [INFO] Response: 
+  √  Status code is 200
+
+→ Update Profile for User 2 - Failure (Unauthorized)
+  PUT http://arch.homework/profile [401 Unauthorized, 239B, 28ms]
+  √  [INFO] Request: {
+    "id" : 45,
+    "email" : "Bennett.Gibson@gmail.com",
+    "password" : "te1QVXONMhkpEZG",
+    "firstName" : "Nikolas",
+    "lastName" : "McLaughlin"
+}
+  √  [INFO] Response: Profile: User '46' is not authorized to update user '45'.
+  √  Status code is 401
+
+┌─────────────────────────┬────────────────────┬───────────────────┐
+│                         │           executed │            failed │
+├─────────────────────────┼────────────────────┼───────────────────┤
+│              iterations │                  1 │                 0 │
+├─────────────────────────┼────────────────────┼───────────────────┤
+│                requests │                 12 │                 0 │
+├─────────────────────────┼────────────────────┼───────────────────┤
+│            test-scripts │                 24 │                 0 │
+├─────────────────────────┼────────────────────┼───────────────────┤
+│      prerequest-scripts │                 24 │                 0 │
+├─────────────────────────┼────────────────────┼───────────────────┤
+│              assertions │                 36 │                 0 │
+├─────────────────────────┴────────────────────┴───────────────────┤
+│ total run duration: 1352ms                                       │
+├──────────────────────────────────────────────────────────────────┤
+│ total data received: 478B (approx)                               │
+├──────────────────────────────────────────────────────────────────┤
+│ average response time: 76ms [min: 19ms, max: 585ms, s.d.: 153ms] │
+└──────────────────────────────────────────────────────────────────┘

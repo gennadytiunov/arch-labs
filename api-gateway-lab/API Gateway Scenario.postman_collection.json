@@ -1,0 +1,686 @@
+{
+	"info": {
+		"_postman_id": "81f91401-1344-48c3-9ab9-1e6617d60295",
+		"name": "API Gateway Scenario",
+		"schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json"
+	},
+	"item": [
+		{
+			"name": "Sign Up User 1",
+			"event": [
+				{
+					"listen": "prerequest",
+					"script": {
+						"id": "d6ce4232-dd16-4ace-913a-ce2334bfc8c3",
+						"exec": [
+							"pm.collectionVariables.set(\"email\", pm.variables.replaceIn('{{$randomEmail}}'));\r",
+							"pm.collectionVariables.set(\"password\", pm.variables.replaceIn('{{$randomPassword}}'));\r",
+							"pm.collectionVariables.set(\"firstName\", pm.variables.replaceIn('{{$randomFirstName}}'));\r",
+							"pm.collectionVariables.set(\"lastName\", pm.variables.replaceIn('{{$randomLastName}}'));"
+						],
+						"type": "text/javascript"
+					}
+				},
+				{
+					"listen": "test",
+					"script": {
+						"id": "7a4ebea6-a47a-49f2-8960-3b279b391460",
+						"exec": [
+							"pm.test(\"Status code is 201\", function () {\r",
+							"    pm.response.to.have.status(201);\r",
+							"\r",
+							"    var jsonData = pm.response.json();\r",
+							"    pm.expect(jsonData.email).to.eql(pm.collectionVariables.get(\"email\"));\r",
+							"    pm.expect(jsonData.password).to.eql(pm.collectionVariables.get(\"password\"));\r",
+							"    pm.expect(jsonData.firstName).to.eql(pm.collectionVariables.get(\"firstName\"));\r",
+							"    pm.expect(jsonData.lastName).to.eql(pm.collectionVariables.get(\"lastName\"));\r",
+							"\r",
+							"    pm.collectionVariables.set(\"id\", jsonData.id);\r",
+							"\r",
+							"    pm.collectionVariables.set(\"SessionId\", pm.response.headers.get(\"SessionId\"));\r",
+							"    pm.collectionVariables.set(\"FirstUserId\", jsonData.id);\r",
+							"});"
+						],
+						"type": "text/javascript"
+					}
+				}
+			],
+			"request": {
+				"method": "POST",
+				"header": [],
+				"body": {
+					"mode": "raw",
+					"raw": "{\r\n    \"email\" : \"{{email}}\",\r\n    \"password\" : \"{{password}}\",\r\n    \"firstName\" : \"{{firstName}}\",\r\n    \"lastName\" : \"{{lastName}}\"\r\n}",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": {
+					"raw": "{{BaseUrl}}/signup",
+					"host": [
+						"{{BaseUrl}}"
+					],
+					"path": [
+						"signup"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "Sign Out User 1",
+			"event": [
+				{
+					"listen": "prerequest",
+					"script": {
+						"id": "e804e7f5-7fb7-43b5-a5c1-f47c3da59d39",
+						"exec": [
+							"pm.request.headers.add({ key: 'SessionId', value: pm.collectionVariables.get(\"SessionId\") });"
+						],
+						"type": "text/javascript"
+					}
+				},
+				{
+					"listen": "test",
+					"script": {
+						"id": "588499fe-f2a0-4a78-9aaf-6ef1e7b31d23",
+						"exec": [
+							"pm.test(\"Status code is 204\", function () {\r",
+							"    pm.response.to.have.status(204);\r",
+							"\r",
+							"    pm.collectionVariables.set(\"SessionId\", null);\r",
+							"});"
+						],
+						"type": "text/javascript"
+					}
+				}
+			],
+			"request": {
+				"method": "POST",
+				"header": [],
+				"url": {
+					"raw": "{{BaseUrl}}/signout",
+					"host": [
+						"{{BaseUrl}}"
+					],
+					"path": [
+						"signout"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "Get Profile for Not Logged User - Failure",
+			"event": [
+				{
+					"listen": "prerequest",
+					"script": {
+						"id": "682a5ba9-9876-4040-a95b-5a7fa5e1710a",
+						"exec": [
+							""
+						],
+						"type": "text/javascript"
+					}
+				},
+				{
+					"listen": "test",
+					"script": {
+						"id": "1119c278-4c93-486a-b0ba-cf7c33c0a0ae",
+						"exec": [
+							"pm.test(\"Status code is 400\", function () {\r",
+							"    pm.response.to.have.status(400);\r",
+							"});"
+						],
+						"type": "text/javascript"
+					}
+				}
+			],
+			"request": {
+				"method": "GET",
+				"header": [],
+				"url": {
+					"raw": "{{BaseUrl}}/profile",
+					"host": [
+						"{{BaseUrl}}"
+					],
+					"path": [
+						"profile"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "Update Profile for Not Logged User - Failure",
+			"event": [
+				{
+					"listen": "prerequest",
+					"script": {
+						"id": "bef55e73-e082-481d-8c9f-6a4229123bb1",
+						"exec": [
+							""
+						],
+						"type": "text/javascript"
+					}
+				},
+				{
+					"listen": "test",
+					"script": {
+						"id": "633231c3-1bd3-4b96-b58b-657e7540d64c",
+						"exec": [
+							"pm.test(\"Status code is 400\", function () {\r",
+							"    pm.response.to.have.status(400);\r",
+							"});"
+						],
+						"type": "text/javascript"
+					}
+				}
+			],
+			"request": {
+				"method": "PUT",
+				"header": [],
+				"body": {
+					"mode": "raw",
+					"raw": "{\r\n    \"id\" : {{id}},\r\n    \"email\" : \"{{email}}\",\r\n    \"password\" : \"{{password}}\",\r\n    \"firstName\" : \"{{firstName}}\",\r\n    \"lastName\" : \"{{lastName}}\"\r\n}",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": {
+					"raw": "{{BaseUrl}}/profile",
+					"host": [
+						"{{BaseUrl}}"
+					],
+					"path": [
+						"profile"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "Sign In User 1",
+			"event": [
+				{
+					"listen": "prerequest",
+					"script": {
+						"id": "b8e392df-7953-4cda-8675-ad32347beb0c",
+						"exec": [
+							""
+						],
+						"type": "text/javascript"
+					}
+				},
+				{
+					"listen": "test",
+					"script": {
+						"id": "afee41ea-f60a-4f37-953f-2b98258041ba",
+						"exec": [
+							"pm.test(\"Status code is 200\", function () {\r",
+							"    pm.response.to.have.status(200);\r",
+							"\r",
+							"    pm.collectionVariables.set(\"SessionId\", pm.response.headers.get(\"SessionId\"));\r",
+							"});"
+						],
+						"type": "text/javascript"
+					}
+				}
+			],
+			"request": {
+				"method": "POST",
+				"header": [],
+				"body": {
+					"mode": "raw",
+					"raw": "{\r\n    \"email\": \"{{email}}\",\r\n    \"password\": \"{{password}}\"\r\n}",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": {
+					"raw": "{{BaseUrl}}/signin",
+					"host": [
+						"{{BaseUrl}}"
+					],
+					"path": [
+						"signin"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "Update Profile for User 1 - Success",
+			"event": [
+				{
+					"listen": "prerequest",
+					"script": {
+						"id": "856e69a0-869a-4322-97cb-2ccb9fcc379d",
+						"exec": [
+							"pm.request.headers.add({ key: 'SessionId', value: pm.collectionVariables.get(\"SessionId\") });\r",
+							"\r",
+							"pm.collectionVariables.set(\"email\", pm.variables.replaceIn('{{$randomEmail}}'));\r",
+							"pm.collectionVariables.set(\"password\", pm.variables.replaceIn('{{$randomPassword}}'));\r",
+							"pm.collectionVariables.set(\"firstName\", pm.variables.replaceIn('{{$randomFirstName}}'));\r",
+							"pm.collectionVariables.set(\"lastName\", pm.variables.replaceIn('{{$randomLastName}}'));"
+						],
+						"type": "text/javascript"
+					}
+				},
+				{
+					"listen": "test",
+					"script": {
+						"id": "37980b28-0978-4372-9961-08e700d9bc66",
+						"exec": [
+							"pm.test(\"Status code is 200\", function () {\r",
+							"    pm.response.to.have.status(200);\r",
+							"});"
+						],
+						"type": "text/javascript"
+					}
+				}
+			],
+			"request": {
+				"method": "PUT",
+				"header": [],
+				"body": {
+					"mode": "raw",
+					"raw": "{\r\n    \"id\" : {{id}},\r\n    \"email\" : \"{{email}}\",\r\n    \"password\" : \"{{password}}\",\r\n    \"firstName\" : \"{{firstName}}\",\r\n    \"lastName\" : \"{{lastName}}\"\r\n}",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": {
+					"raw": "{{BaseUrl}}/profile",
+					"host": [
+						"{{BaseUrl}}"
+					],
+					"path": [
+						"profile"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "Get Profile - Success",
+			"event": [
+				{
+					"listen": "prerequest",
+					"script": {
+						"id": "f4e5493c-9e4f-4b87-bdb5-dc8a93fbb96a",
+						"exec": [
+							"pm.request.headers.add({ key: 'SessionId', value: pm.collectionVariables.get(\"SessionId\") });"
+						],
+						"type": "text/javascript"
+					}
+				},
+				{
+					"listen": "test",
+					"script": {
+						"id": "3a98a438-81c1-40d0-8f2b-c2154425459d",
+						"exec": [
+							"pm.test(\"Status code is 200\", function () {\r",
+							"    pm.response.to.have.status(200);\r",
+							"\r",
+							"    var jsonData = pm.response.json();\r",
+							"    pm.expect(jsonData.email).to.eql(pm.collectionVariables.get(\"email\"));\r",
+							"    pm.expect(jsonData.password).to.eql(pm.collectionVariables.get(\"password\"));\r",
+							"    pm.expect(jsonData.firstName).to.eql(pm.collectionVariables.get(\"firstName\"));\r",
+							"    pm.expect(jsonData.lastName).to.eql(pm.collectionVariables.get(\"lastName\"));\r",
+							"});"
+						],
+						"type": "text/javascript"
+					}
+				}
+			],
+			"request": {
+				"method": "GET",
+				"header": [],
+				"url": {
+					"raw": "{{BaseUrl}}/profile",
+					"host": [
+						"{{BaseUrl}}"
+					],
+					"path": [
+						"profile"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "Sign Out User 1",
+			"event": [
+				{
+					"listen": "prerequest",
+					"script": {
+						"id": "4c635fde-ca5a-4009-adf7-5e6935235e2d",
+						"exec": [
+							"pm.request.headers.add({ key: 'SessionId', value: pm.collectionVariables.get(\"SessionId\") });"
+						],
+						"type": "text/javascript"
+					}
+				},
+				{
+					"listen": "test",
+					"script": {
+						"id": "18dab289-80dd-4318-9ab2-14229b275a19",
+						"exec": [
+							"pm.test(\"Status code is 204\", function () {\r",
+							"    pm.response.to.have.status(204);\r",
+							"});"
+						],
+						"type": "text/javascript"
+					}
+				}
+			],
+			"request": {
+				"method": "POST",
+				"header": [],
+				"url": {
+					"raw": "{{BaseUrl}}/signout",
+					"host": [
+						"{{BaseUrl}}"
+					],
+					"path": [
+						"signout"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "Sign Up User 2",
+			"event": [
+				{
+					"listen": "prerequest",
+					"script": {
+						"id": "7f602281-f35a-4c17-a77e-7548054e1e25",
+						"exec": [
+							"pm.collectionVariables.set(\"email\", pm.variables.replaceIn('{{$randomEmail}}'));\r",
+							"pm.collectionVariables.set(\"password\", pm.variables.replaceIn('{{$randomPassword}}'));\r",
+							"pm.collectionVariables.set(\"firstName\", pm.variables.replaceIn('{{$randomFirstName}}'));\r",
+							"pm.collectionVariables.set(\"lastName\", pm.variables.replaceIn('{{$randomLastName}}'));"
+						],
+						"type": "text/javascript"
+					}
+				},
+				{
+					"listen": "test",
+					"script": {
+						"id": "3fba7af2-da40-476c-930c-7353a7ec8a7e",
+						"exec": [
+							"pm.test(\"Status code is 201\", function () {\r",
+							"    pm.response.to.have.status(201);\r",
+							"\r",
+							"    var jsonData = pm.response.json();\r",
+							"    pm.expect(jsonData.email).to.eql(pm.collectionVariables.get(\"email\"));\r",
+							"    pm.expect(jsonData.password).to.eql(pm.collectionVariables.get(\"password\"));\r",
+							"    pm.expect(jsonData.firstName).to.eql(pm.collectionVariables.get(\"firstName\"));\r",
+							"    pm.expect(jsonData.lastName).to.eql(pm.collectionVariables.get(\"lastName\"));\r",
+							"\r",
+							"    pm.collectionVariables.set(\"id\", jsonData.id);\r",
+							"    pm.collectionVariables.set(\"SessionId\", pm.response.headers.get(\"SessionId\"));\r",
+							"});"
+						],
+						"type": "text/javascript"
+					}
+				}
+			],
+			"request": {
+				"method": "POST",
+				"header": [],
+				"body": {
+					"mode": "raw",
+					"raw": "{\r\n    \"email\" : \"{{email}}\",\r\n    \"password\" : \"{{password}}\",\r\n    \"firstName\" : \"{{firstName}}\",\r\n    \"lastName\" : \"{{lastName}}\"\r\n}",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": {
+					"raw": "{{BaseUrl}}/signup",
+					"host": [
+						"{{BaseUrl}}"
+					],
+					"path": [
+						"signup"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "Sign Out User 2",
+			"event": [
+				{
+					"listen": "prerequest",
+					"script": {
+						"id": "d871e2ea-b2d5-4f32-9d1d-898f0271ea82",
+						"exec": [
+							"pm.request.headers.add({ key: 'SessionId', value: pm.collectionVariables.get(\"SessionId\") });"
+						],
+						"type": "text/javascript"
+					}
+				},
+				{
+					"listen": "test",
+					"script": {
+						"id": "15089768-b25c-4888-850a-38920e0c1c84",
+						"exec": [
+							"pm.test(\"Status code is 204\", function () {\r",
+							"    pm.response.to.have.status(204);\r",
+							"});"
+						],
+						"type": "text/javascript"
+					}
+				}
+			],
+			"request": {
+				"method": "POST",
+				"header": [],
+				"url": {
+					"raw": "{{BaseUrl}}/signout",
+					"host": [
+						"{{BaseUrl}}"
+					],
+					"path": [
+						"signout"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "Sign In User 2",
+			"event": [
+				{
+					"listen": "prerequest",
+					"script": {
+						"id": "dee0cc15-d8fc-4824-9ed4-7a545c03e2b3",
+						"exec": [
+							""
+						],
+						"type": "text/javascript"
+					}
+				},
+				{
+					"listen": "test",
+					"script": {
+						"id": "149b1daa-2319-4c22-9233-5164347850f2",
+						"exec": [
+							"pm.test(\"Status code is 200\", function () {\r",
+							"    pm.response.to.have.status(200);\r",
+							"\r",
+							"    pm.collectionVariables.set(\"SessionId\", pm.response.headers.get(\"SessionId\"));\r",
+							"});"
+						],
+						"type": "text/javascript"
+					}
+				}
+			],
+			"request": {
+				"method": "POST",
+				"header": [],
+				"body": {
+					"mode": "raw",
+					"raw": "{\r\n    \"email\": \"{{email}}\",\r\n    \"password\": \"{{password}}\"\r\n}",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": {
+					"raw": "{{BaseUrl}}/signin",
+					"host": [
+						"{{BaseUrl}}"
+					],
+					"path": [
+						"signin"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "Update Profile for User 2 - Failure (Unauthorized)",
+			"event": [
+				{
+					"listen": "prerequest",
+					"script": {
+						"id": "a5b2376b-3b03-41d9-ba51-4f5c88d20f14",
+						"exec": [
+							"pm.request.headers.add({ key: 'SessionId', value: pm.collectionVariables.get(\"SessionId\") });\r",
+							"\r",
+							"pm.collectionVariables.set(\"email\", pm.variables.replaceIn('{{$randomEmail}}'));\r",
+							"pm.collectionVariables.set(\"password\", pm.variables.replaceIn('{{$randomPassword}}'));\r",
+							"pm.collectionVariables.set(\"firstName\", pm.variables.replaceIn('{{$randomFirstName}}'));\r",
+							"pm.collectionVariables.set(\"lastName\", pm.variables.replaceIn('{{$randomLastName}}'));"
+						],
+						"type": "text/javascript"
+					}
+				},
+				{
+					"listen": "test",
+					"script": {
+						"id": "2d6ad502-7eb3-4a9e-a846-d8720483de8a",
+						"exec": [
+							"pm.test(\"Status code is 401\", function () {\r",
+							"    pm.response.to.have.status(401);\r",
+							"});"
+						],
+						"type": "text/javascript"
+					}
+				}
+			],
+			"request": {
+				"method": "PUT",
+				"header": [],
+				"body": {
+					"mode": "raw",
+					"raw": "{\r\n    \"id\" : {{FirstUserId}},\r\n    \"email\" : \"{{email}}\",\r\n    \"password\" : \"{{password}}\",\r\n    \"firstName\" : \"{{firstName}}\",\r\n    \"lastName\" : \"{{lastName}}\"\r\n}",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": {
+					"raw": "{{BaseUrl}}/profile",
+					"host": [
+						"{{BaseUrl}}"
+					],
+					"path": [
+						"profile"
+					]
+				}
+			},
+			"response": []
+		}
+	],
+	"event": [
+		{
+			"listen": "prerequest",
+			"script": {
+				"id": "8838826d-94d7-4b37-8df6-3b5ef644207f",
+				"type": "text/javascript",
+				"exec": [
+					""
+				]
+			}
+		},
+		{
+			"listen": "test",
+			"script": {
+				"id": "a7f6ee1e-f9f6-46cc-8847-3e9e27eae8e2",
+				"type": "text/javascript",
+				"exec": [
+					"tests[\"[INFO] Request: \" + (('data' in request) ? request['data'] : '') ] = true;",
+					"tests[\"[INFO] Response: \" + responseBody] = true;"
+				]
+			}
+		}
+	],
+	"variable": [
+		{
+			"id": "d68e17a4-4c81-4d6f-a13b-5e1961019d83",
+			"key": "BaseUrl",
+			"value": "http://arch.homework",
+			"type": "string"
+		},
+		{
+			"id": "34b4b929-f20b-45c6-82e4-98534861a65a",
+			"key": "email",
+			"value": "",
+			"type": "string"
+		},
+		{
+			"id": "8daded47-725c-426b-b903-43599734824c",
+			"key": "firstName",
+			"value": "",
+			"type": "string"
+		},
+		{
+			"id": "5ac8fc81-75f8-42d9-a114-053937879295",
+			"key": "lastName",
+			"value": "",
+			"type": "string"
+		},
+		{
+			"id": "f385a09f-8cd1-4b6e-82fc-6db7943e98e1",
+			"key": "password",
+			"value": "",
+			"type": "string"
+		},
+		{
+			"id": "d3f4e497-4ae2-435b-b5ea-8b1b5bfa879e",
+			"key": "id",
+			"value": "",
+			"type": "string"
+		},
+		{
+			"id": "4f80029f-786c-4f72-b9d9-4acfabda6936",
+			"key": "FirstUserId",
+			"value": "",
+			"type": "string"
+		},
+		{
+			"id": "3ee34691-bcce-48fb-8246-81800cbd972f",
+			"key": "SessionId",
+			"value": "",
+			"type": "string"
+		}
+	],
+	"protocolProfileBehavior": {}
+}

@@ -1,0 +1,36 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+   name: {{ .Values.userService.label }}-deployment
+spec:
+   replicas: {{ .Values.userService.replicaCount }}
+   selector:
+      matchLabels:
+         app: {{ .Values.userService.label }}
+   template:
+      metadata:
+         labels:
+            app: {{ .Values.userService.label }}
+         annotations:
+            checksum/secret: {{ include (print $.Template.BasePath "/Secret.yaml") . | sha256sum }}
+            checksum/config: {{ include (print $.Template.BasePath "/Config.yaml") . | sha256sum }}
+      spec:
+         containers:
+         - name: {{ .Values.userService.label }}-container  
+           image: {{ .Values.userService.image }}
+           ports:
+           - name: {{ .Values.userService.port.name }}
+             containerPort: {{ .Values.userService.port.number }}
+           env:
+              - name: {{ .Values.common.env.appPort }}
+                value: {{ .Values.userService.port.number | quote }}
+              - name: {{ .Values.db.env.uri }}
+                valueFrom:
+                   secretKeyRef:
+                      name: {{ .Values.common.secret }}
+                      key: DBURI
+              - name: {{ .Values.common.env.token }}
+                valueFrom:
+                   secretKeyRef:
+                      name: {{ .Values.common.secret }}
+                      key: {{ .Values.userService.env.token }}

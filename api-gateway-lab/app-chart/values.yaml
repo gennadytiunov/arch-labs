@@ -1,0 +1,120 @@
+common:
+   secret: secret
+   config: config
+   namespace: otusapp
+   env:
+      token: _OtusApp_X-Service-Token
+      appPort: App_Port
+
+webApp:
+   label: web-app
+   replicaCount: 1
+   host: arch.homework
+   image: gennadytiunov/web-app:v6
+   dbAwaiterImage: busybox:1.28
+   port:
+      number: 5000
+      name: web-app-port
+   service:
+      name: web-app-service
+      type: NodePort
+      port:
+         number: "5000"
+         protocol: TCP
+
+authService:
+   label: auth-service
+   replicaCount: 1
+   host: arch.homework
+   image: gennadytiunov/auth-service:v6
+   port:
+      number: 9000
+      name: auth-port
+   service:
+      name: auth-service
+      type: NodePort
+      port:
+         number: "9000"
+         protocol: TCP
+
+identityService:
+   label: identity-service
+   replicaCount: 1
+   image: gennadytiunov/identity-service:v6
+   env:
+      uri: _OtusApp_IdentityService_URI
+      token: _OtusApp_IdentityService_Token
+   port:
+      number: 10000
+      name: identities-port
+   service:
+      name: identity-service
+      type: NodePort
+      port:
+         number: "10000"
+         protocol: TCP
+
+sessionService:
+   label: session-service
+   replicaCount: 1
+   image: gennadytiunov/session-service:v6
+   env:
+      uri: _OtusApp_SessionService_URI
+      token: _OtusApp_SessionService_Token
+   port:
+      number: 7000
+      name: sessions-port
+   service:
+      name: session-service
+      type: NodePort
+      port:
+         number: "7000"
+         protocol: TCP
+
+userService:
+   label: user-service
+   replicaCount: 1
+   image: gennadytiunov/user-service:v6
+   env:
+      uri: _OtusApp_UserService_URI
+      token: _OtusApp_UserService_Token
+   port:
+      number: 8000
+      name: users-port
+   service:
+      name: user-service
+      type: NodePort
+      port:
+         number: "8000"
+         protocol: TCP
+
+db:
+   label: mssqlexpress
+   replicaCount: 1
+   image: mcr.microsoft.com/mssql/server
+   env:
+      uri: _OtusApp_DB_URI
+   mssql:
+      acceptEula: "Y"
+      edition: "Express"
+   mount:
+      name: mssqlexpressvolume
+      path: /var/opt/mssql
+      access: "ReadWriteOnce"
+      class: standard
+      size: 500Mi
+   name: OtusLabs
+   user: sa
+   password: "0tuS1@b$"
+   port:
+      number: 1433
+      name: sql-port
+   service:
+      name: db-service
+      type: NodePort
+      port:
+         number: "15000"
+         protocol: TCP
+   msTools:
+      image: mcr.microsoft.com/mssql-tools
+      path: /opt/mssql-tools/bin
