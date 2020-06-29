@@ -1,0 +1,32 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+   name: {{ .Values.productService.label }}-deployment
+spec:
+   replicas: {{ .Values.productService.replicaCount }}
+   selector:
+      matchLabels:
+         app: {{ .Values.productService.label }}
+   template:
+      metadata:
+         labels:
+            app: {{ .Values.productService.label }}
+         annotations:
+            checksum/secret: {{ include (print $.Template.BasePath "/Secret.yaml") . | sha256sum }}
+      spec:
+         containers:
+         - name: {{ .Values.productService.label }}-container  
+           image: {{ .Values.productService.image }}
+           ports:
+           - name: {{ .Values.productService.port.name }}
+             containerPort: {{ .Values.productService.port.number }}
+           env:
+              - name: {{ .Values.common.env.appPort }}
+                value: {{ .Values.productService.port.number | quote }}
+              - name: {{ .Values.common.env.cacheCapacity }}
+                value: {{ .Values.productService.cacheCapacity | quote }}
+              - name: {{ .Values.db.env.uri }}
+                valueFrom:
+                   secretKeyRef:
+                      name: {{ .Values.common.secret }}
+                      key: DBURI

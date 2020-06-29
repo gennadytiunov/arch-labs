@@ -1,0 +1,54 @@
+common:
+   secret: secret
+   namespace: otusapp
+   env:
+      appPort: _OtusApp_App_Port
+      cacheCapacity: _OtusApp_Cache_Capacity
+
+productService:
+   label: product-service
+   replicaCount: 1
+   cacheCapacity: 5
+   host: arch.homework
+   image: gennadytiunov/product-service:v2
+   port:
+      number: 3000
+      name: products-port
+   service:
+      name: product-service
+      type: NodePort
+      port:
+         number: "3000"
+         protocol: TCP
+
+db:
+   label: mssqlexpress
+   replicaCount: 1
+   image: mcr.microsoft.com/mssql/server
+   awaiterImage: busybox:1.28
+   env:
+      uri: _OtusApp_DB_URI
+   mssql:
+      acceptEula: "Y"
+      edition: "Express"
+   mount:
+      name: mssqlexpressvolume
+      path: /var/opt/mssql
+      access: "ReadWriteOnce"
+      class: standard
+      size: 500Mi
+   name: OtusLabs
+   user: sa
+   password: "0tuS1@b$"
+   port:
+      number: 1433
+      name: sql-port
+   service:
+      name: db-service
+      type: NodePort
+      port:
+         number: "15000"
+         protocol: TCP
+   msTools:
+      image: mcr.microsoft.com/mssql-tools
+      path: /opt/mssql-tools/bin

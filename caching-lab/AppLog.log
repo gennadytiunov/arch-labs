@@ -1,0 +1,78 @@
+root@product-service-deployment-5ffc4cd9cd-bq54s:/app# cat AppLog.log
+2020-06-29 20:52:16.910 +00:00 [INF] Request starting HTTP/1.1 GET http://arch.homework/search?keyword=harry&category=Book
+2020-06-29 20:52:16.971 +00:00 [INF] Executing endpoint 'OtusApp.UserService.Controllers.ProductsController.Search (OtusApp.ProductService)'
+2020-06-29 20:52:17.024 +00:00 [INF] Route matched with {action = "Search", controller = "Products"}. Executing controller action with signature Microsoft.AspNetCore.Mvc.IActionResult Search(System.String, System.String) on controller OtusApp.UserService.Controllers.ProductsController (OtusApp.ProductService).
+2020-06-29 20:52:18.566 +00:00 [INF] Cache:TryGet: Trying to find item '1' in cache.
+2020-06-29 20:52:18.566 +00:00 [INF] Cache:TryGet: Item '1' not found in cache or cache is not enabled.
+2020-06-29 20:52:18.739 +00:00 [INF] Cache:Add: Adding item '1' to cache.
+2020-06-29 20:52:18.739 +00:00 [INF] Cache:Add: Item '1' added to cache.
+2020-06-29 20:52:18.739 +00:00 [INF] Cache:TryGet: Trying to find item '2' in cache.
+2020-06-29 20:52:18.739 +00:00 [INF] Cache:TryGet: Item '2' not found in cache or cache is not enabled.
+2020-06-29 20:52:18.846 +00:00 [INF] Cache:Add: Adding item '2' to cache.
+2020-06-29 20:52:18.846 +00:00 [INF] Cache:Add: Item '2' added to cache.
+2020-06-29 20:52:18.846 +00:00 [INF] Cache:TryGet: Trying to find item '3' in cache.
+2020-06-29 20:52:18.846 +00:00 [INF] Cache:TryGet: Item '3' not found in cache or cache is not enabled.
+2020-06-29 20:52:18.948 +00:00 [INF] Cache:Add: Adding item '3' to cache.
+2020-06-29 20:52:18.948 +00:00 [INF] Cache:Add: Item '3' added to cache.
+2020-06-29 20:52:18.948 +00:00 [INF] Cache:TryGet: Trying to find item '4' in cache.
+2020-06-29 20:52:18.948 +00:00 [INF] Cache:TryGet: Item '4' not found in cache or cache is not enabled.
+2020-06-29 20:52:19.052 +00:00 [INF] Cache:Add: Adding item '4' to cache.
+2020-06-29 20:52:19.052 +00:00 [INF] Cache:Add: Item '4' added to cache.
+2020-06-29 20:52:19.056 +00:00 [INF] Executing ObjectResult, writing value of type 'OtusApp.Domain.Entities.Product[]'.
+2020-06-29 20:52:19.075 +00:00 [INF] Executed action OtusApp.UserService.Controllers.ProductsController.Search (OtusApp.ProductService) in 2044.1492ms
+2020-06-29 20:52:19.078 +00:00 [INF] Executed endpoint 'OtusApp.UserService.Controllers.ProductsController.Search (OtusApp.ProductService)'
+2020-06-29 20:52:19.080 +00:00 [INF] Request finished in 2176.4071ms 200 application/json; charset=utf-8
+2020-06-29 20:52:19.161 +00:00 [INF] Request starting HTTP/1.1 GET http://arch.homework/search?keyword=harry&category=Fantasy
+2020-06-29 20:52:19.163 +00:00 [INF] Executing endpoint 'OtusApp.UserService.Controllers.ProductsController.Search (OtusApp.ProductService)'
+2020-06-29 20:52:19.163 +00:00 [INF] Route matched with {action = "Search", controller = "Products"}. Executing controller action with signature Microsoft.AspNetCore.Mvc.IActionResult Search(System.String, System.String) on controller OtusApp.UserService.Controllers.ProductsController (OtusApp.ProductService).
+2020-06-29 20:52:19.169 +00:00 [INF] Cache:TryGet: Trying to find item '1' in cache.
+2020-06-29 20:52:19.170 +00:00 [INF] Cache:TryGet: Item '1' found in cache.
+2020-06-29 20:52:19.170 +00:00 [INF] Cache:TryGet: Trying to find item '2' in cache.
+2020-06-29 20:52:19.170 +00:00 [INF] Cache:TryGet: Item '2' found in cache.
+2020-06-29 20:52:19.170 +00:00 [INF] Cache:TryGet: Trying to find item '3' in cache.
+2020-06-29 20:52:19.170 +00:00 [INF] Cache:TryGet: Item '3' found in cache.
+2020-06-29 20:52:19.171 +00:00 [INF] Cache:TryGet: Trying to find item '4' in cache.
+2020-06-29 20:52:19.171 +00:00 [INF] Cache:TryGet: Item '4' found in cache.
+2020-06-29 20:52:19.171 +00:00 [INF] Executing ObjectResult, writing value of type 'OtusApp.Domain.Entities.Product[]'.
+2020-06-29 20:52:19.172 +00:00 [INF] Executed action OtusApp.UserService.Controllers.ProductsController.Search (OtusApp.ProductService) in 8.7035ms
+2020-06-29 20:52:19.172 +00:00 [INF] Executed endpoint 'OtusApp.UserService.Controllers.ProductsController.Search (OtusApp.ProductService)'
+2020-06-29 20:52:19.173 +00:00 [INF] Request finished in 11.458ms 200 application/json; charset=utf-8
+2020-06-29 20:52:19.219 +00:00 [INF] Request starting HTTP/1.1 GET http://arch.homework/search?keyword=scott&category=movie
+2020-06-29 20:52:19.220 +00:00 [INF] Executing endpoint 'OtusApp.UserService.Controllers.ProductsController.Search (OtusApp.ProductService)'
+2020-06-29 20:52:19.220 +00:00 [INF] Route matched with {action = "Search", controller = "Products"}. Executing controller action with signature Microsoft.AspNetCore.Mvc.IActionResult Search(System.String, System.String) on controller OtusApp.UserService.Controllers.ProductsController (OtusApp.ProductService).
+2020-06-29 20:52:19.224 +00:00 [INF] Cache:TryGet: Trying to find item '5' in cache.
+2020-06-29 20:52:19.224 +00:00 [INF] Cache:TryGet: Item '5' not found in cache or cache is not enabled.
+2020-06-29 20:52:19.326 +00:00 [INF] Cache:Add: Adding item '5' to cache.
+2020-06-29 20:52:19.326 +00:00 [INF] Cache:Add: Item '5' added to cache.
+2020-06-29 20:52:19.326 +00:00 [INF] Cache:TryGet: Trying to find item '9' in cache.
+2020-06-29 20:52:19.326 +00:00 [INF] Cache:TryGet: Item '9' not found in cache or cache is not enabled.
+2020-06-29 20:52:19.428 +00:00 [INF] Cache:Add: Adding item '9' to cache.
+2020-06-29 20:52:19.428 +00:00 [INF] Cache:Add: Cache capacity reached - removing the least recently item.
+2020-06-29 20:52:19.429 +00:00 [INF] Cache:RemoveFirst: Item '1' removed.
+2020-06-29 20:52:19.429 +00:00 [INF] Cache:Add: Item '9' added to cache.
+2020-06-29 20:52:19.429 +00:00 [INF] Executing ObjectResult, writing value of type 'OtusApp.Domain.Entities.Product[]'.
+2020-06-29 20:52:19.430 +00:00 [INF] Executed action OtusApp.UserService.Controllers.ProductsController.Search (OtusApp.ProductService) in 209.36860000000001ms
+2020-06-29 20:52:19.430 +00:00 [INF] Executed endpoint 'OtusApp.UserService.Controllers.ProductsController.Search (OtusApp.ProductService)'
+2020-06-29 20:52:19.431 +00:00 [INF] Request finished in 212.5131ms 200 application/json; charset=utf-8
+2020-06-29 20:52:19.464 +00:00 [INF] Request starting HTTP/1.1 GET http://arch.homework/search?keyword=gladiator&category=movie
+2020-06-29 20:52:19.464 +00:00 [INF] Executing endpoint 'OtusApp.UserService.Controllers.ProductsController.Search (OtusApp.ProductService)'
+2020-06-29 20:52:19.465 +00:00 [INF] Route matched with {action = "Search", controller = "Products"}. Executing controller action with signature Microsoft.AspNetCore.Mvc.IActionResult Search(System.String, System.String) on controller OtusApp.UserService.Controllers.ProductsController (OtusApp.ProductService).
+2020-06-29 20:52:19.467 +00:00 [INF] Cache:TryGet: Trying to find item '9' in cache.
+2020-06-29 20:52:19.467 +00:00 [INF] Cache:TryGet: Item '9' found in cache.
+2020-06-29 20:52:19.467 +00:00 [INF] Executing ObjectResult, writing value of type 'OtusApp.Domain.Entities.Product[]'.
+2020-06-29 20:52:19.468 +00:00 [INF] Executed action OtusApp.UserService.Controllers.ProductsController.Search (OtusApp.ProductService) in 2.5962ms
+2020-06-29 20:52:19.468 +00:00 [INF] Executed endpoint 'OtusApp.UserService.Controllers.ProductsController.Search (OtusApp.ProductService)'
+2020-06-29 20:52:19.468 +00:00 [INF] Request finished in 3.7777000000000003ms 200 application/json; charset=utf-8
+2020-06-29 20:52:19.504 +00:00 [INF] Request starting HTTP/1.1 GET http://arch.homework/search?keyword=war&category=science
+2020-06-29 20:52:19.504 +00:00 [INF] Executing endpoint 'OtusApp.UserService.Controllers.ProductsController.Search (OtusApp.ProductService)'
+2020-06-29 20:52:19.504 +00:00 [INF] Route matched with {action = "Search", controller = "Products"}. Executing controller action with signature Microsoft.AspNetCore.Mvc.IActionResult Search(System.String, System.String) on controller OtusApp.UserService.Controllers.ProductsController (OtusApp.ProductService).
+2020-06-29 20:52:19.505 +00:00 [INF] Cache:TryGet: Trying to find item '7' in cache.
+2020-06-29 20:52:19.506 +00:00 [INF] Cache:TryGet: Item '7' not found in cache or cache is not enabled.
+2020-06-29 20:52:19.609 +00:00 [INF] Cache:Add: Adding item '7' to cache.
+2020-06-29 20:52:19.609 +00:00 [INF] Cache:Add: Cache capacity reached - removing the least recently item.
+2020-06-29 20:52:19.612 +00:00 [INF] Cache:RemoveFirst: Item '2' removed.
+2020-06-29 20:52:19.616 +00:00 [INF] Cache:Add: Item '7' added to cache.
+2020-06-29 20:52:19.617 +00:00 [INF] Executing ObjectResult, writing value of type 'OtusApp.Domain.Entities.Product[]'.
+2020-06-29 20:52:19.620 +00:00 [INF] Executed action OtusApp.UserService.Controllers.ProductsController.Search (OtusApp.ProductService) in 115.4692ms
+2020-06-29 20:52:19.623 +00:00 [INF] Executed endpoint 'OtusApp.UserService.Controllers.ProductsController.Search (OtusApp.ProductService)'
+2020-06-29 20:52:19.625 +00:00 [INF] Request finished in 121.4624ms 200 application/json; charset=utf-8

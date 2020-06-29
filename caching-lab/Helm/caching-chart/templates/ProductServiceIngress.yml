@@ -1,0 +1,19 @@
+apiVersion: networking.k8s.io/v1beta1
+kind: Ingress
+metadata:
+{{- with .Values.productService }}
+   name: {{ .label }}-ingress
+spec:
+   rules:
+   - host: {{ .host }}
+     http:
+        paths:
+        - path: /health
+          backend:
+             serviceName: {{ .service.name }}
+             servicePort: {{ .service.port.number }}
+        - path: /search
+          backend:
+             serviceName: {{ .service.name }}
+             servicePort: {{ .service.port.number }}
+{{- end }}

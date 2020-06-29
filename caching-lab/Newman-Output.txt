@@ -1,0 +1,38 @@
+newman
+
+Caching
+
+→ Get books about Harry Potter - no caching yet
+  GET http://arch.homework/search?keyword=harry&category=Book [200 OK, 716B, 2.3s]
+
+→ Get books by Rowling - already cached
+  GET http://arch.homework/search?keyword=harry&category=Fantasy [200 OK, 716B, 39ms]
+
+→ Get movies by Ridley Scott - not cached
+  GET http://arch.homework/search?keyword=scott&category=movie [200 OK, 437B, 226ms]
+
+→ Get Gladiator movie - cached
+  GET http://arch.homework/search?keyword=gladiator&category=movie [200 OK, 328B, 17ms]
+
+→ Get  War of the Worlds movie - not cached
+  GET http://arch.homework/search?keyword=war&category=science [200 OK, 339B, 137ms]
+
+┌─────────────────────────┬────────────────────┬───────────────────┐
+│                         │           executed │            failed │
+├─────────────────────────┼────────────────────┼───────────────────┤
+│              iterations │                  1 │                 0 │
+├─────────────────────────┼────────────────────┼───────────────────┤
+│                requests │                  5 │                 0 │
+├─────────────────────────┼────────────────────┼───────────────────┤
+│            test-scripts │                  5 │                 0 │
+├─────────────────────────┼────────────────────┼───────────────────┤
+│      prerequest-scripts │                  5 │                 0 │
+├─────────────────────────┼────────────────────┼───────────────────┤
+│              assertions │                  0 │                 0 │
+├─────────────────────────┴────────────────────┴───────────────────┤
+│ total run duration: 2.9s                                         │
+├──────────────────────────────────────────────────────────────────┤
+│ total data received: 1.38KB (approx)                             │
+├──────────────────────────────────────────────────────────────────┤
+│ average response time: 555ms [min: 17ms, max: 2.3s, s.d.: 905ms] │
+└──────────────────────────────────────────────────────────────────┘

@@ -1,0 +1,175 @@
+{
+	"info": {
+		"_postman_id": "da0959e9-169d-443c-bc5d-9e50c16a0be7",
+		"name": "Caching",
+		"schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json"
+	},
+	"item": [
+		{
+			"name": "Get books about Harry Potter - no caching yet",
+			"request": {
+				"method": "GET",
+				"header": [],
+				"url": {
+					"raw": "{{BaseUrl}}/search?keyword=harry&category=Book",
+					"host": [
+						"{{BaseUrl}}"
+					],
+					"path": [
+						"search"
+					],
+					"query": [
+						{
+							"key": "keyword",
+							"value": "harry"
+						},
+						{
+							"key": "category",
+							"value": "Book"
+						}
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "Get books by Rowling - already cached",
+			"request": {
+				"method": "GET",
+				"header": [],
+				"url": {
+					"raw": "{{BaseUrl}}/search?keyword=harry&category=Fantasy",
+					"host": [
+						"{{BaseUrl}}"
+					],
+					"path": [
+						"search"
+					],
+					"query": [
+						{
+							"key": "keyword",
+							"value": "harry"
+						},
+						{
+							"key": "category",
+							"value": "Fantasy"
+						}
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "Get movies by Ridley Scott - not cached",
+			"request": {
+				"method": "GET",
+				"header": [],
+				"url": {
+					"raw": "{{BaseUrl}}/search?keyword=scott&category=movie",
+					"host": [
+						"{{BaseUrl}}"
+					],
+					"path": [
+						"search"
+					],
+					"query": [
+						{
+							"key": "keyword",
+							"value": "scott"
+						},
+						{
+							"key": "category",
+							"value": "movie"
+						}
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "Get Gladiator movie - cached",
+			"request": {
+				"method": "GET",
+				"header": [],
+				"url": {
+					"raw": "{{BaseUrl}}/search?keyword=gladiator&category=movie",
+					"host": [
+						"{{BaseUrl}}"
+					],
+					"path": [
+						"search"
+					],
+					"query": [
+						{
+							"key": "keyword",
+							"value": "gladiator"
+						},
+						{
+							"key": "category",
+							"value": "movie"
+						}
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "Get  War of the Worlds movie - not cached",
+			"request": {
+				"method": "GET",
+				"header": [],
+				"url": {
+					"raw": "{{BaseUrl}}/search?keyword=war&category=science",
+					"host": [
+						"{{BaseUrl}}"
+					],
+					"path": [
+						"search"
+					],
+					"query": [
+						{
+							"key": "keyword",
+							"value": "war"
+						},
+						{
+							"key": "category",
+							"value": "science"
+						}
+					]
+				}
+			},
+			"response": []
+		}
+	],
+	"event": [
+		{
+			"listen": "prerequest",
+			"script": {
+				"id": "dcef44c6-73cc-4ba4-83de-f979cdd284a6",
+				"type": "text/javascript",
+				"exec": [
+					""
+				]
+			}
+		},
+		{
+			"listen": "test",
+			"script": {
+				"id": "1139ff97-dc1f-45b2-b737-25f72180ea68",
+				"type": "text/javascript",
+				"exec": [
+					""
+				]
+			}
+		}
+	],
+	"variable": [
+		{
+			"id": "6e7ddaa6-35d9-4428-a8f1-34a3c2cae2e1",
+			"key": "BaseUrl",
+			"value": "http://arch.homework",
+			"type": "string"
+		}
+	],
+	"protocolProfileBehavior": {}
+}
