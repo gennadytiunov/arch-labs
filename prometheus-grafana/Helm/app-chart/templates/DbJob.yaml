@@ -1,0 +1,48 @@
+apiVersion: batch/v1
+kind: Job
+metadata:
+   namespace: {{ .Values.common.namespace }}
+   name: db-job
+spec:
+   backoffLimit: {{ .Values.db.awaiter.backoffLimit }}
+   template:
+      metadata:
+         name: db-initializer
+      spec:
+         restartPolicy: Never
+         initContainers:
+         - name: db-service-awaiter
+           image: {{ .Values.db.awaiter.image }}
+           command: [
+                       'sh',
+                       '-c',
+                       'until nslookup {{ .Values.db.service.name }}.$(cat /var/run/secrets/kubernetes.io/serviceaccount/namespace).svc.cluster.local; do echo waiting for db service; sleep 2; done'
+                    ]
+         containers:
+         - name:  db-init-container
+           image: {{ .Values.db.msTools.image }}
+           command:
+           - sh
+           - "-c"
+           - |
+              sleep {{ .Values.db.awaiter.pause }};
+              export PATH="$PATH:{{ .Values.db.msTools.path }}";
+              sqlcmd -S $DB_URI -U sa -P $SA_PASSWORD -Q "CREATE DATABASE {{ .Values.db.name }}";
+              sqlcmd -S $DB_URI -U sa -P $SA_PASSWORD -Q "USE {{ .Values.db.name }}; CREATE TABLE [Product] (Id INT IDENTITY(1,1) NOT NULL, Name NVARCHAR(MAX) NOT NULL, Description NVARCHAR(MAX), Category NVARCHAR(50) NOT NULL)";
+              sqlcmd -S $DB_URI -U sa -P $SA_PASSWORD -Q "USE {{ .Values.db.name }}; INSERT INTO [Product] (Name, Description, Category) VALUES ('Harry Potter and the Philosopher''s Stone', 'By J. K. Rowling, 2001', 'Book;Fantasy')";
+              sqlcmd -S $DB_URI -U sa -P $SA_PASSWORD -Q "USE {{ .Values.db.name }}; INSERT INTO [Product] (Name, Description, Category) VALUES ('Harry Potter and the Chamber of Secrets', 'By J. K. Rowling, 2002', 'Book;Fantasy')";
+              sqlcmd -S $DB_URI -U sa -P $SA_PASSWORD -Q "USE {{ .Values.db.name }}; INSERT INTO [Product] (Name, Description, Category) VALUES ('Harry Potter and the Prisoner of Azkaban', 'By J. K. Rowling, 2004', 'Book;Fantasy')";
+              sqlcmd -S $DB_URI -U sa -P $SA_PASSWORD -Q "USE {{ .Values.db.name }}; INSERT INTO [Product] (Name, Description, Category) VALUES ('Harry Potter and the Goblet of Fire', 'By J. K. Rowling, 2005', 'Book;Fantasy')";
+              sqlcmd -S $DB_URI -U sa -P $SA_PASSWORD -Q "USE {{ .Values.db.name }}; INSERT INTO [Product] (Name, Description, Category) VALUES ('Blade Runner 2049', 'By Ridley Scott, 2017', 'Movie;Science-Fiction')";
+              sqlcmd -S $DB_URI -U sa -P $SA_PASSWORD -Q "USE {{ .Values.db.name }}; INSERT INTO [Product] (Name, Description, Category) VALUES ('Interstellar', 'By Christopher Nolan, 2014', 'Movie;Science-Fiction')";
+              sqlcmd -S $DB_URI -U sa -P $SA_PASSWORD -Q "USE {{ .Values.db.name }}; INSERT INTO [Product] (Name, Description, Category) VALUES ('War of the Worlds', 'By Steven Spielberg, 2005', 'Movie;Science-Fiction')";
+              sqlcmd -S $DB_URI -U sa -P $SA_PASSWORD -Q "USE {{ .Values.db.name }}; INSERT INTO [Product] (Name, Description, Category) VALUES ('Gone with the Wind', 'By Victor Fleming, 1939', 'Movie;Romance;Historical')";
+              sqlcmd -S $DB_URI -U sa -P $SA_PASSWORD -Q "USE {{ .Values.db.name }}; INSERT INTO [Product] (Name, Description, Category) VALUES ('Gladiator', 'By Ridley Scott, 2000', 'Movie;Drama;Historical')";
+           env:
+              - name: DB_URI
+                value: {{ printf "%s,%s" .Values.db.service.name .Values.db.service.port.number | quote }}
+              - name: SA_PASSWORD
+                valueFrom:
+                   secretKeyRef:
+                      name: {{ .Values.common.secret }}
+                      key: DBPASSWORD
