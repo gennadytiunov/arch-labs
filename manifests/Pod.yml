@@ -1,0 +1,12 @@
+apiVersion: v1
+kind: Pod
+metadata:
+   name: app-pod
+   labels:
+      app: app
+spec:
+   containers:
+   - name: app-cnt
+     image: gennadytiunov/docker-lab:v2
+     ports:
+     - containerPort: 8000

@@ -1,0 +1,17 @@
+
+curl http://localhost:8000/health
+
+wget -qO- http://hc-service:9000/
+
+ab.exe -n 5000 -c 300 http://arch.homework/products
+
+ls -a1
+
+export PATH="$PATH:/opt/mssql-tools/bin"
+
+sqlcmd -S 10.102.223.188,1433 -U sa -P "0tuS1@b$" -Q "USE OtusLabs; SELECT * FROM [User];"
+sqlcmd -S 172.28.52.210,30777 -U sa -P "0tuS1@b$" -Q "SELECT name, physical_name from sys.master_files"
+ 
+sqlcmd -S my-app-mssql-linux -U sa
+
+nslookup my-app-mssql-linux.$(cat /var/run/secrets/kubernetes.io/serviceaccount/namespace).svc.cluster.local

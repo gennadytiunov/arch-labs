@@ -1,0 +1,16 @@
+minikube start --vm-driver virtualbox --memory 4096 --cpus 2 --alsologtostderr
+minikube delete
+minikube status
+minikube ip
+minikube logs
+minikube addons list
+minikube addons enable ingress
+minikube docker-env
+minikube service db-service --url -n otuslabs
+minikube ssh
+
+minikube start --vm-driver hyperv --memory 4096 --cpus 2 --docker-env HTTP_PROXY=... --docker-env HTTPS_PROXY=... --docker-env NO_PROXY=localhost,127.0.0.1,10.96.0.0/12,192.168.99.0/24,192.168.39.0/24
+
+set HTTP_PROXY=...
+set HTTPS_PROXY=...
+set NO_PROXY=localhost,127.0.0.1,10.96.0.0/12,192.168.99.0/24,192.168.39.0/24,172.18.58.20

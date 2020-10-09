@@ -1,0 +1,39 @@
+apiVersion: batch/v1
+kind: Job
+metadata:
+   name: db-job
+spec:
+   backoffLimit: 3
+   template:
+      metadata:
+         name: db-initializer
+      spec:
+         restartPolicy: Never
+         initContainers:
+         - name: db-service-awaiter
+           image: busybox:1.28
+           command: [
+                       "sh",
+                       "-c",
+                       "until nslookup db-service.$(cat /var/run/secrets/kubernetes.io/serviceaccount/namespace).svc.cluster.local; do echo waiting for db-service; sleep 2; done"
+                    ]
+         containers:
+         - name:  db-init-cnt
+           image: mcr.microsoft.com/mssql-tools
+           command:
+           - sh
+           - "-c"
+           - |
+              sleep 15;
+              export PATH="$PATH:/opt/mssql-tools/bin";
+              sqlcmd -S $DB_URI -U sa -P $SA_PASSWORD -Q "CREATE DATABASE OtusLabs";
+              sqlcmd -S $DB_URI -U sa -P $SA_PASSWORD -Q "USE OtusLabs; CREATE TABLE [User] (Id INT IDENTITY(1,1) NOT NULL, Email NVARCHAR(50) NOT NULL, FirstName NVARCHAR(50) NOT NULL, LastName NVARCHAR(50) NOT NULL)";
+              sqlcmd -S $DB_URI -U sa -P $SA_PASSWORD -Q "USE OtusLabs; INSERT INTO [User] (Email, FirstName, LastName) VALUES ('john.dow@gmail.com', 'John', 'Dow')"
+           env:
+              - name: DB_URI
+                value: "db-service,10000"
+              - name: SA_PASSWORD
+                valueFrom:
+                   secretKeyRef:
+                      name: db-secret
+                      key: DBPASSWORD

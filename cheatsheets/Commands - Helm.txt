@@ -1,0 +1,22 @@
+https://github.com/phcollignon/helm3
+http://kubernetes-charts.storage.googleapis.com/
+https://github.com/helm/charts
+https://hub.helm.sh/
+https://docs.helm.sh/
+
+helm create app-chart
+helm install app ./app-chart --dry-run
+helm uninstall app
+
+helm dependency list
+helm dependency update app-chart
+helm dependency build
+
+helm repo list
+helm repo add google https://kubernetes-charts.storage.googleapis.com/
+helm repo remove google
+helm search repo sql
+helm repo update
+
+helm install prom google/prometheus-operator -f prometheus.yaml --atomic
+helm install nginx google/nginx-ingress -f nginx-ingress.yaml --atomic

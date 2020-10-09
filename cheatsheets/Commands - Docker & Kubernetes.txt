@@ -1,0 +1,54 @@
+
+docker pull gennadytiunov/docker-lab:v1
+docker pull mcr.microsoft.com/mssql/server
+
+docker image build -t dockerwebapp .
+docker image build -t gennadytiunov/product-service:v1 .
+
+docker tag dockerwebapp gennadytiunov/kuber-lab:v20
+docker push gennadytiunov/kuber-lab:v20
+
+docker commit <container id> docker-lab:v1
+
+docker container run -d --name healthchecker -p 8000:8000 gennadytiunov/docker-lab:v1
+
+docker run -d --name mssqlexpress -e "ACCEPT_EULA=Y" -e "SA_PASSWORD=0tuS1@b$" -e "MSSQL_PID=Express" -p 1433:1433 mcr.microsoft.com/mssql/server
+docker run -it mcr.microsoft.com/mssql-tools
+
+docker exec -it mssqlexpress /opt/mssql-tools/bin/sqlcmd -S localhost -U sa -P 0tuS1@b$
+docker exec -it mssqlexpress /bin/bash
+docker exec -it f3b3bed9104a /bin/bash
+
+==========
+
+kubectl get namespaces
+
+kubectl create namespace monitoring
+kubectl delete namespace monitoring
+
+kubectl config set-context --current --namespace=monitoring
+
+kubectl set image deployment/hc-deployment hc-container=gennadytiunov/kuber-lab:v7 --record
+
+kubectl scale deployment nginx-ingress-controller --replicas=2
+
+kubectl apply -f dbconfigmap.yml -f dbsecret.yml -f dbstatefullset.yml -f dbservice.yml -f dbjob.yml -f appdeployment.yml -f appservice.yml -f appingress.yml
+
+kubectl run -it --rm busybox --image=busybox
+
+kubectl get all --all-namespaces
+kubectl get ing
+kubectl get servicemonitor
+kubectl get endpoint
+kubectl get pvc
+kubectl get pv
+
+kubectl delete pvc --all
+
+kubectl logs pod/hc-deployment-68f4f4b8bf-wd8lw -p
+kubectl describe pod/hc-deployment-68f4f4b8bf-wd8lw
+
+kubectl port-forward service/prometheus-grafana 9000:80
+kubectl port-forward service/prom-prometheus-operator-prometheus 9090
+
+kubectl exec -it pod/auth-service-deployment-5575cdb748-rhttq -- /bin/bash
