@@ -15,10 +15,46 @@
   "editable": true,
   "gnetId": null,
   "graphTooltip": 0,
-  "id": 27,
+  "id": 25,
   "links": [],
   "panels": [
     {
+      "alert": {
+        "alertRuleTags": {},
+        "conditions": [
+          {
+            "evaluator": {
+              "params": [
+                30
+              ],
+              "type": "gt"
+            },
+            "operator": {
+              "type": "and"
+            },
+            "query": {
+              "params": [
+                "C",
+                "1m",
+                "now"
+              ]
+            },
+            "reducer": {
+              "params": [],
+              "type": "avg"
+            },
+            "type": "query"
+          }
+        ],
+        "executionErrorState": "alerting",
+        "for": "1m",
+        "frequency": "1m",
+        "handler": 1,
+        "message": "More than 30 errors per second were occurring in Product Service in the last 1 minute!",
+        "name": "RPS alert",
+        "noDataState": "no_data",
+        "notifications": []
+      },
       "aliasColors": {},
       "bars": false,
       "dashLength": 10,
@@ -72,13 +108,27 @@
           "refId": "B"
         },
         {
-          "expr": "rate(nginx_ingress_controller_requests[1m])",
+          "expr": "rate(nginx_ingress_controller_requests{status=\"200\"}[1m])",
           "interval": "",
-          "legendFormat": "{{status}}",
+          "legendFormat": "Success",
           "refId": "A"
+        },
+        {
+          "expr": "sum (rate(nginx_ingress_controller_requests{status!=\"200\"}[1m]))",
+          "interval": "",
+          "legendFormat": "Error",
+          "refId": "C"
         }
       ],
-      "thresholds": [],
+      "thresholds": [
+        {
+          "colorMode": "critical",
+          "fill": true,
+          "line": true,
+          "op": "gt",
+          "value": 30
+        }
+      ],
       "timeFrom": null,
       "timeRegions": [],
       "timeShift": null,
@@ -120,6 +170,42 @@
       }
     },
     {
+      "alert": {
+        "alertRuleTags": {},
+        "conditions": [
+          {
+            "evaluator": {
+              "params": [
+                0.25
+              ],
+              "type": "gt"
+            },
+            "operator": {
+              "type": "and"
+            },
+            "query": {
+              "params": [
+                "B",
+                "1m",
+                "now"
+              ]
+            },
+            "reducer": {
+              "params": [],
+              "type": "max"
+            },
+            "type": "query"
+          }
+        ],
+        "executionErrorState": "alerting",
+        "for": "1m",
+        "frequency": "1m",
+        "handler": 1,
+        "message": "Product Service is currently processing requests for longer than 250 milliseconds!",
+        "name": "Latency (seconds) alert",
+        "noDataState": "no_data",
+        "notifications": []
+      },
       "aliasColors": {},
       "bars": false,
       "dashLength": 10,
@@ -191,7 +277,15 @@
           "refId": "D"
         }
       ],
-      "thresholds": [],
+      "thresholds": [
+        {
+          "colorMode": "critical",
+          "fill": true,
+          "line": true,
+          "op": "gt",
+          "value": 0.25
+        }
+      ],
       "timeFrom": null,
       "timeRegions": [],
       "timeShift": null,
@@ -240,12 +334,12 @@
     "list": []
   },
   "time": {
-    "from": "now-15m",
+    "from": "now-5m",
     "to": "now"
   },
   "timepicker": {},
   "timezone": "",
   "title": "OtusLab (Ingress)",
   "uid": "57OrOIcGz",
-  "version": 11
+  "version": 9
 }

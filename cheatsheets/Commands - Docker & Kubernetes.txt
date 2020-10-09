@@ -23,10 +23,10 @@ docker exec -it f3b3bed9104a /bin/bash
 
 kubectl get namespaces
 
-kubectl create namespace monitoring
+kubectl create namespace otusapp
 kubectl delete namespace monitoring
 
-kubectl config set-context --current --namespace=monitoring
+kubectl config set-context --current --namespace=otusapp
 
 kubectl set image deployment/hc-deployment hc-container=gennadytiunov/kuber-lab:v7 --record
 
@@ -48,7 +48,7 @@ kubectl delete pvc --all
 kubectl logs pod/hc-deployment-68f4f4b8bf-wd8lw -p
 kubectl describe pod/hc-deployment-68f4f4b8bf-wd8lw
 
-kubectl port-forward service/prometheus-grafana 9000:80
+kubectl port-forward service/prom-grafana 9000:80
 kubectl port-forward service/prom-prometheus-operator-prometheus 9090
 
 kubectl exec -it pod/auth-service-deployment-5575cdb748-rhttq -- /bin/bash
