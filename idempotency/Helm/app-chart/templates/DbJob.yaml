@@ -1,0 +1,40 @@
+apiVersion: batch/v1
+kind: Job
+metadata:
+   namespace: {{ .Values.common.namespace }}
+   name: db-job
+spec:
+   backoffLimit: {{ .Values.db.awaiter.backoffLimit }}
+   template:
+      metadata:
+         name: db-initializer
+      spec:
+         restartPolicy: Never
+         initContainers:
+         - name: db-service-awaiter
+           image: {{ .Values.db.awaiter.image }}
+           command: [
+                       'sh',
+                       '-c',
+                       'until nslookup {{ .Values.db.service.name }}.$(cat /var/run/secrets/kubernetes.io/serviceaccount/namespace).svc.cluster.local; do echo waiting for db service; sleep 2; done'
+                    ]
+         containers:
+         - name:  db-init-container
+           image: {{ .Values.db.msTools.image }}
+           command:
+           - sh
+           - "-c"
+           - |
+              sleep {{ .Values.db.awaiter.pause }};
+              export PATH="$PATH:{{ .Values.db.msTools.path }}";
+              sqlcmd -S $DB_URI -U sa -P $SA_PASSWORD -Q "CREATE DATABASE {{ .Values.db.name }}";
+              sqlcmd -S $DB_URI -U sa -P $SA_PASSWORD -Q "USE {{ .Values.db.name }}; CREATE TABLE [Order] (Id INT IDENTITY(1,1) NOT NULL, Amount MONEY NOT NULL, Person NVARCHAR(100) NOT NULL, Address NVARCHAR(100) NOT NULL, Comment NVARCHAR(100) NOT NULL, CreationDate DATETIME NOT NULL)";
+              sqlcmd -S $DB_URI -U sa -P $SA_PASSWORD -Q "USE {{ .Values.db.name }}; CREATE TABLE [IdempotencyKey] (Value UNIQUEIDENTIFIER NOT NULL, CreationDate DateTime NOT NULL, CONSTRAINT [PK_IdempotencyKey] PRIMARY KEY ([Value]))";
+           env:
+              - name: DB_URI
+                value: {{ printf "%s,%s" .Values.db.service.name .Values.db.service.port.number | quote }}
+              - name: SA_PASSWORD
+                valueFrom:
+                   secretKeyRef:
+                      name: {{ .Values.common.secret }}
+                      key: DBPASSWORD

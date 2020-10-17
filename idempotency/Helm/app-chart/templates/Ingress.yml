@@ -1,0 +1,26 @@
+{{- with .Values.ordersApp }}
+{{- if .ingress.enabled -}}
+{{- $serviceName := .service.name -}}
+{{- $servicePort := .service.port.number  -}}
+apiVersion: networking.k8s.io/v1beta1
+kind: Ingress
+metadata:
+   name: {{ .label }}-ingress
+   annotations:
+      kubernetes.io/ingress.class: "nginx"
+      nginx.ingress.kubernetes.io/rewrite-target: /$2
+spec:
+   rules:
+   {{- range .ingress.hosts }}
+    - host: {{ .host }}
+      http:
+        paths:
+        {{- range .paths }}
+          - path: {{ . }}($|/)(.*)
+            backend:
+              serviceName: {{ $serviceName }}
+              servicePort: {{ $servicePort }}
+        {{- end }}
+   {{- end }}   
+{{- end }}
+{{- end }}

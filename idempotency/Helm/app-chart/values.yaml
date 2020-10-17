@@ -1,0 +1,66 @@
+common:
+   secret: secret
+   namespace: otusapp
+   env:
+      appPort: _OtusApp_App_Port
+
+metrics:
+   serviceMonitor:
+      endpoint: /metrics
+      enabled: true	  
+      interval: 15s
+
+ordersApp:
+   label: orders-app
+   replicaCount: 2
+   host: arch.homework
+   image: gennadytiunov/order-service:v1
+   port:
+      number: 3000
+      name: app-port
+   service:
+      name: order-service
+      type: NodePort
+      port:
+         number: "3000"
+         protocol: TCP
+   ingress:
+      enabled: true
+      hosts:
+      - host: arch.homework
+        paths: ["/orders"]
+
+db:
+   label: mssqlexpress
+   replicaCount: 1
+   image: mcr.microsoft.com/mssql/server
+   awaiter:
+      image: busybox:1.28
+      backoffLimit: 5
+      pause: 30
+   env:
+      uri: _OtusApp_DB_URI
+   mssql:
+      acceptEula: "Y"
+      edition: "Express"
+   mount:
+      name: mssqlexpressvolume
+      path: /var/opt/mssql
+      access: "ReadWriteOnce"
+      class: standard
+      size: 500Mi
+   name: OtusLabs
+   user: sa
+   password: "0tuS1@b$"
+   port:
+      number: 1433
+      name: sql-port
+   service:
+      name: db-service
+      type: NodePort
+      port:
+         number: "15000"
+         protocol: TCP
+   msTools:
+      image: mcr.microsoft.com/mssql-tools
+      path: /opt/mssql-tools/bin

@@ -3,10 +3,10 @@ docker pull gennadytiunov/docker-lab:v1
 docker pull mcr.microsoft.com/mssql/server
 
 docker image build -t dockerwebapp .
-docker image build -t gennadytiunov/product-service:v1 .
+docker image build -t gennadytiunov/order-service:v1 .
 
 docker tag dockerwebapp gennadytiunov/kuber-lab:v20
-docker push gennadytiunov/kuber-lab:v20
+docker push gennadytiunov/order-service:v1
 
 docker commit <container id> docker-lab:v1
 

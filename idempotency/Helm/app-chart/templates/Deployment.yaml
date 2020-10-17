@@ -1,0 +1,31 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+   namespace: {{ .Values.common.namespace }}
+   name: {{ .Values.ordersApp.label }}-deployment
+spec:
+   replicas: {{ .Values.ordersApp.replicaCount }}
+   selector:
+      matchLabels:
+         app: {{ .Values.ordersApp.label }}
+   template:
+      metadata:
+         labels:
+            app: {{ .Values.ordersApp.label }}
+         annotations:
+            checksum/secret: {{ include (print $.Template.BasePath "/Secret.yaml") . | sha256sum }}
+      spec:
+         containers:
+         - name: {{ .Values.ordersApp.label }}-container  
+           image: {{ .Values.ordersApp.image }}
+           ports:
+           - name: {{ .Values.ordersApp.port.name }}
+             containerPort: {{ .Values.ordersApp.port.number }}
+           env:
+              - name: {{ .Values.common.env.appPort }}
+                value: {{ .Values.ordersApp.port.number | quote }}
+              - name: {{ .Values.db.env.uri }}
+                valueFrom:
+                   secretKeyRef:
+                      name: {{ .Values.common.secret }}
+                      key: DBURI

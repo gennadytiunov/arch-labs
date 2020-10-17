@@ -1,0 +1,44 @@
+apiVersion: apps/v1
+kind: StatefulSet
+metadata:
+   namespace: {{ .Values.common.namespace }}
+   name: {{ .Values.db.label }}-sfs
+spec:
+   serviceName: {{ .Values.db.service.name }}
+   replicas: {{ .Values.db.replicaCount }}
+   selector:
+      matchLabels:
+         app: {{ .Values.db.label }}
+   template:
+       metadata:
+          labels:
+             app: {{ .Values.db.label }}
+       spec:
+          containers:
+          - name: {{ .Values.db.label }}-container
+            image: {{ .Values.db.image }}
+            ports:
+            - containerPort: {{ .Values.db.port.number }}
+              name: {{ .Values.db.port.name }}
+            env:
+               - name: ACCEPT_EULA
+                 value: {{ .Values.db.mssql.acceptEula | quote}}
+               - name: MSSQL_PID
+                 value: {{ .Values.db.mssql.edition | quote }}
+               - name: SA_PASSWORD
+                 valueFrom:
+                    secretKeyRef:
+                       name: {{ .Values.common.secret }}
+                       key: DBPASSWORD
+            volumeMounts:
+            - name: {{ .Values.db.mount.name }}
+              mountPath: {{ .Values.db.mount.path }}
+   volumeClaimTemplates:
+   - metadata:
+        name: {{ .Values.db.mount.name }}
+     spec:
+        accessModes: [{{ .Values.db.mount.access | quote }}]
+        storageClassName: {{ .Values.db.mount.class }}
+        resources:
+           requests:
+              storage: {{ .Values.db.mount.size }}

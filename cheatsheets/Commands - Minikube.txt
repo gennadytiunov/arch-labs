@@ -1,4 +1,4 @@
-minikube start --vm-driver virtualbox --memory 4096 --cpus 2 --alsologtostderr
+minikube start --vm-driver virtualbox --memory 2048 --cpus 2 --alsologtostderr
 minikube delete
 minikube status
 minikube ip
