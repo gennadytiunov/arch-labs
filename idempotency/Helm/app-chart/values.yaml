@@ -4,17 +4,11 @@ common:
    env:
       appPort: _OtusApp_App_Port
 
-metrics:
-   serviceMonitor:
-      endpoint: /metrics
-      enabled: true	  
-      interval: 15s
-
 ordersApp:
    label: orders-app
-   replicaCount: 2
+   replicaCount: 1
    host: arch.homework
-   image: gennadytiunov/order-service:v1
+   image: gennadytiunov/order-service:v2
    port:
       number: 3000
       name: app-port
@@ -37,7 +31,7 @@ db:
    awaiter:
       image: busybox:1.28
       backoffLimit: 5
-      pause: 30
+      pause: 15
    env:
       uri: _OtusApp_DB_URI
    mssql:

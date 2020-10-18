@@ -1,0 +1,336 @@
+{
+	"info": {
+		"_postman_id": "20b3c7ed-5b5b-49ea-baeb-f0b49ef68f04",
+		"name": "Idempotency",
+		"schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json"
+	},
+	"item": [
+		{
+			"name": "Create Order - No idempotency header",
+			"event": [
+				{
+					"listen": "prerequest",
+					"script": {
+						"id": "fd9c764e-f919-4f1d-961d-d41f901f6322",
+						"exec": [
+							"pm.request.headers.add({ key: 'IdempotencyKey', value: '' });\r",
+							"\r",
+							"pm.collectionVariables.set(\"amount\", pm.variables.replaceIn('{{$randomPrice}}'));\r",
+							"pm.collectionVariables.set(\"person\", pm.variables.replaceIn('{{$randomFullName}}'));\r",
+							"pm.collectionVariables.set(\"address\", pm.variables.replaceIn('{{$randomCity}}'));\r",
+							"pm.collectionVariables.set(\"comment\", pm.variables.replaceIn('{{$randomLoremWords}}'));"
+						],
+						"type": "text/javascript"
+					}
+				},
+				{
+					"listen": "test",
+					"script": {
+						"id": "3d43e02e-219d-42da-a7d4-22842cee17d9",
+						"exec": [
+							"pm.test('Status code is 400 (Bad Request)', function () {\r",
+							"    pm.response.to.have.status(400);\r",
+							"});"
+						],
+						"type": "text/javascript"
+					}
+				}
+			],
+			"protocolProfileBehavior": {
+				"disabledSystemHeaders": {}
+			},
+			"request": {
+				"method": "POST",
+				"header": [],
+				"body": {
+					"mode": "raw",
+					"raw": "{\r\n    \"Amount\" : {{amount}},\r\n    \"Person\" : \"{{person}}\",\r\n    \"Address\" : \"{{address}}\",\r\n    \"Comment\" : \"{{comment}}\"\r\n}",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": {
+					"raw": "{{BaseUrl}}/orders/",
+					"host": [
+						"{{BaseUrl}}"
+					],
+					"path": [
+						"orders",
+						""
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "Create Order - Invalid idempotancy header",
+			"event": [
+				{
+					"listen": "prerequest",
+					"script": {
+						"id": "8972e015-39f8-477e-8884-d2e7af592fe9",
+						"exec": [
+							"pm.request.headers.add({ key: 'IdempotencyKey', value: 'Blah-blah-blah...' });"
+						],
+						"type": "text/javascript"
+					}
+				},
+				{
+					"listen": "test",
+					"script": {
+						"id": "baae72ca-fab0-47b8-ad51-7613f73a2384",
+						"exec": [
+							"pm.test('Status code is 400 (Bad Request)', function () {\r",
+							"    pm.response.to.have.status(400);\r",
+							"});"
+						],
+						"type": "text/javascript"
+					}
+				}
+			],
+			"request": {
+				"method": "POST",
+				"header": [],
+				"body": {
+					"mode": "raw",
+					"raw": "{\r\n    \"Amount\" : {{amount}},\r\n    \"Person\" : \"{{person}}\",\r\n    \"Address\" : \"{{address}}\",\r\n    \"Comment\" : \"{{comment}}\"\r\n}",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": {
+					"raw": "{{BaseUrl}}/orders/",
+					"host": [
+						"{{BaseUrl}}"
+					],
+					"path": [
+						"orders",
+						""
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "Create Order - Success",
+			"event": [
+				{
+					"listen": "prerequest",
+					"script": {
+						"id": "f066de9a-c7aa-4616-bdc2-62af1520a2e1",
+						"exec": [
+							"pm.collectionVariables.set('IdempotencyKey', pm.variables.replaceIn('{{$randomUUID}}'));\r",
+							"\r",
+							"pm.request.headers.add({ key: 'IdempotencyKey', value: pm.collectionVariables.get(\"IdempotencyKey\") });"
+						],
+						"type": "text/javascript"
+					}
+				},
+				{
+					"listen": "test",
+					"script": {
+						"id": "6cc7345d-0fcc-4991-beaa-80bc09ecb73a",
+						"exec": [
+							"pm.test('Status code is 201 (Created)', function () {\r",
+							"    pm.response.to.have.status(201);\r",
+							"});"
+						],
+						"type": "text/javascript"
+					}
+				}
+			],
+			"request": {
+				"method": "POST",
+				"header": [],
+				"body": {
+					"mode": "raw",
+					"raw": "{\r\n    \"Amount\" : {{amount}},\r\n    \"Person\" : \"{{person}}\",\r\n    \"Address\" : \"{{address}}\",\r\n    \"Comment\" : \"{{comment}}\"\r\n}",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": {
+					"raw": "{{BaseUrl}}/orders/",
+					"host": [
+						"{{BaseUrl}}"
+					],
+					"path": [
+						"orders",
+						""
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "Create Order - Failure (Duplicated Request)",
+			"event": [
+				{
+					"listen": "prerequest",
+					"script": {
+						"id": "bc1950d5-ee63-4978-8d0d-fb22d7f85c79",
+						"exec": [
+							"pm.request.headers.add({ key: 'IdempotencyKey', value: pm.collectionVariables.get(\"IdempotencyKey\") });"
+						],
+						"type": "text/javascript"
+					}
+				},
+				{
+					"listen": "test",
+					"script": {
+						"id": "f19fae96-ee38-41fb-93b2-f418878bfab7",
+						"exec": [
+							"pm.test(\"Status code is 409 (Conflict)\", function () {\r",
+							"    pm.response.to.have.status(409);\r",
+							"});"
+						],
+						"type": "text/javascript"
+					}
+				}
+			],
+			"request": {
+				"method": "POST",
+				"header": [],
+				"body": {
+					"mode": "raw",
+					"raw": "{\r\n    \"Amount\" : {{amount}},\r\n    \"Person\" : \"{{person}}\",\r\n    \"Address\" : \"{{address}}\",\r\n    \"Comment\" : \"{{comment}}\"\r\n}",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": {
+					"raw": "{{BaseUrl}}/orders/",
+					"host": [
+						"{{BaseUrl}}"
+					],
+					"path": [
+						"orders",
+						""
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "Create Order - Success Again",
+			"event": [
+				{
+					"listen": "prerequest",
+					"script": {
+						"id": "01e7f6f3-74cd-4a40-ae9b-09d0439e990c",
+						"exec": [
+							"pm.collectionVariables.set('IdempotencyKey', pm.variables.replaceIn('{{$randomUUID}}'));\r",
+							"\r",
+							"pm.request.headers.add({ key: 'IdempotencyKey', value: pm.collectionVariables.get(\"IdempotencyKey\") });\r",
+							"\r",
+							"pm.collectionVariables.set(\"amount\", pm.variables.replaceIn('{{$randomPrice}}'));\r",
+							"pm.collectionVariables.set(\"person\", pm.variables.replaceIn('{{$randomFullName}}'));\r",
+							"pm.collectionVariables.set(\"address\", pm.variables.replaceIn('{{$randomCity}}'));\r",
+							"pm.collectionVariables.set(\"comment\", pm.variables.replaceIn('{{$randomLoremWords}}'));"
+						],
+						"type": "text/javascript"
+					}
+				},
+				{
+					"listen": "test",
+					"script": {
+						"id": "e0d818d4-92d7-4462-b3c4-8ad99f1c711d",
+						"exec": [
+							"pm.test(\"Status code is 201 (Created)\", function () {\r",
+							"    pm.response.to.have.status(201);\r",
+							"});"
+						],
+						"type": "text/javascript"
+					}
+				}
+			],
+			"request": {
+				"method": "POST",
+				"header": [],
+				"body": {
+					"mode": "raw",
+					"raw": "{\r\n    \"Amount\" : {{amount}},\r\n    \"Person\" : \"{{person}}\",\r\n    \"Address\" : \"{{address}}\",\r\n    \"Comment\" : \"{{comment}}\"\r\n}",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": {
+					"raw": "{{BaseUrl}}/orders/",
+					"host": [
+						"{{BaseUrl}}"
+					],
+					"path": [
+						"orders",
+						""
+					]
+				}
+			},
+			"response": []
+		}
+	],
+	"event": [
+		{
+			"listen": "prerequest",
+			"script": {
+				"id": "89c80343-2b57-414f-843f-702eb8b63fdd",
+				"type": "text/javascript",
+				"exec": [
+					""
+				]
+			}
+		},
+		{
+			"listen": "test",
+			"script": {
+				"id": "f1539528-0f09-4dff-9bae-ef636d057e05",
+				"type": "text/javascript",
+				"exec": [
+					""
+				]
+			}
+		}
+	],
+	"variable": [
+		{
+			"id": "d24c61f9-7613-4c8d-ab21-b02454505f24",
+			"key": "BaseUrl",
+			"value": "http://arch.homework"
+		},
+		{
+			"id": "fc24974e-10a8-4d65-a041-150315d1f98b",
+			"key": "IdempotencyKey",
+			"value": ""
+		},
+		{
+			"id": "38657c82-596f-4d9f-916a-9eade6ad09ca",
+			"key": "address",
+			"value": ""
+		},
+		{
+			"id": "dbd8e151-4629-4054-be6d-05dbcfebef05",
+			"key": "amount",
+			"value": ""
+		},
+		{
+			"id": "a3306d90-a484-44ec-93bb-e2cf8ef3d461",
+			"key": "comment",
+			"value": ""
+		},
+		{
+			"id": "ed4b9b42-d634-40da-85ca-008bf9183fb2",
+			"key": "person",
+			"value": ""
+		}
+	],
+	"protocolProfileBehavior": {}
+}
