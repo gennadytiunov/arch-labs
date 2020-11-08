@@ -1,0 +1,50 @@
+Show
+Id
+Name
+Description
+
+Session
+ShowId
+Date
+
+SeatScheme
+Row
+Number
+
+Booking
+Id
+ShowId
+SessionDate
+Amount
+Contact
+Card
+Email
+Status
+CreationDate
+UpdateDate
+
+BookingSeat
+BookingId
+Row
+Number
+
+BookingStatus
+Initiated
+AvailabilityConfirmed
+AvailabilityDenied
+PaymentSucceeded
+PaymentFailed
+ConfirmationEmailed
+
+=====
+Нужна таблица со стоимостью
+
+В BookSession добавить Email.
+BookingProcessor - удалять "брошенные" бронирования.
+Валидация, что запрошены существующие в схеме места 
+
+
+Описать логику работы саги
+ - шаги
+ - состояния
+ - переходы

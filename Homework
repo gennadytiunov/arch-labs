@@ -1,0 +1,127 @@
+
+Namespace manifest
+
+
+Транзакции
+Создать сущности в БД
+Разобраться с Topshelf в ASP.NET Core
+Посмотреть лекцию про транзакци
+Посмотреть Magnum и другие способы реализации саooг
+
+
+Описания к предыдущим ДЗ перенести в GitHab
+Сохранить чаты
+
+Prometheus
+Promtool
+Windows Exporter
+
+
+ЦЕНА ЗАКАЗА
+ОЧИЩЕНИЕ КОРЗИНЫ
+
+Конкурентность бронирования
+
+
+Описать сценарии полььзователя.
+Доменная модель.
+Сервисная модель.
+
+Модель предметной области
+Системные действия
+
+Функциональная модель
+
+Описать API методы
+Системные действия в модели сервисов
+
+Описания сервисов:
+ - microservice canvas
+ - bounded context canvas
+
+
+Cache
+Сделать консистентными названия
+
+https://github.com/mohsenShakiba/LRUCache/tree/master/src
+https://medium.com/swlh/design-and-implement-cache-systems-with-least-recently-used-and-least-frequently-used-policies-in-1bedc4c7f328
+https://leetcode.com/problems/lfu-cache/discuss/474006/accepted-c-o1-lfu-cache-with-lru
+
+Заполнить БД
+Faker
+Послушать урок про тестирование
+
+
+---
+
+Как лучше структурировать на докерхабе / в репозитории?
+
+Разобраться с nginx ingress.
+Как закрывать методы через ingress.
+
+SSL сертификат
+Два helm-чарта
+
+
+Разные namespaces
+
+Пробрасывать correlation
+
+Обработка HTTP Статусов
+ContractViolationException
+
+Вопросы
+Как убрать показывание auth наружу
+HELM - автогенерирование labaels
+Как закрывать URLы в nginx
+
+Подключить Swagger / Open API
+
+JWT
+
+=====
+ODATA - batch запросы.
+
+helm test-connection
+
+mftnhkaeRWkdgA1aIC7b
+
+
+watch и четыре окна
+
+flagger.app
+
+
+test.yml в вызовами API 
+
+
+power shell
+
+
+ab утилита
+
+Посмотреть внутрь контейнера - куда сбилдилось и спаблишилось приложение
+
+Какой репозиторий используется в ЛК
+
+docker - отправка логов в elastic search
+micro badger 
+
+Виртуалка с Linux для Kubernetes
+
+curl в bat
+
+Попробовать обращения по именованным портам
+
+deployment содержит templates for podes & probes
+blur print
+canary
+rolling
+replace
+flyway
+
+Visual Studio 2019
+
+Несколько yml в одном
+
+выполнение инструкций при деплое
