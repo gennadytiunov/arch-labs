@@ -1,3 +1,6 @@
+Martin Kleppman
+
+MERGE
 
 Namespace manifest
 
@@ -12,7 +15,6 @@ Namespace manifest
 Описания к предыдущим ДЗ перенести в GitHab
 Сохранить чаты
 
-Prometheus
 Promtool
 Windows Exporter
 
@@ -21,7 +23,6 @@ Windows Exporter
 ОЧИЩЕНИЕ КОРЗИНЫ
 
 Конкурентность бронирования
-
 
 Описать сценарии полььзователя.
 Доменная модель.
@@ -98,12 +99,6 @@ test.yml в вызовами API
 power shell
 
 
-ab утилита
-
-Посмотреть внутрь контейнера - куда сбилдилось и спаблишилось приложение
-
-Какой репозиторий используется в ЛК
-
 docker - отправка логов в elastic search
 micro badger 
 
@@ -114,13 +109,11 @@ curl в bat
 Попробовать обращения по именованным портам
 
 deployment содержит templates for podes & probes
-blur print
+blue print
 canary
 rolling
 replace
 flyway
-
-Visual Studio 2019
 
 Несколько yml в одном
 

@@ -1,43 +1,15 @@
-Show
-Id
-Name
-Description
+GetShow
+GetShowSessions
+GetBooking
+BookSession
+GetAvailableSeats
 
-Session
-ShowId
-Date
+Выбирать доступные места с учётом статусов бронирований
 
-SeatScheme
-Row
-Number
+Bookings - меньше статусов: Initiated, Processing, Completed, Failed.
 
-Booking
-Id
-ShowId
-SessionDate
-Amount
-Contact
-Card
-Email
-Status
-CreationDate
-UpdateDate
 
-BookingSeat
-BookingId
-Row
-Number
 
-BookingStatus
-Initiated
-AvailabilityConfirmed
-AvailabilityDenied
-PaymentSucceeded
-PaymentFailed
-ConfirmationEmailed
-
-=====
-Нужна таблица со стоимостью
 
 В BookSession добавить Email.
 BookingProcessor - удалять "брошенные" бронирования.
