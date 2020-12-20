@@ -1,0 +1,27 @@
+Kafka - можно отправлять логи.
+Можно хранить и преобрахоывать данные.
+Создание тем и разделов - https://habr.com/ru/post/354486/
+
+Тщательный пример - https://coderlessons.com/tutorials/bolshie-dannye-i-analitika/vyuchit-apache-kafka/apache-kafka-kratkoe-rukovodstvo
+
+Confluent Kafka:
+https://github.com/confluentinc/confluent-kafka-dotnet
+https://docs.confluent.io/5.5.0/clients/dotnet.html
+
+Пример, полезные ссылки - https://habr.com/ru/post/336058
+Kafka use cases - https://kafka.apache.org/uses
+Demo App - https://github.com/denisivan0v/dotnext-moscow-2017/tree/master/DemoApp
+https://medium.com/@shesh.soft/confluent-kafka-integration-with-net-core-2a489fa2512
+Денис Иванов - Kafka, DotNext 2017
+
+Windows Installation
+Utilities, examples - https://dzone.com/articles/running-apache-kafka-on-windows-os
+https://www.goavega.com/install-apache-kafka-on-windows/
+
+https://coderlessons.com/tutorials/bolshie-dannye-i-analitika/vyuchit-apache-kafka/apache-kafka-kratkoe-rukovodstvo
+https://medium.com/@theodor.chichirita/getting-started-with-kafka-and-net-core-2-2-6d8d3f4c1989
+https://medium.com/@shesh.soft/confluent-kafka-integration-with-net-core-2a489fa2512
+https://dotsandbrackets.com/quick-intro-to-apache-kafka-ru/
+https://habr.com/ru/post/354486/
+
+Настроить только обработу only once (одним слушателем)
