@@ -1,5 +1,6 @@
 Kafka - можно отправлять логи.
-Можно хранить и преобрахоывать данные.
+Можно хранить (KSQL) и преобразоывать данные (Kafka Streams).
+
 Создание тем и разделов - https://habr.com/ru/post/354486/
 
 Тщательный пример - https://coderlessons.com/tutorials/bolshie-dannye-i-analitika/vyuchit-apache-kafka/apache-kafka-kratkoe-rukovodstvo
@@ -25,3 +26,23 @@ https://dotsandbrackets.com/quick-intro-to-apache-kafka-ru/
 https://habr.com/ru/post/354486/
 
 Настроить только обработу only once (одним слушателем)
+
+
+
+zookeeper-server-start.bat c:\Kafka\config\zookeeper.properties
+kafka-server-start.bat c:\Kafka\config\server.properties
+
+
+kafka-topics.bat --create --zookeeper localhost:2181 --replication-factor 1 --partitions 1 --topic bookings
+
+Topics:
+ - bookings
+ - payments
+ - emailing
+ 
+Создать топик / тему
+Посмотреть примеры
+Сдалть простое консольное приложение для отправки сообщения
+Сдалть простое консольное приложение для получения сообщения
+Разобраться, как передавать JSON-сообщения
+Послать / принять сообщение
