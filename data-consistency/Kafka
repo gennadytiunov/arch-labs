@@ -24,25 +24,3 @@ https://medium.com/@theodor.chichirita/getting-started-with-kafka-and-net-core-2
 https://medium.com/@shesh.soft/confluent-kafka-integration-with-net-core-2a489fa2512
 https://dotsandbrackets.com/quick-intro-to-apache-kafka-ru/
 https://habr.com/ru/post/354486/
-
-Настроить только обработу only once (одним слушателем)
-
-
-
-zookeeper-server-start.bat c:\Kafka\config\zookeeper.properties
-kafka-server-start.bat c:\Kafka\config\server.properties
-
-
-kafka-topics.bat --create --zookeeper localhost:2181 --replication-factor 1 --partitions 1 --topic bookings
-
-Topics:
- - bookings
- - payments
- - emailing
- 
-Создать топик / тему
-Посмотреть примеры
-Сдалть простое консольное приложение для отправки сообщения
-Сдалть простое консольное приложение для получения сообщения
-Разобраться, как передавать JSON-сообщения
-Послать / принять сообщение

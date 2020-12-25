@@ -1,0 +1,118 @@
+Course Work
+ - Конкурентность бронирования
+ 
+ 
+  
+ 
+GetShow
+GetShowSessions
+GetBooking
+BookSession
+GetAvailableSeats
+
+Выбирать доступные места с учётом статусов бронирований
+
+Bookings - меньше статусов: Created, Pending, Confirmed, Rejected.
+
+
+Saga Logic
+1) Booking Service:
+   - generates BookingId (for idempotency)
+   - creates BookingSaga (passing Order / Order Data to it)
+   - fires BookingCreated
+   - Order Id is returned to the client
+2) BookingSagaProcessor listens to BookingCreated
+
+
+BookingService creates BookingSaga
+BookingSaga then creates the corresponding Booking.
+BookingSage then orchestrates the process and updates the Booking accordingly.
+
+
+
+BookingSaga
+BookingSagaData
+
+В BookSession добавить Email.
+BookingProcessor - удалять "брошенные" бронирования.
+Валидация, что запрошены существующие в схеме места 
+
+Описать логику работы саги
+ - шаги
+ - состояния
+ - переходы
+ 
+Семантическая блокировка - добавить возможность отмены пользователем
+
+Использовать разные Group Id
+ -
+
+Удаление подвисших бронирований
+
+
+
+Topics:
+ - booking-messages
+   -- BookingService (via BookingProducer) sends BookingCreated
+   -- BookingService.BookingProcessor listens to BookingCreated and sends ValidateAvailability (via BookingProducer)
+ - booking-replies
+   -- BookingService.BookingProcessor (via BookingReplyProducer) sends AvailabilityConfirmed or AvailabilityDenied
+   -- BookingService.BookingProcessor listens to AvailabilityConfirmed or AvailabilityDenied
+      -- in case of AvailabilityConfirmed it persists its state and sends MakePayment to payment-commands (via PaymentProducer) 
+	  -- in case of AvailabilityDenied it persists its state, changes booking state to Rejected (performs RejectBooking operation) and sends NotifyFailure with the reason AvailabilityDenied to notification-commands (via NotificationProducer)
+ 
+ - payment-commands
+   -- BookingService.BookingProcessor (via PaymentProducer) sends MakePayment
+ - payment-replies
+   -- PaymentService (via PaymentReplyProducer) sends PaymentSucceeded or PaymentFailed
+   -- BookingService.BookingProcessor listens to PaymentSucceeded or PaymentFailed
+      -- in case of PaymentSucceeded it persists its state and sends NotifyBookingSuccess to notification-commands (via NotificationProducer)
+	  -- in case of PaymentFailed it persists its state, changes booking state to Rejected  (performs RejectBooking operation) and sends NotifyBookingFailure with the reason of PaymentFailure to notification-commands (via NotificationProducer)
+
+ - notification-commands
+   -- BookingService.BookingProcessor (мшф NotificationProducer) sends NotifyBookingSuccess or NotifyBookingFailure
+ - notification-replies
+   -- NotificationService (мшф NotificationReplyProducer) sends BookingSuccessNotified or BookingFailureNotified
+
+
+InitiateBooking
+
+{
+	"MessageType" : "InitiateBooking",
+	"MessageName" : "Command",
+	"MessageBody" :
+	{
+		"BookingId" : "<GUID>",
+		"ShowId" : "...",
+		"Date" : "<DateTime>"
+	}
+}
+
+
+Реализовать типизированную обработку сообщений
+
+
+Настроить только обработу only once (одним слушателем)
+
+Topics:
+ - bookings
+ - payments
+ - emailing
+ 
+Создать топик / тему
+Посмотреть примеры
+Сдалть простое консольное приложение для отправки сообщения
+Сдалть простое консольное приложение для получения сообщения
+Разобраться, как передавать JSON-сообщения
+Послать / принять сообщение
+Сериализация-десериализация
+
+
+Продумать формат сообщений
+Создать сборку с контрактами (либо свои контракты в каждом сервисе)
+
+
+zookeeper-server-start.bat c:\Kafka\config\zookeeper.properties
+kafka-server-start.bat c:\Kafka\config\server.properties
+
+kafka-topics.bat --create --zookeeper localhost:2181 --replication-factor 1 --partitions 1 --topic bookings
