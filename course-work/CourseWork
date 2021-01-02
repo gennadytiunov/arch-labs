@@ -1,5 +1,15 @@
+Описаться модель для лабы про consistency
+UML - sequence diagram
+Срипт создания топиков
+Написать взаимодействие для Users / Payment Acccounts
+Развернуть Kafka в Kubernetes
+Продукмать-описать сообщения
+
 UserService
  - создание пользователя, отправка сообщение в PaymentService - event collaboration
+
+Пройти курс по Kafka
+Настройки Kafka вынести в конфиг
 
 Использовать enums вместо строк
 
@@ -14,17 +24,11 @@ UserService
 		- снятия денег
 		- создание счёта пользователя
 
-
-
-
-Прочитать про sequence diagram 
-
 X-Authentication в REST и обработке событий / команд
 Прикрутить аутентификацию
 Прикрутить мониторинг
 
 Нарисовать граф переходов состояний для саги
-Создать bat-скрипт для создания топиков
 Обновить схему для системы
 
 Выбирать доступные места с учётом статусов бронирований
@@ -55,12 +59,8 @@ BookingProcessor - удалять "брошенные" бронирования.
 Удаление подвисших бронирований
 Реализовать типизированную обработку сообщений
 Настроить только обработу only once (одним слушателем)
-Создать топик / тему
 Посмотреть примеры
-Сдалть простое консольное приложение для отправки сообщения
-Сдалть простое консольное приложение для получения сообщения
 Разобраться, как передавать JSON-сообщения
-Послать / принять сообщение
 Сериализация-десериализация
 Продумать формат сообщений
 Создать сборку с контрактами (либо свои контракты в каждом сервисе)
@@ -79,7 +79,7 @@ Topics:
       -- in case of AvailabilityConfirmed it persists its state and sends MakePayment to payment-commands (via PaymentProducer) 
 	  -- in case of AvailabilityDenied it persists its state, changes booking state to Rejected (performs RejectBooking operation) and sends NotifyBookingFailure with the reason AvailabilityDenied to notification-commands (via NotificationProducer)
  
- - payment-commands
+ - payment-messages
    -- BookingService.BookingProcessor (via PaymentProducer) sends MakePayment
  - payment-replies
    -- PaymentService (via PaymentReplyProducer) sends PaymentSucceeded or PaymentFailed
@@ -94,19 +94,35 @@ Topics:
 
 
 CreateBooking
-
 {
-	"MessageType" : "Command",
-	"MessageName" : "CreateBooking",
-	"MessageBody" :
+	"Id" : "<GUID>",
+	"Type" : "Command",
+	"Name" : "CreateBooking",
+	"Date" : "<DateTime>",
+	"Body" :
 	{
 		"BookingId" : "<GUID>",
 		"ShowId" : "...",
-		"Date" : "<DateTime>"
 	}
 }
+
+UserCreated
+{
+	"Id" : "<GUID>",
+	"Type" : "Event",
+	"Name" : "UserCreated",
+	"Date" : "<DateTime>"
+	"Body" :
+	{
+		"UserId" : "<Int32>",
+		"Email" : "<String>"
+	}
+}
+
+
 
 zookeeper-server-start.bat c:\Kafka\config\zookeeper.properties
 kafka-server-start.bat c:\Kafka\config\server.properties
 
 kafka-topics.bat --create --zookeeper localhost:2181 --replication-factor 1 --partitions 1 --topic bookings
+kafka-topics.bat --create --zookeeper localhost:2181 --replication-factor 1 --partitions 1 --topic payment-messages
