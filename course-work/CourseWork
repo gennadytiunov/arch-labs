@@ -1,8 +1,39 @@
-Описаться модель для лабы про consistency
-UML - sequence diagram
+
+Создание пользователя => создание payment account
+
+Booking Service (Order Service)
+
+Реелизовать методы:
+	- Payment  Service
+		- получение всех платежей
+		- получение платежа по ID - ?
+		- пополнения счёта
+		- снятия денег
+		- создание счёта пользователя
+
+Разлбраться, как запускать background service в контейнере
+
+Поменять для всех namespace
+
+Listeners сделать generic
+Currency - enum
+IBookingNotificationHandler : ICommandHandler<NotifyBookingSuccess>, ICommandHandler<NotifyBookingFailure>
+
+Service => Endpoint
+
+LaunchSettings
+
+Настройки сервиса нотификаций вынести в конфиг
+
+
+
 Срипт создания топиков
 Написать взаимодействие для Users / Payment Acccounts
 Развернуть Kafka в Kubernetes
+
+Описаться модель для лабы про consistency
+UML - sequence diagram
+
 Продукмать-описать сообщения
 
 UserService
@@ -13,16 +44,6 @@ UserService
 
 Использовать enums вместо строк
 
-Реелизовать методы:
-	- Notification Service
-		- получение всех нотификаций
-		- получение нотификации по ID - ?
-	- Payment  Service
-		- получение всех платежей
-		- получение платежа по ID - ?
-		- пополнения счёта
-		- снятия денег
-		- создание счёта пользователя
 
 X-Authentication в REST и обработке событий / команд
 Прикрутить аутентификацию
@@ -34,7 +55,6 @@ X-Authentication в REST и обработке событий / команд
 Выбирать доступные места с учётом статусов бронирований
 
 Bookings - меньше статусов: Created, Pending, Confirmed, Rejected.
-
 
 Saga Logic
 1) Booking Service:
@@ -120,9 +140,5 @@ UserCreated
 }
 
 
-
 zookeeper-server-start.bat c:\Kafka\config\zookeeper.properties
 kafka-server-start.bat c:\Kafka\config\server.properties
-
-kafka-topics.bat --create --zookeeper localhost:2181 --replication-factor 1 --partitions 1 --topic bookings
-kafka-topics.bat --create --zookeeper localhost:2181 --replication-factor 1 --partitions 1 --topic payment-messages
