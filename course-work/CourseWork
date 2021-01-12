@@ -1,15 +1,17 @@
+Релизовать логику проверки баланса до снятия
+Получение списка и единичного аккаунта
+Метожд снятия денег
 
-Создание пользователя => создание payment account
+
+_OtusApp_X-Service-Token-User-Endpoint: 9860c9cd-5101-455f-85ca-0916908ee464
+_OtusApp_X-Service-Token-Payment-Endpoint: 5959189f-764f-4097-81c2-2b797caea0e1
+
+Primary Key для Users
+
+
+async в контроллерах
 
 Booking Service (Order Service)
-
-Реелизовать методы:
-	- Payment  Service
-		- получение всех платежей
-		- получение платежа по ID - ?
-		- пополнения счёта
-		- снятия денег
-		- создание счёта пользователя
 
 Разлбраться, как запускать background service в контейнере
 
