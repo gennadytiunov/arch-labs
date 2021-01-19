@@ -1,0 +1,366 @@
+{
+	"info": {
+		"_postman_id": "bd4f92a8-4197-403b-8e54-73b6dc2312a8",
+		"name": "DataConsistency - Kafka",
+		"schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json"
+	},
+	"item": [
+		{
+			"name": "Bookings - Get All Bookings",
+			"request": {
+				"method": "GET",
+				"header": [],
+				"url": {
+					"raw": "http://localhost:10400/bookings",
+					"protocol": "http",
+					"host": [
+						"localhost"
+					],
+					"port": "10400",
+					"path": [
+						"bookings"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "Bookings - Add Booking (1 RUB)",
+			"request": {
+				"method": "POST",
+				"header": [
+					{
+						"key": "X-Service-Token",
+						"type": "text",
+						"value": "9860c9cd-5101-455f-85ca-0916908ee464"
+					}
+				],
+				"body": {
+					"mode": "raw",
+					"raw": "{\r\n    \"userId\": 1,\r\n    \"email\": \"gennady.tiunov@gmail.com\",\r\n    \"amount\": 1,\r\n    \"currency\": \"RUB\"\r\n}",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": {
+					"raw": "http://localhost:10400/bookings",
+					"protocol": "http",
+					"host": [
+						"localhost"
+					],
+					"port": "10400",
+					"path": [
+						"bookings"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "Bookings - Add Booking (1000 RUB)",
+			"request": {
+				"method": "POST",
+				"header": [
+					{
+						"key": "X-Service-Token",
+						"type": "text",
+						"value": "9860c9cd-5101-455f-85ca-0916908ee464"
+					}
+				],
+				"body": {
+					"mode": "raw",
+					"raw": "{\r\n    \"userId\": 1,\r\n    \"email\": \"gennady.tiunov@gmail.com\",\r\n    \"amount\": 1000,\r\n    \"currency\": \"RUB\"\r\n}",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": {
+					"raw": "http://localhost:10400/bookings",
+					"protocol": "http",
+					"host": [
+						"localhost"
+					],
+					"port": "10400",
+					"path": [
+						"bookings"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "Notifications - Get All Notifications",
+			"request": {
+				"method": "GET",
+				"header": [],
+				"url": {
+					"raw": "http://localhost:10100/notifications",
+					"protocol": "http",
+					"host": [
+						"localhost"
+					],
+					"port": "10100",
+					"path": [
+						"notifications"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "Notifications - Get by Id",
+			"request": {
+				"method": "GET",
+				"header": [],
+				"url": {
+					"raw": "http://localhost:10100/notifications/1",
+					"protocol": "http",
+					"host": [
+						"localhost"
+					],
+					"port": "10100",
+					"path": [
+						"notifications",
+						"1"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "Users - Get User by Id",
+			"request": {
+				"method": "GET",
+				"header": [],
+				"url": {
+					"raw": "http://localhost:10200/users/1",
+					"protocol": "http",
+					"host": [
+						"localhost"
+					],
+					"port": "10200",
+					"path": [
+						"users",
+						"1"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "Users - Add User",
+			"request": {
+				"method": "POST",
+				"header": [
+					{
+						"key": "X-Service-Token",
+						"type": "text",
+						"value": "9860c9cd-5101-455f-85ca-0916908ee464"
+					}
+				],
+				"body": {
+					"mode": "raw",
+					"raw": "{\r\n    \"email\": \"gennady.tiunov@gmail.com\",\r\n    \"password\": \"12345\",\r\n    \"firstName\": \"Gennady\",\r\n    \"lastName\": \"Tiunov\"\r\n}",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": {
+					"raw": "http://localhost:10200/users",
+					"protocol": "http",
+					"host": [
+						"localhost"
+					],
+					"port": "10200",
+					"path": [
+						"users"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "Users - Update User",
+			"request": {
+				"method": "PUT",
+				"header": [
+					{
+						"key": "X-Service-Token",
+						"type": "text",
+						"value": "9860c9cd-5101-455f-85ca-0916908ee464"
+					}
+				],
+				"body": {
+					"mode": "raw",
+					"raw": "{\r\n    \"id\" : 1,\r\n    \"email\": \"anchar@gmail.com\",\r\n    \"password\": \"12345\",\r\n    \"firstName\": \"Gennady\",\r\n    \"lastName\": \"Tiunov\"\r\n}",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": {
+					"raw": "http://localhost:10200/users/1",
+					"protocol": "http",
+					"host": [
+						"localhost"
+					],
+					"port": "10200",
+					"path": [
+						"users",
+						"1"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "Users - Delete User",
+			"request": {
+				"method": "DELETE",
+				"header": [
+					{
+						"key": "X-Service-Token",
+						"type": "text",
+						"value": "9860c9cd-5101-455f-85ca-0916908ee464"
+					}
+				],
+				"body": {
+					"mode": "raw",
+					"raw": "{\r\n    \"id\" : 4,\r\n    \"email\": \"anchar@gmail.com\",\r\n    \"password\": \"12345\",\r\n    \"firstName\": \"Gennady\",\r\n    \"lastName\": \"Tiunov\"\r\n}",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": {
+					"raw": "http://localhost:10200/users/1",
+					"protocol": "http",
+					"host": [
+						"localhost"
+					],
+					"port": "10200",
+					"path": [
+						"users",
+						"1"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "Payments - Get All Accounts",
+			"request": {
+				"method": "GET",
+				"header": [],
+				"url": {
+					"raw": "http://localhost:10300/accounts",
+					"protocol": "http",
+					"host": [
+						"localhost"
+					],
+					"port": "10300",
+					"path": [
+						"accounts"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "Payments - Get Account by Id",
+			"request": {
+				"method": "GET",
+				"header": [],
+				"url": {
+					"raw": "http://localhost:10300/accounts/1",
+					"protocol": "http",
+					"host": [
+						"localhost"
+					],
+					"port": "10300",
+					"path": [
+						"accounts",
+						"1"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "Payments - Get All Transactions",
+			"request": {
+				"method": "GET",
+				"header": [],
+				"url": {
+					"raw": "http://localhost:10300/transactions",
+					"protocol": "http",
+					"host": [
+						"localhost"
+					],
+					"port": "10300",
+					"path": [
+						"transactions"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "Payments - Get Transaction by Id",
+			"request": {
+				"method": "GET",
+				"header": [],
+				"url": {
+					"raw": "http://localhost:10300/transactions/c942529e-a362-48cc-92ac-77be7cb39316",
+					"protocol": "http",
+					"host": [
+						"localhost"
+					],
+					"port": "10300",
+					"path": [
+						"transactions",
+						"c942529e-a362-48cc-92ac-77be7cb39316"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "Payments - Deposit Amount - Success",
+			"request": {
+				"method": "POST",
+				"header": [],
+				"body": {
+					"mode": "raw",
+					"raw": "{\r\n    \"amount\": 10.5,\r\n    \"currency\": \"RUB\"\r\n}",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": {
+					"raw": "http://localhost:10300/deposit/1",
+					"protocol": "http",
+					"host": [
+						"localhost"
+					],
+					"port": "10300",
+					"path": [
+						"deposit",
+						"1"
+					]
+				}
+			},
+			"response": []
+		}
+	]
+}
