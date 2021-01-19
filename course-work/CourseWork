@@ -1,37 +1,56 @@
-Релизовать логику проверки баланса до снятия
-Получение списка и единичного аккаунта
-Метожд снятия денег
+Выводить PAymentId в Accounts
+Написать сценарии в Postman
+Не пишутся логи у листенеров
+Убрать REPLIES со схемы
+Описать события / команды
+Срипт создания топиков
+Скрипт создания SQL структуры
+Развернуть Kafka в Kubernetes
 
+
+Проставить references на serilog, убрать reference на Infrastructure
+
+ [ServiceFilter(typeof(S2SAuthorization))]
+ Serilog в USer Controller
+
+Не давать пополнять аккаунт для удалённого пользователя
+Возвращать тип транзации в JSON как строку
+Знаки после запятой
+
+X-Auth для сообщений
+
+LogDebug vs LogInformation
+
+Billing-логику поместить в отдельный сервис
+
+SQL-скрипты создания структуры
+
+Endpoints
+ - Notification: 10100
+ - User: 10200
+ - Payment: 10300
+ - Booking: 10400
 
 _OtusApp_X-Service-Token-User-Endpoint: 9860c9cd-5101-455f-85ca-0916908ee464
 _OtusApp_X-Service-Token-Payment-Endpoint: 5959189f-764f-4097-81c2-2b797caea0e1
+_OtusApp_X-Service-Token-Booking-Endpoint
 
 Primary Key для Users
 
-
 async в контроллерах
-
-Booking Service (Order Service)
 
 Разлбраться, как запускать background service в контейнере
 
-Поменять для всех namespace
+Renaming EndpointConnector
+Renaming внутри папки ApiGateway
 
 Listeners сделать generic
 Currency - enum
 IBookingNotificationHandler : ICommandHandler<NotifyBookingSuccess>, ICommandHandler<NotifyBookingFailure>
 
-Service => Endpoint
-
 LaunchSettings
 
 Настройки сервиса нотификаций вынести в конфиг
-
-
-
-Срипт создания топиков
-Написать взаимодействие для Users / Payment Acccounts
-Развернуть Kafka в Kubernetes
 
 Описаться модель для лабы про consistency
 UML - sequence diagram
@@ -72,20 +91,12 @@ BookingSage then orchestrates the process and updates the Booking accordingly.
 BookingSaga
 BookingSagaData
 
-В BookSession добавить Email.
 BookingProcessor - удалять "брошенные" бронирования.
 Валидация, что запрошены существующие в схеме места 
 Конкурентность бронирования
 Семантическая блокировка - добавить возможность отмены пользователем
-Использовать разные Group Id
-Удаление подвисших бронирований
-Реализовать типизированную обработку сообщений
 Настроить только обработу only once (одним слушателем)
 Посмотреть примеры
-Разобраться, как передавать JSON-сообщения
-Сериализация-десериализация
-Продумать формат сообщений
-Создать сборку с контрактами (либо свои контракты в каждом сервисе)
 
 Описать логику работы саги
  - шаги
@@ -113,7 +124,6 @@ Topics:
    -- BookingService.BookingProcessor (via NotificationProducer) sends NotifyBookingSuccess or NotifyBookingFailure
  - notification-replies
    -- NotificationService (мшф NotificationReplyProducer) sends BookingSuccessNotified or BookingFailureNotified
-
 
 CreateBooking
 {
