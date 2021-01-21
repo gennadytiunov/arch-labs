@@ -1,0 +1,105 @@
+common:
+   secret: secret
+   namespace: circusapp
+   env:
+      appPort: _OtusApp_App_Port
+
+bookingProcessor:
+   name: booking-processor
+   image: gennadytiunov/circus-booking-listeners:v2
+   
+paymentProcessor:
+   name: payment-processor
+   image: gennadytiunov/circus-payment-listeners:v2
+
+notificationProcessor:
+   name: notification-processor
+   image: gennadytiunov/circus-notification-listeners:v2
+
+userEndpoint:
+   label: user-endpoint
+   replicaCount: 1
+   image: gennadytiunov/circus-user-endpoint:v2
+   port:
+      number: 10000
+      name: user-port
+   service:
+      name: user-endpoint
+      type: NodePort
+      port:
+         number: "10200"
+         protocol: TCP
+
+bookingEndpoint:
+   label: booking-endpoint
+   replicaCount: 1
+   image: gennadytiunov/circus-booking-endpoint:v2
+   port:
+      number: 10100
+      name: bookings-port
+   service:
+      name: booking-endpoint
+      type: NodePort
+      port:
+         number: "10400"
+         protocol: TCP
+
+paymentEndpoint:
+   label: payment-endpoint
+   replicaCount: 1
+   image: gennadytiunov/circus-payment-endpoint:v2
+   port:
+      number: 10200
+      name: payment-port
+   service:
+      name: payment-endpoint
+      type: NodePort
+      port:
+         number: "10300"
+         protocol: TCP
+
+notificationEndpoint:
+   label: notifier-endpoint
+   replicaCount: 1
+   image: gennadytiunov/circus-notification-endpoint:v2
+   port:
+      number: 10300
+      name: notifier-port
+   service:
+      name: notifier-endpoint
+      type: NodePort
+      port:
+         number: "10100"
+         protocol: TCP
+
+db:
+   label: mssqlexpress
+   replicaCount: 1
+   image: mcr.microsoft.com/mssql/server
+   awaiterImage: busybox:1.28
+   env:
+      uri: _OtusApp_DB_URI
+   mssql:
+      acceptEula: "Y"
+      edition: "Express"
+   mount:
+      name: mssqlexpressvolume
+      path: /var/opt/mssql
+      access: "ReadWriteOnce"
+      class: standard
+      size: 500Mi
+   name: OtusLabs
+   user: sa
+   password: "0tuS1@b$"
+   port:
+      number: 1433
+      name: sql-port
+   service:
+      name: db-service
+      type: NodePort
+      port:
+         number: "15000"
+         protocol: TCP
+   msTools:
+      image: mcr.microsoft.com/mssql-tools
+      path: /opt/mssql-tools/bin

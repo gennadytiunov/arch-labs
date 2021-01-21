@@ -1,0 +1,30 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+   name: {{ .Values.paymentEndpoint.label }}-deployment
+spec:
+   replicas: {{ .Values.paymentEndpoint.replicaCount }}
+   selector:
+      matchLabels:
+         app: {{ .Values.paymentEndpoint.label }}
+   template:
+      metadata:
+         labels:
+            app: {{ .Values.paymentEndpoint.label }}
+         annotations:
+            checksum/secret: {{ include (print $.Template.BasePath "/Secret.yaml") . | sha256sum }}
+      spec:
+         containers:
+         - name: {{ .Values.paymentEndpoint.label }}-container  
+           image: {{ .Values.paymentEndpoint.image }}
+           ports:
+           - name: {{ .Values.paymentEndpoint.port.name }}
+             containerPort: {{ .Values.paymentEndpoint.port.number }}
+           env:
+              - name: "_OtusApp_Port_Payment_Endpoint"
+                value: {{ .Values.paymentEndpoint.port.number | quote }}
+              - name: {{ .Values.db.env.uri }}
+                valueFrom:
+                   secretKeyRef:
+                      name: {{ .Values.common.secret }}
+                      key: DBURI

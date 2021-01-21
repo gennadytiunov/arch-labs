@@ -1,12 +1,12 @@
+Развернуть Kafka в Kubernetes
+Срипт создания топиков
+Настроить ингрессы
+Убрать REPLIES со схемы
+Не пишутся логи у листенеров
 Выводить PAymentId в Accounts
 Написать сценарии в Postman
-Не пишутся логи у листенеров
-Убрать REPLIES со схемы
 Описать события / команды
-Срипт создания топиков
-Скрипт создания SQL структуры
-Развернуть Kafka в Kubernetes
-
+Общие блоки в Helm для эндпоинтов и листенеров
 
 Проставить references на serilog, убрать reference на Infrastructure
 
@@ -26,10 +26,10 @@ Billing-логику поместить в отдельный сервис
 SQL-скрипты создания структуры
 
 Endpoints
- - Notification: 10100
- - User: 10200
+ - User: 10000
+ - Booking: 10200
  - Payment: 10300
- - Booking: 10400
+ - Notification: 10400
 
 _OtusApp_X-Service-Token-User-Endpoint: 9860c9cd-5101-455f-85ca-0916908ee464
 _OtusApp_X-Service-Token-Payment-Endpoint: 5959189f-764f-4097-81c2-2b797caea0e1

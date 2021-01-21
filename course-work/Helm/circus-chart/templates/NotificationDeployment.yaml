@@ -1,0 +1,30 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+   name: {{ .Values.notificationEndpoint.label }}-deployment
+spec:
+   replicas: {{ .Values.notificationEndpoint.replicaCount }}
+   selector:
+      matchLabels:
+         app: {{ .Values.notificationEndpoint.label }}
+   template:
+      metadata:
+         labels:
+            app: {{ .Values.notificationEndpoint.label }}
+         annotations:
+            checksum/secret: {{ include (print $.Template.BasePath "/Secret.yaml") . | sha256sum }}
+      spec:
+         containers:
+         - name: {{ .Values.notificationEndpoint.label }}-container  
+           image: {{ .Values.notificationEndpoint.image }}
+           ports:
+           - name: {{ .Values.notificationEndpoint.port.name }}
+             containerPort: {{ .Values.notificationEndpoint.port.number }}
+           env:
+              - name: "_OtusApp_Port_Notification_Endpoint"
+                value: {{ .Values.notificationEndpoint.port.number | quote }}
+              - name: {{ .Values.db.env.uri }}
+                valueFrom:
+                   secretKeyRef:
+                      name: {{ .Values.common.secret }}
+                      key: DBURI

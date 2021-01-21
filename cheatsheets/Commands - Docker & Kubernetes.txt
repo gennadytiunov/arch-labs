@@ -1,3 +1,4 @@
+docker login
 
 docker pull gennadytiunov/docker-lab:v1
 docker pull mcr.microsoft.com/mssql/server

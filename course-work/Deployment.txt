@@ -1,0 +1,24 @@
+
+docker image build -t gennadytiunov/circus-booking-listeners:v2 .
+docker image build -t gennadytiunov/circus-booking-endpoint:v2 .
+docker image build -t gennadytiunov/circus-payment-listeners:v2 .
+docker image build -t gennadytiunov/circus-payment-endpoint:v2 .
+docker image build -t gennadytiunov/circus-notification-listeners:v2 .
+docker image build -t gennadytiunov/circus-notification-endpoint:v2 .
+docker image build -t gennadytiunov/circus-user-endpoint:v2 .
+
+docker push gennadytiunov/circus-booking-listeners:v2
+docker push gennadytiunov/circus-booking-endpoint:v2
+docker push gennadytiunov/circus-payment-listeners:v2
+docker push gennadytiunov/circus-payment-endpoint:v2
+docker push gennadytiunov/circus-notification-listeners:v2
+docker push gennadytiunov/circus-notification-endpoint:v2
+docker push gennadytiunov/circus-user-endpoint:v2
+
+kubectl create namespace circus
+kubectl get namespaces
+
+kubectl config set-context --current --namespace=circus
+
+helm install circus-app ./circus-chart --dry-run
+
