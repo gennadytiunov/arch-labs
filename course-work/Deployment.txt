@@ -15,10 +15,35 @@ docker push gennadytiunov/circus-notification-listeners:v2
 docker push gennadytiunov/circus-notification-endpoint:v2
 docker push gennadytiunov/circus-user-endpoint:v2
 
-kubectl create namespace circus
 kubectl get namespaces
 
+kubectl create namespace circus
 kubectl config set-context --current --namespace=circus
+
 
 helm install circus-app ./circus-chart --dry-run
 
+
+kubectl create namespace circus
+kubectl get namespaces
+
+kubectl create namespace kafka
+kubectl config set-context --current --namespace=kafka
+
+helm repo add confluentinc https://confluentinc.github.io/cp-helm-charts/
+helm repo update
+helm install cp confluentinc/cp-helm-charts --set cp-schema-registry.enabled=false,cp-kafka-rest.enabled=false,cp-kafka-connect.enabled=false,cp-ksql-server.enabled=false
+
+kubectl apply -f kafka-client.yaml
+
+
+kubectl exec -it kafka-client -- /bin/bash
+
+
+kubectl exec kafka-client -- kafka-topics --list --zookeeper cp-cp-zookeeper:2181  
+
+
+kubectl exec kafka-client -- kafka-topics --create --zookeeper cp-cp-zookeeper:2181 -replication-factor 1 --partitions 1 --topic users
+kubectl exec kafka-client -- kafka-topics --create --zookeeper cp-cp-zookeeper:2181 -replication-factor 1 --partitions 1 --topic bookings
+kubectl exec kafka-client -- kafka-topics --create --zookeeper cp-cp-zookeeper:2181 -replication-factor 1 --partitions 1 --topic payments
+kubectl exec kafka-client -- kafka-topics --create --zookeeper cp-cp-zookeeper:2181 -replication-factor 1 --partitions 1 --topic notifications

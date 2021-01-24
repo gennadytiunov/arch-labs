@@ -1,6 +1,7 @@
 common:
    secret: secret
-   namespace: circusapp
+   namespace: circus
+   host: circus.app
    env:
       appPort: _OtusApp_App_Port
 
@@ -27,7 +28,7 @@ userEndpoint:
       name: user-endpoint
       type: NodePort
       port:
-         number: "10200"
+         number: "10000"
          protocol: TCP
 
 bookingEndpoint:
@@ -41,7 +42,7 @@ bookingEndpoint:
       name: booking-endpoint
       type: NodePort
       port:
-         number: "10400"
+         number: "10100"
          protocol: TCP
 
 paymentEndpoint:
@@ -55,7 +56,7 @@ paymentEndpoint:
       name: payment-endpoint
       type: NodePort
       port:
-         number: "10300"
+         number: "10200"
          protocol: TCP
 
 notificationEndpoint:
@@ -69,7 +70,7 @@ notificationEndpoint:
       name: notifier-endpoint
       type: NodePort
       port:
-         number: "10100"
+         number: "10300"
          protocol: TCP
 
 db:
