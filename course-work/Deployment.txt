@@ -20,28 +20,24 @@ kubectl get namespaces
 kubectl create namespace circus
 kubectl config set-context --current --namespace=circus
 
-
 helm install circus-app ./circus-chart --dry-run
-
-
-kubectl create namespace circus
-kubectl get namespaces
 
 kubectl create namespace kafka
 kubectl config set-context --current --namespace=kafka
 
 helm repo add confluentinc https://confluentinc.github.io/cp-helm-charts/
 helm repo update
-helm install cp confluentinc/cp-helm-charts --set cp-schema-registry.enabled=false,cp-kafka-rest.enabled=false,cp-kafka-connect.enabled=false,cp-ksql-server.enabled=false
+helm install cp confluentinc/cp-helm-charts --set cp-schema-registry.enabled=false,cp-kafka-rest.enabled=false,cp-kafka-connect.enabled=false,cp-ksql-server.enabled=false,cp-zookeeper.servers=2,cp-kafka.brokers=2
 
 kubectl apply -f kafka-client.yaml
 
+kubectl exec -it pod/cp-cp-kafka-0 -- /bin/bash
 
-kubectl exec -it kafka-client -- /bin/bash
-
+kubectl exec -it pod/user-endpoint-deployment-75d555dccf-mpgzx -- /bin/bash
 
 kubectl exec kafka-client -- kafka-topics --list --zookeeper cp-cp-zookeeper:2181  
 
+kafka-topics --list --zookeeper cp-cp-zookeeper.kafka.svc.cluster.local:2181 
 
 kubectl exec kafka-client -- kafka-topics --create --zookeeper cp-cp-zookeeper:2181 -replication-factor 1 --partitions 1 --topic users
 kubectl exec kafka-client -- kafka-topics --create --zookeeper cp-cp-zookeeper:2181 -replication-factor 1 --partitions 1 --topic bookings

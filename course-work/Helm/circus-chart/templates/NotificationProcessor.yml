@@ -9,4 +9,13 @@ spec:
    containers:
    - name: {{ .name }}-container
      image: {{ .image }}
+{{- end }}     
+     env:
+{{- with .Values.kafka }}     
+        - name: "_OtusApp_Kafka_Servers"
+          value: {{ .servers | quote }}
+        - name: "_OtusApp_Kafka_Topic_Notifications"
+          value: {{ .topics.notifications | quote }}
 {{- end }}
+        - name: "_OtusApp_Kafka_Group_Notification_BookingNotificationListener"
+          value: {{ .Values.notificationProcessor.listeners.bookings | quote }}

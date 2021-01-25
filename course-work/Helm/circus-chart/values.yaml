@@ -1,21 +1,37 @@
 common:
    secret: secret
    namespace: circus
-   host: circus.app
+   host: arch.homework
    env:
       appPort: _OtusApp_App_Port
+
+kafka:
+   servers: "cp-cp-kafka-headless:9092"
+   topics:
+      users: "users"
+      bookings: "bookings"
+      payments: "payments"
+      notifications: "notifications"
 
 bookingProcessor:
    name: booking-processor
    image: gennadytiunov/circus-booking-listeners:v2
-   
+   listeners:
+      bookings: "Group.Booking.BookingMessageListener"
+      payments: "Group.Booking.PaymentMessageListener"
+
 paymentProcessor:
    name: payment-processor
    image: gennadytiunov/circus-payment-listeners:v2
+   listeners:
+      users: "Group.Payment.UserMessageListener"
+      payments: "Group.Payment.PaymentMessageListener"
 
 notificationProcessor:
    name: notification-processor
    image: gennadytiunov/circus-notification-listeners:v2
+   listeners:
+      bookings: "Group.Notification.BookingNotificationListener"
 
 userEndpoint:
    label: user-endpoint

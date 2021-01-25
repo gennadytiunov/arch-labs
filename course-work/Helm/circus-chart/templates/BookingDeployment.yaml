@@ -15,7 +15,7 @@ spec:
             checksum/secret: {{ include (print $.Template.BasePath "/Secret.yaml") . | sha256sum }}
       spec:
          containers:
-         - name: {{ .Values.bookingEndpoint.label }}-container  
+         - name: {{ .Values.bookingEndpoint.label }}-container
            image: {{ .Values.bookingEndpoint.image }}
            ports:
            - name: {{ .Values.bookingEndpoint.port.name }}
@@ -28,3 +28,9 @@ spec:
                    secretKeyRef:
                       name: {{ .Values.common.secret }}
                       key: DBURI
+{{- with .Values.kafka }}
+              - name: "_OtusApp_Kafka_Servers"
+                value: {{ .servers | quote }}
+              - name: "_OtusApp_Kafka_Topic_Bookings"
+                value: {{ .topics.bookings | quote }}
+{{- end }}           

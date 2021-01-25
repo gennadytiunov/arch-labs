@@ -28,3 +28,9 @@ spec:
                    secretKeyRef:
                       name: {{ .Values.common.secret }}
                       key: DBURI
+{{- with .Values.kafka }}
+              - name: "_OtusApp_Kafka_Servers"
+                value: {{ .servers | quote }}
+              - name: "_OtusApp_Kafka_Topic_Users"
+                value: {{ .topics.users | quote }}
+{{- end }}
