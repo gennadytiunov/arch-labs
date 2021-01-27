@@ -20,7 +20,7 @@ kubectl get namespaces
 kubectl create namespace circus
 kubectl config set-context --current --namespace=circus
 
-helm install circus-app ./circus-chart --dry-run
+helm install circus-app ./circus-chart
 
 kubectl create namespace kafka
 kubectl config set-context --current --namespace=kafka
