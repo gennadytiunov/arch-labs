@@ -2,11 +2,9 @@ common:
    secret: secret
    namespace: circus
    host: arch.homework
-   env:
-      appPort: _OtusApp_App_Port
 
 kafka:
-   servers: "cp-cp-kafka-headless:9092"
+   servers: "cp-cp-kafka-headless.kafka.svc.cluster.local:9092"
    topics:
       users: "users"
       bookings: "bookings"
