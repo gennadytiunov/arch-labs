@@ -10,8 +10,8 @@
 
 Проставить references на serilog, убрать reference на Infrastructure
 
- [ServiceFilter(typeof(S2SAuthorization))]
- Serilog в USer Controller
+[ServiceFilter(typeof(S2SAuthorization))]
+Serilog в User Controller
 
 Не давать пополнять аккаунт для удалённого пользователя
 Не давать размещать аккаунт для удалённого пользователя
