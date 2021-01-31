@@ -1,14 +1,16 @@
+Вставить задержки в Postman
+
 Написать сценарии в Postman
-Добавить awaiter в KafkaJob
 Объединить два чарта в один
-Срипт создания топиков
-Убрать REPLIES со схемы
 Не пишутся логи у листенеров
 Выводить PaymentId в Accounts
 Описать события / команды
 Общие блоки в Helm для эндпоинтов и листенеров
+namaspace для kafka в manifest
 
 Проставить references на serilog, убрать reference на Infrastructure
+
+Консолидировать логи
 
 [ServiceFilter(typeof(S2SAuthorization))]
 Serilog в User Controller

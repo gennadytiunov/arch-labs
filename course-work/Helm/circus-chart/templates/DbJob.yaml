@@ -24,8 +24,9 @@ spec:
            - sh
            - "-c"
            - |
-              sleep 15;
               export PATH="$PATH:{{ .Values.db.msTools.path }}";
+              sqlcmd -S $DB_URI -U sa -P $SA_PASSWORD -Q "ALTER DATABASE {{ .Values.db.name }} SET SINGLE_USER WITH ROLLBACK IMMEDIATE";
+              sqlcmd -S $DB_URI -U sa -P $SA_PASSWORD -Q "DROP DATABASE {{ .Values.db.name }}";
               sqlcmd -S $DB_URI -U sa -P $SA_PASSWORD -Q "CREATE DATABASE {{ .Values.db.name }}";
               sqlcmd -S $DB_URI -U sa -P $SA_PASSWORD -Q "USE {{ .Values.db.name }}; CREATE TABLE [dbo].[Account]([UserId] [int] NOT NULL, [UserEmail] [nvarchar](100) NOT NULL, [Balance] [money] NULL, [Currency] [varchar](5) NULL, [CreationDate] [datetime] NOT NULL, [UpdateDate] [datetime] NULL)";
               sqlcmd -S $DB_URI -U sa -P $SA_PASSWORD -Q "USE {{ .Values.db.name }}; CREATE TABLE [dbo].[Booking]([Id] [int] IDENTITY(1,1) NOT NULL, [PaymentId] [uniqueidentifier] NULL, [UserId] [int] NOT NULL, [ShowId] [int] NULL, [SessionDate] [datetime] NULL, [Amount] [money] NOT NULL, [Currency] [varchar](5) NOT NULL, [Email] [varchar](100) NOT NULL, [Status] [varchar](50) NOT NULL, [CreationDate] [datetime] NOT NULL, [UpdateDate] [datetime] NULL)";

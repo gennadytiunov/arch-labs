@@ -27,7 +27,7 @@ kubectl config set-context --current --namespace=kafka
 
 helm repo add confluentinc https://confluentinc.github.io/cp-helm-charts/
 helm repo update
-helm install cp confluentinc/cp-helm-charts --set cp-schema-registry.enabled=false,cp-kafka-rest.enabled=false,cp-kafka-connect.enabled=false,cp-ksql-server.enabled=false,cp-control-center.enabled=false,cp-zookeeper.servers=1,cp-kafka.brokers=1
+helm install cp confluentinc/cp-helm-charts --set cp-schema-registry.enabled=false,cp-kafka-rest.enabled=false,cp-kafka-connect.enabled=false,cp-ksql-server.enabled=false,cp-control-center.enabled=false
 
 kubectl apply -f kafka-client.yaml
 kubectl exec kafka-client -- kafka-topics --list --zookeeper cp-cp-zookeeper:2181  
@@ -39,3 +39,5 @@ kubectl exec kafka-client -- kafka-topics --create --zookeeper cp-cp-zookeeper:2
 kubectl exec kafka-client -- kafka-topics --create --zookeeper cp-cp-zookeeper:2181 -replication-factor 1 --partitions 1 --topic bookings
 kubectl exec kafka-client -- kafka-topics --create --zookeeper cp-cp-zookeeper:2181 -replication-factor 1 --partitions 1 --topic payments
 kubectl exec kafka-client -- kafka-topics --create --zookeeper cp-cp-zookeeper:2181 -replication-factor 1 --partitions 1 --topic notifications
+
+kubectl exec -it pod/user-endpoint-deployment-54d88b5df8-c4lh6 -- /bin/bash

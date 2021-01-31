@@ -1,0 +1,832 @@
+{
+	"info": {
+		"_postman_id": "0e644930-4d9e-42f0-bb5e-486db3eb84c8",
+		"name": "Kafka - Validation Scenario",
+		"schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json"
+	},
+	"item": [
+		{
+			"name": "Users - Get All Users - Empty",
+			"event": [
+				{
+					"listen": "test",
+					"script": {
+						"exec": [
+							"pm.test(\"Check no users exist - OK\", function () {\r",
+							"    var jsonData = pm.response.json();\r",
+							"    pm.expect(jsonData.length).to.eq(0);\r",
+							"});"
+						],
+						"type": "text/javascript"
+					}
+				}
+			],
+			"request": {
+				"method": "GET",
+				"header": [],
+				"url": {
+					"raw": "{{BaseUrl}}/{{UserEndpoint}}/users",
+					"host": [
+						"{{BaseUrl}}"
+					],
+					"path": [
+						"{{UserEndpoint}}",
+						"users"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "Payments - Get All Payment Accounts - Empty",
+			"event": [
+				{
+					"listen": "test",
+					"script": {
+						"exec": [
+							"pm.test(\"Check no payment accounts exist - OK\", function () {\r",
+							"    var jsonData = pm.response.json();\r",
+							"    pm.expect(jsonData.length).to.eq(0);\r",
+							"});"
+						],
+						"type": "text/javascript"
+					}
+				}
+			],
+			"request": {
+				"method": "GET",
+				"header": [],
+				"url": {
+					"raw": "{{BaseUrl}}/{{PaymentEndpoint}}/accounts",
+					"host": [
+						"{{BaseUrl}}"
+					],
+					"path": [
+						"{{PaymentEndpoint}}",
+						"accounts"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "Notifications - Get All Notification - Empty",
+			"event": [
+				{
+					"listen": "test",
+					"script": {
+						"exec": [
+							"pm.test(\"Check no notifications exist - OK\", function () {\r",
+							"    var jsonData = pm.response.json();\r",
+							"    pm.expect(jsonData.length).to.eq(0);\r",
+							"});"
+						],
+						"type": "text/javascript"
+					}
+				}
+			],
+			"request": {
+				"method": "GET",
+				"header": [],
+				"url": {
+					"raw": "{{BaseUrl}}/{{NotificationEndpoint}}/notifications",
+					"host": [
+						"{{BaseUrl}}"
+					],
+					"path": [
+						"{{NotificationEndpoint}}",
+						"notifications"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "Users - Add User - Success",
+			"event": [
+				{
+					"listen": "test",
+					"script": {
+						"exec": [
+							"pm.test(\"User created - Status code is 201 (Created)\", function () {\r",
+							"    pm.response.to.have.status(201);\r",
+							"\r",
+							"    var jsonData = pm.response.json();\r",
+							"    pm.expect(jsonData.email).to.eq(pm.collectionVariables.get(\"email\"));\r",
+							"    pm.expect(jsonData.password).to.eq(pm.collectionVariables.get(\"password\"));\r",
+							"    pm.expect(jsonData.firstName).to.eq(pm.collectionVariables.get(\"firstName\"));\r",
+							"    pm.expect(jsonData.lastName).to.eq(pm.collectionVariables.get(\"lastName\"));\r",
+							"\r",
+							"    pm.collectionVariables.set(\"userId\", jsonData.id);\r",
+							"});"
+						],
+						"type": "text/javascript"
+					}
+				},
+				{
+					"listen": "prerequest",
+					"script": {
+						"exec": [
+							"pm.collectionVariables.set(\"email\", pm.variables.replaceIn('{{$randomEmail}}'));\r",
+							"pm.collectionVariables.set(\"password\", pm.variables.replaceIn('{{$randomPassword}}'));\r",
+							"pm.collectionVariables.set(\"firstName\", pm.variables.replaceIn('{{$randomFirstName}}'));\r",
+							"pm.collectionVariables.set(\"lastName\", pm.variables.replaceIn('{{$randomLastName}}'));"
+						],
+						"type": "text/javascript"
+					}
+				}
+			],
+			"request": {
+				"method": "POST",
+				"header": [
+					{
+						"key": "X-Service-Token",
+						"type": "text",
+						"value": "9860c9cd-5101-455f-85ca-0916908ee464"
+					}
+				],
+				"body": {
+					"mode": "raw",
+					"raw": "{\r\n    \"email\": \"{{email}}\",\r\n    \"password\": \"{{password}}\",\r\n    \"firstName\": \"{{firstName}}\",\r\n    \"lastName\": \"{{lastName}}\"\r\n}",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": {
+					"raw": "{{BaseUrl}}/{{UserEndpoint}}/users",
+					"host": [
+						"{{BaseUrl}}"
+					],
+					"path": [
+						"{{UserEndpoint}}",
+						"users"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "Payments - Get Payment Account by Id - Success",
+			"event": [
+				{
+					"listen": "test",
+					"script": {
+						"exec": [
+							"pm.test(\"Payment account found - Status code is 200 (OK)\", function () {\r",
+							"    pm.response.to.have.status(200);\r",
+							"\r",
+							"    var jsonData = pm.response.json();\r",
+							"    pm.expect(jsonData.userId).to.eq(pm.collectionVariables.get(\"userId\"));\r",
+							"});"
+						],
+						"type": "text/javascript"
+					}
+				},
+				{
+					"listen": "prerequest",
+					"script": {
+						"exec": [
+							""
+						],
+						"type": "text/javascript"
+					}
+				}
+			],
+			"request": {
+				"method": "GET",
+				"header": [],
+				"url": {
+					"raw": "{{BaseUrl}}/{{PaymentEndpoint}}/accounts/{{userId}}",
+					"host": [
+						"{{BaseUrl}}"
+					],
+					"path": [
+						"{{PaymentEndpoint}}",
+						"accounts",
+						"{{userId}}"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "Bookings - Get User Bookings - Empty",
+			"event": [
+				{
+					"listen": "test",
+					"script": {
+						"exec": [
+							"pm.test(\"Check no user bookings exist - OK\", function () {\r",
+							"    var jsonData = pm.response.json();\r",
+							"    pm.expect(jsonData.length).to.eq(0);\r",
+							"});"
+						],
+						"type": "text/javascript"
+					}
+				}
+			],
+			"request": {
+				"method": "GET",
+				"header": [],
+				"url": {
+					"raw": "{{BaseUrl}}/{{BookingEndpoint}}/bookings/user/{{userId}}",
+					"host": [
+						"{{BaseUrl}}"
+					],
+					"path": [
+						"{{BookingEndpoint}}",
+						"bookings",
+						"user",
+						"{{userId}}"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "Payments - Get UserTransactions - Empty",
+			"event": [
+				{
+					"listen": "test",
+					"script": {
+						"exec": [
+							"pm.test(\"Check no user transactions exist - OK\", function () {\r",
+							"    var jsonData = pm.response.json();\r",
+							"    pm.expect(jsonData.length).to.eq(0);\r",
+							"});"
+						],
+						"type": "text/javascript"
+					}
+				}
+			],
+			"request": {
+				"method": "GET",
+				"header": [],
+				"url": {
+					"raw": "{{BaseUrl}}/{{PaymentEndpoint}}/transactions/user/{{userId}}",
+					"host": [
+						"{{BaseUrl}}"
+					],
+					"path": [
+						"{{PaymentEndpoint}}",
+						"transactions",
+						"user",
+						"{{userId}}"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "Payments - Deposit Amount - Success",
+			"event": [
+				{
+					"listen": "test",
+					"script": {
+						"exec": [
+							"pm.test(\"Deposit amount - Status code is 200 (OK)\", function () {\r",
+							"    pm.response.to.have.status(200);\r",
+							"});"
+						],
+						"type": "text/javascript"
+					}
+				},
+				{
+					"listen": "prerequest",
+					"script": {
+						"exec": [
+							""
+						],
+						"type": "text/javascript"
+					}
+				}
+			],
+			"request": {
+				"method": "POST",
+				"header": [],
+				"body": {
+					"mode": "raw",
+					"raw": "{\r\n    \"amount\": 1000,\r\n    \"currency\": \"RUB\"\r\n}",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": {
+					"raw": "{{BaseUrl}}/{{PaymentEndpoint}}/deposit/{{userId}}",
+					"host": [
+						"{{BaseUrl}}"
+					],
+					"path": [
+						"{{PaymentEndpoint}}",
+						"deposit",
+						"{{userId}}"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "Payments - Get UserTransactions - Exists One",
+			"event": [
+				{
+					"listen": "test",
+					"script": {
+						"exec": [
+							"pm.test(\"Check one user transaction exist - OK\", function () {\r",
+							"    var jsonData = pm.response.json();\r",
+							"    pm.expect(jsonData.length).to.eq(1);\r",
+							"});"
+						],
+						"type": "text/javascript"
+					}
+				},
+				{
+					"listen": "prerequest",
+					"script": {
+						"exec": [
+							""
+						],
+						"type": "text/javascript"
+					}
+				}
+			],
+			"request": {
+				"method": "GET",
+				"header": [],
+				"url": {
+					"raw": "{{BaseUrl}}/{{PaymentEndpoint}}/transactions/user/{{userId}}",
+					"host": [
+						"{{BaseUrl}}"
+					],
+					"path": [
+						"{{PaymentEndpoint}}",
+						"transactions",
+						"user",
+						"{{userId}}"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "Bookings - Make Booking (500 RUB) - Success",
+			"event": [
+				{
+					"listen": "test",
+					"script": {
+						"exec": [
+							"pm.test(\"Make booking - Status code is 201 (OK)\", function () {\r",
+							"    pm.response.to.have.status(201);\r",
+							"});"
+						],
+						"type": "text/javascript"
+					}
+				}
+			],
+			"request": {
+				"method": "POST",
+				"header": [
+					{
+						"key": "X-Service-Token",
+						"type": "text",
+						"value": "9860c9cd-5101-455f-85ca-0916908ee464"
+					}
+				],
+				"body": {
+					"mode": "raw",
+					"raw": "{\r\n    \"userId\": {{userId}},\r\n    \"email\": \"{{email}}\",\r\n    \"amount\": 500,\r\n    \"currency\": \"RUB\"\r\n}",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": {
+					"raw": "{{BaseUrl}}/{{BookingEndpoint}}/bookings",
+					"host": [
+						"{{BaseUrl}}"
+					],
+					"path": [
+						"{{BookingEndpoint}}",
+						"bookings"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "Bookings - Get User Bookings - Exists One",
+			"event": [
+				{
+					"listen": "test",
+					"script": {
+						"exec": [
+							"pm.test(\"Check one user booking exists - OK\", function () {\r",
+							"    var jsonData = pm.response.json();\r",
+							"    pm.expect(jsonData.length).to.eq(1);\r",
+							"});"
+						],
+						"type": "text/javascript"
+					}
+				},
+				{
+					"listen": "prerequest",
+					"script": {
+						"exec": [
+							""
+						],
+						"type": "text/javascript"
+					}
+				}
+			],
+			"request": {
+				"method": "GET",
+				"header": [],
+				"url": {
+					"raw": "{{BaseUrl}}/{{BookingEndpoint}}/bookings/user/{{userId}}",
+					"host": [
+						"{{BaseUrl}}"
+					],
+					"path": [
+						"{{BookingEndpoint}}",
+						"bookings",
+						"user",
+						"{{userId}}"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "Payments - Get User Transactions - Exist Two",
+			"event": [
+				{
+					"listen": "test",
+					"script": {
+						"exec": [
+							"pm.test(\"Check two user transactions exist - OK\", function () {\r",
+							"    var jsonData = pm.response.json();\r",
+							"    pm.expect(jsonData.length).to.eq(2);\r",
+							"});"
+						],
+						"type": "text/javascript"
+					}
+				},
+				{
+					"listen": "prerequest",
+					"script": {
+						"exec": [
+							""
+						],
+						"type": "text/javascript"
+					}
+				}
+			],
+			"request": {
+				"method": "GET",
+				"header": [],
+				"url": {
+					"raw": "{{BaseUrl}}/{{PaymentEndpoint}}/transactions/user/{{userId}}",
+					"host": [
+						"{{BaseUrl}}"
+					],
+					"path": [
+						"{{PaymentEndpoint}}",
+						"transactions",
+						"user",
+						"{{userId}}"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "Payments - Check Account Balance - Changed",
+			"event": [
+				{
+					"listen": "test",
+					"script": {
+						"exec": [
+							"pm.test(\"Check account balance - Status code is 200 (OK)\", function () {\r",
+							"    pm.response.to.have.status(200);\r",
+							"\r",
+							"    var jsonData = pm.response.json();\r",
+							"    pm.expect(jsonData.balance).to.eq(500);\r",
+							"});"
+						],
+						"type": "text/javascript"
+					}
+				},
+				{
+					"listen": "prerequest",
+					"script": {
+						"exec": [
+							""
+						],
+						"type": "text/javascript"
+					}
+				}
+			],
+			"request": {
+				"method": "GET",
+				"header": [],
+				"url": {
+					"raw": "{{BaseUrl}}/{{PaymentEndpoint}}/accounts/{{userId}}",
+					"host": [
+						"{{BaseUrl}}"
+					],
+					"path": [
+						"{{PaymentEndpoint}}",
+						"accounts",
+						"{{userId}}"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "Bookings - Make Second Booking (1000 RUB)",
+			"event": [
+				{
+					"listen": "test",
+					"script": {
+						"exec": [
+							"pm.test(\"Make second booking - Status code is 201 (OK)\", function () {\r",
+							"    pm.response.to.have.status(201);\r",
+							"});"
+						],
+						"type": "text/javascript"
+					}
+				}
+			],
+			"request": {
+				"method": "POST",
+				"header": [
+					{
+						"key": "X-Service-Token",
+						"type": "text",
+						"value": "9860c9cd-5101-455f-85ca-0916908ee464"
+					}
+				],
+				"body": {
+					"mode": "raw",
+					"raw": "{\r\n    \"userId\": {{userId}},\r\n    \"email\": \"{{email}}\",\r\n    \"amount\": 1000,\r\n    \"currency\": \"RUB\"\r\n}",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": {
+					"raw": "{{BaseUrl}}/{{BookingEndpoint}}/bookings",
+					"host": [
+						"{{BaseUrl}}"
+					],
+					"path": [
+						"{{BookingEndpoint}}",
+						"bookings"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "Bookings - Get User Bookings - Exist Two",
+			"event": [
+				{
+					"listen": "test",
+					"script": {
+						"exec": [
+							"pm.test(\"Check two user bookings exist - OK\", function () {\r",
+							"    var jsonData = pm.response.json();\r",
+							"    pm.expect(jsonData.length).to.eq(2);\r",
+							"});"
+						],
+						"type": "text/javascript"
+					}
+				},
+				{
+					"listen": "prerequest",
+					"script": {
+						"exec": [
+							""
+						],
+						"type": "text/javascript"
+					}
+				}
+			],
+			"request": {
+				"method": "GET",
+				"header": [],
+				"url": {
+					"raw": "{{BaseUrl}}/{{BookingEndpoint}}/bookings/user/{{userId}}",
+					"host": [
+						"{{BaseUrl}}"
+					],
+					"path": [
+						"{{BookingEndpoint}}",
+						"bookings",
+						"user",
+						"{{userId}}"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "Payments - Get User Transactions - Exist Two",
+			"event": [
+				{
+					"listen": "test",
+					"script": {
+						"exec": [
+							"pm.test(\"Check two user transactions exist - OK\", function () {\r",
+							"    var jsonData = pm.response.json();\r",
+							"    pm.expect(jsonData.length).to.eq(2);\r",
+							"});"
+						],
+						"type": "text/javascript"
+					}
+				},
+				{
+					"listen": "prerequest",
+					"script": {
+						"exec": [
+							""
+						],
+						"type": "text/javascript"
+					}
+				}
+			],
+			"request": {
+				"method": "GET",
+				"header": [],
+				"url": {
+					"raw": "{{BaseUrl}}/{{PaymentEndpoint}}/transactions/user/{{userId}}",
+					"host": [
+						"{{BaseUrl}}"
+					],
+					"path": [
+						"{{PaymentEndpoint}}",
+						"transactions",
+						"user",
+						"{{userId}}"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "Payments - Check Account Balance - Unchanged",
+			"event": [
+				{
+					"listen": "test",
+					"script": {
+						"exec": [
+							"pm.test(\"Check account balance unchaged - Status code is 200 (OK)\", function () {\r",
+							"    pm.response.to.have.status(200);\r",
+							"\r",
+							"    var jsonData = pm.response.json();\r",
+							"    pm.expect(jsonData.balance).to.eq(500);\r",
+							"});"
+						],
+						"type": "text/javascript"
+					}
+				}
+			],
+			"request": {
+				"method": "GET",
+				"header": [],
+				"url": {
+					"raw": "{{BaseUrl}}/{{PaymentEndpoint}}/accounts/{{userId}}",
+					"host": [
+						"{{BaseUrl}}"
+					],
+					"path": [
+						"{{PaymentEndpoint}}",
+						"accounts",
+						"{{userId}}"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "Notifications - Check Notifications - Success",
+			"event": [
+				{
+					"listen": "test",
+					"script": {
+						"exec": [
+							"pm.test(\"Check account balance - Status code is 200 (OK)\", function () {\r",
+							"    pm.response.to.have.status(200);\r",
+							"\r",
+							"    var jsonData = pm.response.json();\r",
+							"    pm.expect(jsonData.length).to.eq(2);\r",
+							"\r",
+							"    var firstNotification = jsonData[0];\r",
+							"    pm.expect(firstNotification.emailTo).to.eq(pm.collectionVariables.get(\"email\"));\r",
+							"    pm.expect(firstNotification.subject).to.eq(\"Circus - Booking Succeeded\");\r",
+							"    \r",
+							"    var firstNotification = jsonData[1];\r",
+							"    pm.expect(firstNotification.emailTo).to.eq(pm.collectionVariables.get(\"email\"));\r",
+							"    pm.expect(firstNotification.subject).to.eq(\"Circus - Booking Failed\");\r",
+							"});"
+						],
+						"type": "text/javascript"
+					}
+				},
+				{
+					"listen": "prerequest",
+					"script": {
+						"exec": [
+							""
+						],
+						"type": "text/javascript"
+					}
+				}
+			],
+			"request": {
+				"method": "GET",
+				"header": [],
+				"url": {
+					"raw": "{{BaseUrl}}/{{NotificationEndpoint}}/notifications",
+					"host": [
+						"{{BaseUrl}}"
+					],
+					"path": [
+						"{{NotificationEndpoint}}",
+						"notifications"
+					]
+				}
+			},
+			"response": []
+		}
+	],
+	"event": [
+		{
+			"listen": "prerequest",
+			"script": {
+				"type": "text/javascript",
+				"exec": [
+					""
+				]
+			}
+		},
+		{
+			"listen": "test",
+			"script": {
+				"type": "text/javascript",
+				"exec": [
+					""
+				]
+			}
+		}
+	],
+	"variable": [
+		{
+			"key": "BaseUrl",
+			"value": "http://arch.homework"
+		},
+		{
+			"key": "UserEndpoint",
+			"value": "user-endpoint"
+		},
+		{
+			"key": "BookingEndpoint",
+			"value": "booking-endpoint"
+		},
+		{
+			"key": "PaymentEndpoint",
+			"value": "payment-endpoint"
+		},
+		{
+			"key": "NotificationEndpoint",
+			"value": "notifier-endpoint"
+		},
+		{
+			"key": "email",
+			"value": ""
+		},
+		{
+			"key": "firstName",
+			"value": ""
+		},
+		{
+			"key": "lastName",
+			"value": ""
+		},
+		{
+			"key": "password",
+			"value": ""
+		},
+		{
+			"key": "userId",
+			"value": ""
+		}
+	]
+}
