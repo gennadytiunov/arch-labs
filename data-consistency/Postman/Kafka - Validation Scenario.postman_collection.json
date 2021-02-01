@@ -70,7 +70,7 @@
 			"response": []
 		},
 		{
-			"name": "Notifications - Get All Notification - Empty",
+			"name": "Notifications - Get All Notifications - Empty",
 			"event": [
 				{
 					"listen": "test",
