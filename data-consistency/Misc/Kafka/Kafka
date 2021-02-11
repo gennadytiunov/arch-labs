@@ -1,3 +1,7 @@
+Запус на Windows:
+zookeeper-server-start.bat c:\Kafka\config\zookeeper.properties
+kafka-server-start.bat c:\Kafka\config\server.properties
+
 Kafka - можно отправлять логи.
 Можно хранить (KSQL) и преобразоывать данные (Kafka Streams).
 
@@ -20,7 +24,9 @@ Utilities, examples - https://dzone.com/articles/running-apache-kafka-on-windows
 https://www.goavega.com/install-apache-kafka-on-windows/
 
 https://coderlessons.com/tutorials/bolshie-dannye-i-analitika/vyuchit-apache-kafka/apache-kafka-kratkoe-rukovodstvo
+
 https://medium.com/@theodor.chichirita/getting-started-with-kafka-and-net-core-2-2-6d8d3f4c1989
+https://cinlogic.com/2020/01/10/getting-started-with-kafka-using-dotnet-core.html
 https://medium.com/@shesh.soft/confluent-kafka-integration-with-net-core-2a489fa2512
 https://dotsandbrackets.com/quick-intro-to-apache-kafka-ru/
 https://habr.com/ru/post/354486/
@@ -28,3 +34,8 @@ https://blog.softwaremill.com/7-mistakes-when-using-apache-kafka-44358cd9cd6
 https://habr.com/ru/post/496182/
 https://www.confluent.io/blog/put-several-event-types-kafka-topic/
 https://dev.to/de_maric/how-to-delete-records-from-a-kafka-topic-464g
+https://dev.to/gabrielsadaka/vertical-slice-event-driven-architecture-with-net-core-and-kafka-2ad2
+https://www.oreilly.com/library/view/kafka-the-definitive/9781491936153/ch04.html
+https://towardsdatascience.com/using-kafka-for-collecting-web-application-metrics-in-your-cloud-data-lake-b97004b2ce31
+https://medium.com/@srigumm/building-realtime-streaming-applications-using-net-core-and-kafka-ad45ed081b31
+https://www.infoworld.com/article/3215165/how-to-use-apache-kafka-messaging-in-net.html

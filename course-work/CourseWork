@@ -1,159 +1,50 @@
-Вставить задержки в Postman
+Презентация
+Предзащита
 
-Написать сценарии в Postman
-Объединить два чарта в один
-Не пишутся логи у листенеров
-Выводить PaymentId в Accounts
-Описать события / команды
-Общие блоки в Helm для эндпоинтов и листенеров
-namaspace для kafka в manifest
-
-Проставить references на serilog, убрать reference на Infrastructure
-
-Консолидировать логи
-
-[ServiceFilter(typeof(S2SAuthorization))]
-Serilog в User Controller
-
-Не давать пополнять аккаунт для удалённого пользователя
-Не давать размещать аккаунт для удалённого пользователя
-Возвращать тип транзации в JSON как строку
-Знаки после запятой
-
-X-Auth для сообщений
-
-LogDebug vs LogInformation
-
-Billing-логику поместить в отдельный сервис
-
-SQL-скрипты создания структуры
-
-Endpoints
- - User: 10000
- - Booking: 10200
- - Payment: 10300
- - Notification: 10400
-
-_OtusApp_X-Service-Token-User-Endpoint: 9860c9cd-5101-455f-85ca-0916908ee464
-_OtusApp_X-Service-Token-Payment-Endpoint: 5959189f-764f-4097-81c2-2b797caea0e1
-_OtusApp_X-Service-Token-Booking-Endpoint
-
-Primary Key для Users
-
-async в контроллерах
-
-Разлбраться, как запускать background service в контейнере
+К курсовой:
+ - конкурентность бронирования
+ - cемантическая блокировка - добавить возможность отмены пользователем
+ - bookingProcessor - удалять "брошенные" бронирования
+ - добавить аутентификацию / авторизацию
+ - добавить идемпотентность и тестируемость (Booking Id - сделать GUID и генерировать на клиенте)
+ - заполнить данными
+ - перемеменовать namespaces
+ - объединить два чарта в один
+ - исправить  логи у листенеров (проставить references на serilog, убрать reference на Infrastructure)
+ - консолидировать логи
+ - выводить PaymentId в Accounts
+ - описать события / команды
+ - общие блоки в Helm для эндпоинтов и листенеров
+ - namaspace для kafka в manifest
+ - межсервисная авторизация ([ServiceFilter(typeof(S2SAuthorization))] и очереди)
+ - не давать пополнять аккаунт для удалённого пользователя
+ - не давать размещать аккаунт для удалённого пользователя -
+ - возвращать тип транзации в JSON как строку
+ - знаки после запятой
+ - LogDebug vs LogInformation
+ - SQL-скрипты: для создания структуры и заполнения данными
+ - Primary & Secondary Keys
+ - Listeners сделать generic
+ - Currency - enum
+ - Настройки листенеров вынести в конфиг
+ - LaunchSettings
+ - Описаться модель для лабы про consistency
+ - UML - sequence diagram
+ - async в контроллерах
 
 Renaming EndpointConnector
 Renaming внутри папки ApiGateway
 
-Listeners сделать generic
-Currency - enum
 IBookingNotificationHandler : ICommandHandler<NotifyBookingSuccess>, ICommandHandler<NotifyBookingFailure>
 
-LaunchSettings
-
-Настройки сервиса нотификаций вынести в конфиг
-
-Описаться модель для лабы про consistency
-UML - sequence diagram
-
-Продукмать-описать сообщения
-
-UserService
- - создание пользователя, отправка сообщение в PaymentService - event collaboration
-
-Пройти курс по Kafka
-Настройки Kafka вынести в конфиг
-
-Использовать enums вместо строк
-
-
-X-Authentication в REST и обработке событий / команд
-Прикрутить аутентификацию
-Прикрутить мониторинг
-
-Нарисовать граф переходов состояний для саги
-Обновить схему для системы
 
 Выбирать доступные места с учётом статусов бронирований
 
 Bookings - меньше статусов: Created, Pending, Confirmed, Rejected.
 
-Saga Logic
-1) Booking Service:
-   - generates BookingId (for idempotency)
-   - creates BookingSaga (passing Order / Order Data to it)
-   - fires BookingCreated
-   - Order Id is returned to the client
-2) BookingSagaProcessor listens to BookingCreated
-BookingService creates BookingSaga
-BookingSaga then creates the corresponding Booking.
-BookingSage then orchestrates the process and updates the Booking accordingly.
 
-BookingSaga
-BookingSagaData
 
-BookingProcessor - удалять "брошенные" бронирования.
-Валидация, что запрошены существующие в схеме места 
-Конкурентность бронирования
-Семантическая блокировка - добавить возможность отмены пользователем
+
 Настроить только обработу only once (одним слушателем)
 Посмотреть примеры
 
-Описать логику работы саги
- - шаги
- - состояния
- - переходы
-
-Topics:
- - booking-messages
-   -- BookingService (via BookingProducer) sends BookingCreated
-   -- BookingService.BookingProcessor listens to BookingCreated, when received, and performs seats Availability Validation
- - booking-replies
-   -- BookingService.BookingProcessor depending on Availability Valdation result:
-      -- in case of AvailabilityConfirmed it persists its state and sends MakePayment to payment-commands (via PaymentProducer) 
-	  -- in case of AvailabilityDenied it persists its state, changes booking state to Rejected (performs RejectBooking operation) and sends NotifyBookingFailure with the reason AvailabilityDenied to notification-commands (via NotificationProducer)
- 
- - payment-messages
-   -- BookingService.BookingProcessor (via PaymentProducer) sends MakePayment
- - payment-replies
-   -- PaymentService (via PaymentReplyProducer) sends PaymentSucceeded or PaymentFailed
-   -- BookingService.BookingProcessor listens to PaymentSucceeded or PaymentFailed
-      -- in case of PaymentSucceeded it persists its state and sends NotifyBookingSuccess to notification-commands (via NotificationProducer)
-	  -- in case of PaymentFailed it persists its state, changes booking state to Rejected  (performs RejectBooking operation) and sends NotifyBookingFailure with the reason of PaymentFailure to notification-commands (via NotificationProducer)
-
- - notification-commands
-   -- BookingService.BookingProcessor (via NotificationProducer) sends NotifyBookingSuccess or NotifyBookingFailure
- - notification-replies
-   -- NotificationService (мшф NotificationReplyProducer) sends BookingSuccessNotified or BookingFailureNotified
-
-CreateBooking
-{
-	"Id" : "<GUID>",
-	"Type" : "Command",
-	"Name" : "CreateBooking",
-	"Date" : "<DateTime>",
-	"Body" :
-	{
-		"BookingId" : "<GUID>",
-		"ShowId" : "...",
-	}
-}
-
-UserCreated
-{
-	"Id" : "<GUID>",
-	"Type" : "Event",
-	"Name" : "UserCreated",
-	"Date" : "<DateTime>"
-	"Body" :
-	{
-		"UserId" : "<Int32>",
-		"Email" : "<String>"
-	}
-}
-
-
-zookeeper-server-start.bat c:\Kafka\config\zookeeper.properties
-kafka-server-start.bat c:\Kafka\config\server.properties
