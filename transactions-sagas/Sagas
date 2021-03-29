@@ -7,8 +7,8 @@ https://chrisrichardson.net/post/sagas/2019/12/12/developing-sagas-part-4.html /
 https://habr.com/ru/post/427705/
 https://www.reddit.com/r/csharp/comments/akkui5/distributed_net_core_dshop_episode_8_distributed/
 
+https://microservices.io/patterns/data/saga.html
 https://blog.couchbase.com/saga-pattern-implement-business-transactions-using-microservices-part/
-
 
 https://www.youtube.com/watch?v=7rYB7js4D1c
 https://www.youtube.com/watch?v=8_cvhomwmto
@@ -18,9 +18,6 @@ https://www.youtube.com/watch?v=8_cvhomwmto
 2PC
 https://www.youtube.com/watch?v=YPbGW3Fnmbc
 
-https://github.com/AMVSoftware/NSaga
-https://github.com/snatch-dev/Chronicle
-https://www.nuget.org/packages/Chronicle_/
 
 https://docs.microsoft.com/ru-ru/archive/msdn-magazine/2016/october/cutting-edge-event-command-saga-approach-for-business-logic
 MementoFX
@@ -33,7 +30,26 @@ https://docs.particular.net/persistence/selecting
 https://docs.particular.net/samples/web/send-from-aspnetcore-webapi/
 https://jasonrowe.com/2018/01/30/nservicebus-and-net-core/
 
-NET State Machines
+NET State Machines /Sagas
+http://masstransit-project.com/
+http://masstransit-project.com/Automatonymous/
+https://github.com/MassTransit/Sample-GettingStarted
+https://github.com/MassTransit/Automatonymous
+https://mortaza-ghahremani.medium.com/how-to-create-distributed-transaction-using-masstransit-in-your-net-core-micro-services-2863fa9f4cc3
+https://github.com/welhell/masstransit-saga-example/tree/master/src/Warehouse
+https://automatonymous.readthedocs.io/en/latest/overview/saga.html
+https://github.com/selcukusta/masstransit-saga-implementation
+
+https://ffimnsr.medium.com/connecting-services-using-masstransit-rabbitmq-on-net-core-3-1-343b510c9202
+https://stackoverflow.com/questions/50411172/how-to-implement-a-state-machine-with-automatonymous-in-c-sharp/50714545#50714545
+
+https://github.com/rebus-org/Rebus/wiki/Coordinating-stuff-that-happens-over-time
+https://github.com/phatboyg/Magnum
+https://github.com/AMVSoftware/NSaga
+https://github.com/snatch-dev/Chronicle
+https://www.nuget.org/packages/Chronicle_/
+https://www.davideguida.com/opensleigh-a-saga-management-library-for-net-core/
+
 https://docs.microsoft.com/en-us/dotnet/api/system.activities.statements.statemachine?view=netframework-4.8&viewFallbackFrom=netcore-3.1
 
 https://stackoverflow.com/questions/5923767/simple-state-machine-example-in-c

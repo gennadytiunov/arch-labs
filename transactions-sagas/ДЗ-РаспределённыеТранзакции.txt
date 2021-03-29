@@ -12,7 +12,7 @@ Topics:
    -- BookingService (via BookingProducer) sends BookingCreated
    -- BookingService.BookingProcessor listens to BookingCreated, when received, and performs seats Availability Validation
  - booking-replies
-   -- BookingService.BookingProcessor depending on Availability Valdation result:
+   -- BookingService.BookingProcessor depending on Availability Validation result:
       -- in case of AvailabilityConfirmed it persists its state and sends MakePayment to payment-commands (via PaymentProducer) 
 	  -- in case of AvailabilityDenied it persists its state, changes booking state to Rejected (performs RejectBooking operation) and sends NotifyBookingFailure with the reason AvailabilityDenied to notification-commands (via NotificationProducer)
  
