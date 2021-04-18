@@ -1,0 +1,36 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+   name: {{ .Values.userEndpoint.label }}-deployment
+spec:
+   replicas: {{ .Values.userEndpoint.replicaCount }}
+   selector:
+      matchLabels:
+         app: {{ .Values.userEndpoint.label }}
+   template:
+      metadata:
+         labels:
+            app: {{ .Values.userEndpoint.label }}
+         annotations:
+            checksum/secret: {{ include (print $.Template.BasePath "/Secret.yaml") . | sha256sum }}
+      spec:
+         containers:
+         - name: {{ .Values.userEndpoint.label }}-container  
+           image: {{ .Values.userEndpoint.image }}
+           ports:
+           - name: {{ .Values.userEndpoint.port.name }}
+             containerPort: {{ .Values.userEndpoint.port.number }}
+           env:
+              - name: "_OtusApp_Port_User_Endpoint"
+                value: {{ .Values.userEndpoint.port.number | quote }}
+              - name: {{ .Values.db.env.uri }}
+                valueFrom:
+                   secretKeyRef:
+                      name: {{ .Values.common.secret }}
+                      key: DBURI
+{{- with .Values.kafka }}
+              - name: "_OtusApp_Kafka_Servers"
+                value: {{ .servers | quote }}
+              - name: "_OtusApp_Kafka_Topic_Users"
+                value: {{ .topics.users | quote }}
+{{- end }}

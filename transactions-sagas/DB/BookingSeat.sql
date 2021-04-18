@@ -9,7 +9,7 @@ SET QUOTED_IDENTIFIER ON
 GO
 
 CREATE TABLE [dbo].[BookingSeat](
-	[BookingId] [int] NOT NULL,
+	[BookingId] [uniqueidentifier] NOT NULL,
 	[Row] [int] NOT NULL,
 	[Number] [int] NOT NULL
 ) ON [PRIMARY]

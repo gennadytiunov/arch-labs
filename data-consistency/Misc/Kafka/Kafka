@@ -1,4 +1,4 @@
-Запус на Windows:
+﻿Запуск на Windows:
 zookeeper-server-start.bat c:\Kafka\config\zookeeper.properties
 kafka-server-start.bat c:\Kafka\config\server.properties
 

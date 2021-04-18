@@ -1,0 +1,36 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+   name: {{ .Values.bookingEndpoint.label }}-deployment
+spec:
+   replicas: {{ .Values.bookingEndpoint.replicaCount }}
+   selector:
+      matchLabels:
+         app: {{ .Values.bookingEndpoint.label }}
+   template:
+      metadata:
+         labels:
+            app: {{ .Values.bookingEndpoint.label }}
+         annotations:
+            checksum/secret: {{ include (print $.Template.BasePath "/Secret.yaml") . | sha256sum }}
+      spec:
+         containers:
+         - name: {{ .Values.bookingEndpoint.label }}-container
+           image: {{ .Values.bookingEndpoint.image }}
+           ports:
+           - name: {{ .Values.bookingEndpoint.port.name }}
+             containerPort: {{ .Values.bookingEndpoint.port.number }}
+           env:
+              - name: "_OtusApp_Port_Booking_Endpoint"
+                value: {{ .Values.bookingEndpoint.port.number | quote }}
+              - name: {{ .Values.db.env.uri }}
+                valueFrom:
+                   secretKeyRef:
+                      name: {{ .Values.common.secret }}
+                      key: DBURI
+{{- with .Values.kafka }}
+              - name: "_OtusApp_Kafka_Servers"
+                value: {{ .servers | quote }}
+              - name: "_OtusApp_Kafka_Topic_Bookings"
+                value: {{ .topics.bookings | quote }}
+{{- end }}           
