@@ -29,15 +29,15 @@ notificationProcessor:
    listeners:
       bookings: "Group.Notification.BookingNotificationListener"
 
-userEndpoint:
-   label: user-endpoint
+timetableEndpoint:
+   label: timetable-endpoint
    replicaCount: 1
-   image: gennadytiunov/circus-user-endpoint:v2
+   image: gennadytiunov/circus-timetable-endpoint:v2
    port:
       number: 10000
-      name: user-port
+      name: timetable-port
    service:
-      name: user-endpoint
+      name: timetable-endpoint
       type: NodePort
       port:
          number: "10000"
@@ -84,6 +84,20 @@ notificationEndpoint:
       port:
          number: "10300"
          protocol: TCP
+         
+userEndpoint:
+   label: user-endpoint
+   replicaCount: 1
+   image: gennadytiunov/circus-user-endpoint:v2
+   port:
+      number: 10400
+      name: user-port
+   service:
+      name: user-endpoint
+      type: NodePort
+      port:
+         number: "10400"
+         protocol: TCP         
 
 db:
    label: mssqlexpress
