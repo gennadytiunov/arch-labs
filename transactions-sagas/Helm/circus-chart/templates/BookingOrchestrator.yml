@@ -23,8 +23,12 @@ spec:
           value: {{ .topics.bookings | quote }}
         - name: "_OtusApp_Kafka_Topic_Payments"
           value: {{ .topics.payments | quote }}
+        - name: "_OtusApp_Kafka_Topic_Payments_Replies"
+          value: {{ .topics.paymentsreplies | quote }}
         - name: "_OtusApp_Kafka_Topic_Notifications"
           value: {{ .topics.notifications | quote }}
 {{- end }}
-        - name: "_OtusApp_Kafka_Group_Booking_BookingOrchestratorListener"
-          value: {{ .Values.bookingOrchestrator.listener | quote }}
+        - name: "_OtusApp_Kafka_Group_Booking_BookingMessageListener"
+          value: {{ .Values.bookingOrchestrator.listeners.bookings | quote }}
+        - name: "_OtusApp_Kafka_Group_Booking_PaymentMessageListener"
+          value: {{ .Values.bookingOrchestrator.listeners.payments | quote }}
