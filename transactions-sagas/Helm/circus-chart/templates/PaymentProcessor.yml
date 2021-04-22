@@ -23,6 +23,8 @@ spec:
           value: {{ .topics.users | quote }}          
         - name: "_OtusApp_Kafka_Topic_Payments"
           value: {{ .topics.payments | quote }}
+        - name: "_OtusApp_Kafka_Topic_Payments_Replies"
+          value: {{ .topics.paymentsreplies | quote }}          
 {{- end }}          
         - name: "_OtusApp_Kafka_Group_Payment_UserMessageListener"
           value: {{ .Values.paymentProcessor.listeners.users | quote }}

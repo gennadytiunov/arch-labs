@@ -1,6 +1,6 @@
 {
 	"info": {
-		"_postman_id": "2381d4f2-3eb5-4a75-a022-070c0b5e113f",
+		"_postman_id": "8bce3aa4-74f0-43eb-a8f7-5acfe522f59e",
 		"name": "Saga",
 		"schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json"
 	},
@@ -22,11 +22,10 @@
 				"method": "GET",
 				"header": [],
 				"url": {
-					"raw": "{{BaseUrl}}:{{TimetableEndpoint}}/shows",
+					"raw": "{{BaseUrl}}{{TimetableEndpoint}}/shows",
 					"host": [
-						"{{BaseUrl}}"
+						"{{BaseUrl}}{{TimetableEndpoint}}"
 					],
-					"port": "{{TimetableEndpoint}}",
 					"path": [
 						"shows"
 					]
@@ -51,11 +50,10 @@
 				"method": "GET",
 				"header": [],
 				"url": {
-					"raw": "{{BaseUrl}}:{{TimetableEndpoint}}/show-sessions/1",
+					"raw": "{{BaseUrl}}{{TimetableEndpoint}}/show-sessions/1",
 					"host": [
-						"{{BaseUrl}}"
+						"{{BaseUrl}}{{TimetableEndpoint}}"
 					],
-					"port": "{{TimetableEndpoint}}",
 					"path": [
 						"show-sessions",
 						"1"
@@ -84,11 +82,10 @@
 				"method": "GET",
 				"header": [],
 				"url": {
-					"raw": "{{BaseUrl}}:{{BookingEndpoint}}/seats/0/2021-01-01T10:00:00",
+					"raw": "{{BaseUrl}}{{BookingEndpoint}}/seats/0/2021-01-01T10:00:00",
 					"host": [
-						"{{BaseUrl}}"
+						"{{BaseUrl}}{{BookingEndpoint}}"
 					],
-					"port": "{{BookingEndpoint}}",
 					"path": [
 						"seats",
 						"0",
@@ -107,7 +104,7 @@
 						"exec": [
 							"pm.test(\"Check show not found - 404\", function () {\r",
 							"    pm.response.to.have.status(404);\r",
-							"    pm.response.to.have.body(\"Session '01.01.2021 10:00:00' not found for show '1'.\");\r",
+							"    pm.response.to.have.body(\"Session '01/01/2021 10:00:00' not found for show '1'.\");\r",
 							"});"
 						],
 						"type": "text/javascript"
@@ -118,11 +115,10 @@
 				"method": "GET",
 				"header": [],
 				"url": {
-					"raw": "{{BaseUrl}}:{{BookingEndpoint}}/seats/1/2021-01-01T10:00:00",
+					"raw": "{{BaseUrl}}{{BookingEndpoint}}/seats/1/2021-01-01T10:00:00",
 					"host": [
-						"{{BaseUrl}}"
+						"{{BaseUrl}}{{BookingEndpoint}}"
 					],
-					"port": "{{BookingEndpoint}}",
 					"path": [
 						"seats",
 						"1",
@@ -154,11 +150,10 @@
 				"method": "GET",
 				"header": [],
 				"url": {
-					"raw": "{{BaseUrl}}:{{BookingEndpoint}}/seats/1/2021-06-06T18:00:00",
+					"raw": "{{BaseUrl}}{{BookingEndpoint}}/seats/1/2021-06-06T18:00:00",
 					"host": [
-						"{{BaseUrl}}"
+						"{{BaseUrl}}{{BookingEndpoint}}"
 					],
-					"port": "{{BookingEndpoint}}",
 					"path": [
 						"seats",
 						"1",
@@ -185,13 +180,12 @@
 				"method": "GET",
 				"header": [],
 				"url": {
-					"raw": "{{BaseUrl}}:{{BookingEndpoint}}/bookings",
+					"raw": "{{BaseUrl}}{{BookingEndpoint}}/health",
 					"host": [
-						"{{BaseUrl}}"
+						"{{BaseUrl}}{{BookingEndpoint}}"
 					],
-					"port": "{{BookingEndpoint}}",
 					"path": [
-						"bookings"
+						"health"
 					]
 				}
 			},
@@ -217,11 +211,10 @@
 				"method": "GET",
 				"header": [],
 				"url": {
-					"raw": "{{BaseUrl}}:{{UserEndpoint}}/users",
+					"raw": "{{BaseUrl}}{{UserEndpoint}}/users",
 					"host": [
-						"{{BaseUrl}}"
+						"{{BaseUrl}}{{UserEndpoint}}"
 					],
-					"port": "{{UserEndpoint}}",
 					"path": [
 						"users"
 					]
@@ -249,11 +242,10 @@
 				"method": "GET",
 				"header": [],
 				"url": {
-					"raw": "{{BaseUrl}}:{{PaymentEndpoint}}/accounts",
+					"raw": "{{BaseUrl}}{{PaymentEndpoint}}/accounts",
 					"host": [
-						"{{BaseUrl}}"
+						"{{BaseUrl}}{{PaymentEndpoint}}"
 					],
-					"port": "{{PaymentEndpoint}}",
 					"path": [
 						"accounts"
 					]
@@ -281,11 +273,10 @@
 				"method": "GET",
 				"header": [],
 				"url": {
-					"raw": "{{BaseUrl}}:{{NotificationEndpoint}}/notifications",
+					"raw": "{{BaseUrl}}{{NotificationEndpoint}}/notifications",
 					"host": [
-						"{{BaseUrl}}"
+						"{{BaseUrl}}{{NotificationEndpoint}}"
 					],
-					"port": "{{NotificationEndpoint}}",
 					"path": [
 						"notifications"
 					]
@@ -347,11 +338,10 @@
 					}
 				},
 				"url": {
-					"raw": "{{BaseUrl}}:{{UserEndpoint}}/users",
+					"raw": "{{BaseUrl}}{{UserEndpoint}}/users",
 					"host": [
-						"{{BaseUrl}}"
+						"{{BaseUrl}}{{UserEndpoint}}"
 					],
-					"port": "{{UserEndpoint}}",
 					"path": [
 						"users"
 					]
@@ -380,7 +370,7 @@
 					"listen": "prerequest",
 					"script": {
 						"exec": [
-							""
+							" setTimeout(function(){}, 3000)"
 						],
 						"type": "text/javascript"
 					}
@@ -390,11 +380,10 @@
 				"method": "GET",
 				"header": [],
 				"url": {
-					"raw": "{{BaseUrl}}:{{PaymentEndpoint}}/accounts/{{userId}}",
+					"raw": "{{BaseUrl}}{{PaymentEndpoint}}/accounts/{{userId}}",
 					"host": [
-						"{{BaseUrl}}"
+						"{{BaseUrl}}{{PaymentEndpoint}}"
 					],
-					"port": "{{PaymentEndpoint}}",
 					"path": [
 						"accounts",
 						"{{userId}}"
@@ -423,11 +412,10 @@
 				"method": "GET",
 				"header": [],
 				"url": {
-					"raw": "{{BaseUrl}}:{{BookingEndpoint}}/user-bookings/{{userId}}",
+					"raw": "{{BaseUrl}}{{BookingEndpoint}}/user-bookings/{{userId}}",
 					"host": [
-						"{{BaseUrl}}"
+						"{{BaseUrl}}{{BookingEndpoint}}"
 					],
-					"port": "{{BookingEndpoint}}",
 					"path": [
 						"user-bookings",
 						"{{userId}}"
@@ -456,11 +444,10 @@
 				"method": "GET",
 				"header": [],
 				"url": {
-					"raw": "{{BaseUrl}}:{{PaymentEndpoint}}/transactions/user/{{userId}}",
+					"raw": "{{BaseUrl}}{{PaymentEndpoint}}/transactions/user/{{userId}}",
 					"host": [
-						"{{BaseUrl}}"
+						"{{BaseUrl}}{{PaymentEndpoint}}"
 					],
-					"port": "{{PaymentEndpoint}}",
 					"path": [
 						"transactions",
 						"user",
@@ -507,11 +494,10 @@
 					}
 				},
 				"url": {
-					"raw": "{{BaseUrl}}:{{PaymentEndpoint}}/deposit/{{userId}}",
+					"raw": "{{BaseUrl}}{{PaymentEndpoint}}/deposit/{{userId}}",
 					"host": [
-						"{{BaseUrl}}"
+						"{{BaseUrl}}{{PaymentEndpoint}}"
 					],
-					"port": "{{PaymentEndpoint}}",
 					"path": [
 						"deposit",
 						"{{userId}}"
@@ -539,7 +525,7 @@
 					"listen": "prerequest",
 					"script": {
 						"exec": [
-							""
+							" setTimeout(function(){}, 3000)"
 						],
 						"type": "text/javascript"
 					}
@@ -549,11 +535,10 @@
 				"method": "GET",
 				"header": [],
 				"url": {
-					"raw": "{{BaseUrl}}:{{PaymentEndpoint}}/transactions/user/{{userId}}",
+					"raw": "{{BaseUrl}}{{PaymentEndpoint}}/transactions/user/{{userId}}",
 					"host": [
-						"{{BaseUrl}}"
+						"{{BaseUrl}}{{PaymentEndpoint}}"
 					],
-					"port": "{{PaymentEndpoint}}",
 					"path": [
 						"transactions",
 						"user",
@@ -609,11 +594,10 @@
 					}
 				},
 				"url": {
-					"raw": "{{BaseUrl}}:{{BookingEndpoint}}/user-bookings/{{userId}}",
+					"raw": "{{BaseUrl}}{{BookingEndpoint}}/user-bookings/{{userId}}",
 					"host": [
-						"{{BaseUrl}}"
+						"{{BaseUrl}}{{BookingEndpoint}}"
 					],
-					"port": "{{BookingEndpoint}}",
 					"path": [
 						"user-bookings",
 						"{{userId}}"
@@ -654,11 +638,10 @@
 				"method": "GET",
 				"header": [],
 				"url": {
-					"raw": "{{BaseUrl}}:{{BookingEndpoint}}/bookings/{{bookingId}}",
+					"raw": "{{BaseUrl}}{{BookingEndpoint}}/bookings/{{bookingId}}",
 					"host": [
-						"{{BaseUrl}}"
+						"{{BaseUrl}}{{BookingEndpoint}}"
 					],
-					"port": "{{BookingEndpoint}}",
 					"path": [
 						"bookings",
 						"{{bookingId}}"
@@ -688,7 +671,7 @@
 					"listen": "prerequest",
 					"script": {
 						"exec": [
-							" setTimeout(function(){}, 5000)"
+							" setTimeout(function(){}, 7000)"
 						],
 						"type": "text/javascript"
 					}
@@ -698,11 +681,10 @@
 				"method": "GET",
 				"header": [],
 				"url": {
-					"raw": "{{BaseUrl}}:{{BookingEndpoint}}/bookings/{{bookingId}}",
+					"raw": "{{BaseUrl}}{{BookingEndpoint}}/bookings/{{bookingId}}",
 					"host": [
-						"{{BaseUrl}}"
+						"{{BaseUrl}}{{BookingEndpoint}}"
 					],
-					"port": "{{BookingEndpoint}}",
 					"path": [
 						"bookings",
 						"{{bookingId}}"
@@ -742,11 +724,10 @@
 				"method": "GET",
 				"header": [],
 				"url": {
-					"raw": "{{BaseUrl}}:{{PaymentEndpoint}}/accounts/{{userId}}",
+					"raw": "{{BaseUrl}}{{PaymentEndpoint}}/accounts/{{userId}}",
 					"host": [
-						"{{BaseUrl}}"
+						"{{BaseUrl}}{{PaymentEndpoint}}"
 					],
-					"port": "{{PaymentEndpoint}}",
 					"path": [
 						"accounts",
 						"{{userId}}"
@@ -792,11 +773,10 @@
 					}
 				},
 				"url": {
-					"raw": "{{BaseUrl}}:{{PaymentEndpoint}}/deposit/{{userId}}",
+					"raw": "{{BaseUrl}}{{PaymentEndpoint}}/deposit/{{userId}}",
 					"host": [
-						"{{BaseUrl}}"
+						"{{BaseUrl}}{{PaymentEndpoint}}"
 					],
-					"port": "{{PaymentEndpoint}}",
 					"path": [
 						"deposit",
 						"{{userId}}"
@@ -826,7 +806,8 @@
 					"listen": "prerequest",
 					"script": {
 						"exec": [
-							"pm.collectionVariables.set(\"bookingId\", pm.variables.replaceIn('{{$guid}}'));"
+							" pm.collectionVariables.set(\"bookingId\", pm.variables.replaceIn('{{$guid}}'));\r",
+							" setTimeout(function(){}, 3000)"
 						],
 						"type": "text/javascript"
 					}
@@ -851,11 +832,10 @@
 					}
 				},
 				"url": {
-					"raw": "{{BaseUrl}}:{{BookingEndpoint}}/user-bookings/{{userId}}",
+					"raw": "{{BaseUrl}}{{BookingEndpoint}}/user-bookings/{{userId}}",
 					"host": [
-						"{{BaseUrl}}"
+						"{{BaseUrl}}{{BookingEndpoint}}"
 					],
-					"port": "{{BookingEndpoint}}",
 					"path": [
 						"user-bookings",
 						"{{userId}}"
@@ -895,11 +875,10 @@
 				"method": "GET",
 				"header": [],
 				"url": {
-					"raw": "{{BaseUrl}}:{{BookingEndpoint}}/bookings/{{bookingId}}",
+					"raw": "{{BaseUrl}}{{BookingEndpoint}}/bookings/{{bookingId}}",
 					"host": [
-						"{{BaseUrl}}"
+						"{{BaseUrl}}{{BookingEndpoint}}"
 					],
-					"port": "{{BookingEndpoint}}",
 					"path": [
 						"bookings",
 						"{{bookingId}}"
@@ -939,11 +918,10 @@
 				"method": "GET",
 				"header": [],
 				"url": {
-					"raw": "{{BaseUrl}}:{{PaymentEndpoint}}/accounts/{{userId}}",
+					"raw": "{{BaseUrl}}{{PaymentEndpoint}}/accounts/{{userId}}",
 					"host": [
-						"{{BaseUrl}}"
+						"{{BaseUrl}}{{PaymentEndpoint}}"
 					],
-					"port": "{{PaymentEndpoint}}",
 					"path": [
 						"accounts",
 						"{{userId}}"
@@ -995,11 +973,10 @@
 					}
 				},
 				"url": {
-					"raw": "{{BaseUrl}}:{{BookingEndpoint}}/user-bookings/{{userId}}",
+					"raw": "{{BaseUrl}}{{BookingEndpoint}}/user-bookings/{{userId}}",
 					"host": [
-						"{{BaseUrl}}"
+						"{{BaseUrl}}{{BookingEndpoint}}"
 					],
-					"port": "{{BookingEndpoint}}",
 					"path": [
 						"user-bookings",
 						"{{userId}}"
@@ -1051,11 +1028,10 @@
 					}
 				},
 				"url": {
-					"raw": "{{BaseUrl}}:{{BookingEndpoint}}/user-bookings/{{userId}}",
+					"raw": "{{BaseUrl}}{{BookingEndpoint}}/user-bookings/{{userId}}",
 					"host": [
-						"{{BaseUrl}}"
+						"{{BaseUrl}}{{BookingEndpoint}}"
 					],
-					"port": "{{BookingEndpoint}}",
 					"path": [
 						"user-bookings",
 						"{{userId}}"
@@ -1083,7 +1059,7 @@
 					"listen": "prerequest",
 					"script": {
 						"exec": [
-							""
+							" setTimeout(function(){}, 1000)"
 						],
 						"type": "text/javascript"
 					}
@@ -1093,11 +1069,10 @@
 				"method": "GET",
 				"header": [],
 				"url": {
-					"raw": "{{BaseUrl}}:{{PaymentEndpoint}}/transactions/user/{{userId}}",
+					"raw": "{{BaseUrl}}{{PaymentEndpoint}}/transactions/user/{{userId}}",
 					"host": [
-						"{{BaseUrl}}"
+						"{{BaseUrl}}{{PaymentEndpoint}}"
 					],
-					"port": "{{PaymentEndpoint}}",
 					"path": [
 						"transactions",
 						"user",
@@ -1108,7 +1083,7 @@
 			"response": []
 		},
 		{
-			"name": "Bookings - Make 5th Booking (3000 RUB) - In Budget",
+			"name": "Bookings - Make 5th Booking (4500 RUB) - In Budget",
 			"event": [
 				{
 					"listen": "test",
@@ -1145,7 +1120,7 @@
 				],
 				"body": {
 					"mode": "raw",
-					"raw": "{\r\n    \"id\": \"{{bookingId}}\",\r\n    \"showId\": 1,\r\n    \"sessionDate\": \"2021-06-06T18:00:00\",\r\n    \"seats\": [\r\n        { \"row\": 1, \"number\": 3 },\r\n        { \"row\": 1, \"number\": 4 },\r\n        { \"row\": 1, \"number\": 5 }\r\n    ],\r\n    \"email\": \"{{email}}\"\r\n}",
+					"raw": "{\r\n    \"id\": \"{{bookingId}}\",\r\n    \"showId\": 1,\r\n    \"sessionDate\": \"2021-06-06T18:00:00\",\r\n    \"seats\": [\r\n        { \"row\": 1, \"number\": 3 },\r\n        { \"row\": 1, \"number\": 4 }\r\n    ],\r\n    \"email\": \"{{email}}\"\r\n}",
 					"options": {
 						"raw": {
 							"language": "json"
@@ -1153,11 +1128,10 @@
 					}
 				},
 				"url": {
-					"raw": "{{BaseUrl}}:{{BookingEndpoint}}/user-bookings/{{userId}}",
+					"raw": "{{BaseUrl}}{{BookingEndpoint}}/user-bookings/{{userId}}",
 					"host": [
-						"{{BaseUrl}}"
+						"{{BaseUrl}}{{BookingEndpoint}}"
 					],
-					"port": "{{BookingEndpoint}}",
 					"path": [
 						"user-bookings",
 						"{{userId}}"
@@ -1197,11 +1171,10 @@
 				"method": "GET",
 				"header": [],
 				"url": {
-					"raw": "{{BaseUrl}}:{{BookingEndpoint}}/bookings/{{bookingId}}",
+					"raw": "{{BaseUrl}}{{BookingEndpoint}}/bookings/{{bookingId}}",
 					"host": [
-						"{{BaseUrl}}"
+						"{{BaseUrl}}{{BookingEndpoint}}"
 					],
-					"port": "{{BookingEndpoint}}",
 					"path": [
 						"bookings",
 						"{{bookingId}}"
@@ -1239,11 +1212,10 @@
 				"method": "GET",
 				"header": [],
 				"url": {
-					"raw": "{{BaseUrl}}:{{BookingEndpoint}}/user-bookings/{{userId}}",
+					"raw": "{{BaseUrl}}{{BookingEndpoint}}/user-bookings/{{userId}}",
 					"host": [
-						"{{BaseUrl}}"
+						"{{BaseUrl}}{{BookingEndpoint}}"
 					],
-					"port": "{{BookingEndpoint}}",
 					"path": [
 						"user-bookings",
 						"{{userId}}"
@@ -1281,11 +1253,10 @@
 				"method": "GET",
 				"header": [],
 				"url": {
-					"raw": "{{BaseUrl}}:{{PaymentEndpoint}}/transactions/user/{{userId}}",
+					"raw": "{{BaseUrl}}{{PaymentEndpoint}}/transactions/user/{{userId}}",
 					"host": [
-						"{{BaseUrl}}"
+						"{{BaseUrl}}{{PaymentEndpoint}}"
 					],
-					"port": "{{PaymentEndpoint}}",
 					"path": [
 						"transactions",
 						"user",
@@ -1317,11 +1288,10 @@
 				"method": "GET",
 				"header": [],
 				"url": {
-					"raw": "{{BaseUrl}}:{{PaymentEndpoint}}/accounts/{{userId}}",
+					"raw": "{{BaseUrl}}{{PaymentEndpoint}}/accounts/{{userId}}",
 					"host": [
-						"{{BaseUrl}}"
+						"{{BaseUrl}}{{PaymentEndpoint}}"
 					],
-					"port": "{{PaymentEndpoint}}",
 					"path": [
 						"accounts",
 						"{{userId}}"
@@ -1373,11 +1343,10 @@
 				"method": "GET",
 				"header": [],
 				"url": {
-					"raw": "{{BaseUrl}}:{{NotificationEndpoint}}/notifications",
+					"raw": "{{BaseUrl}}{{NotificationEndpoint}}/notifications",
 					"host": [
-						"{{BaseUrl}}"
+						"{{BaseUrl}}{{NotificationEndpoint}}"
 					],
-					"port": "{{NotificationEndpoint}}",
 					"path": [
 						"notifications"
 					]
@@ -1409,27 +1378,27 @@
 	"variable": [
 		{
 			"key": "BaseUrl",
-			"value": "http://localhost"
+			"value": "http://arch.homework"
 		},
 		{
 			"key": "TimetableEndpoint",
-			"value": "10000"
+			"value": "/timetable-endpoint"
 		},
 		{
 			"key": "BookingEndpoint",
-			"value": "10100"
+			"value": "/booking-endpoint"
 		},
 		{
 			"key": "PaymentEndpoint",
-			"value": "10200"
+			"value": "/payment-endpoint"
 		},
 		{
 			"key": "NotificationEndpoint",
-			"value": "10300"
+			"value": "/notifier-endpoint"
 		},
 		{
 			"key": "UserEndpoint",
-			"value": "10400"
+			"value": "/user-endpoint"
 		},
 		{
 			"key": "email",

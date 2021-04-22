@@ -1,5 +1,6 @@
 common:
    secret: secret
+   config: config
    namespace: circus
    host: arch.homework
 
@@ -36,6 +37,8 @@ timetableEndpoint:
    label: timetable-endpoint
    replicaCount: 1
    image: gennadytiunov/circus-timetable-endpoint:v3
+   env:
+      uri: _OtusApp_URI_Timetable_Endpoint
    port:
       number: 10000
       name: timetable-port
