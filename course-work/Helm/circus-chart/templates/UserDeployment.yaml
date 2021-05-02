@@ -13,15 +13,16 @@ spec:
             app: {{ .Values.userEndpoint.label }}
          annotations:
             checksum/secret: {{ include (print $.Template.BasePath "/Secret.yaml") . | sha256sum }}
+            checksum/config: {{ include (print $.Template.BasePath "/Config.yaml") . | sha256sum }}
       spec:
          containers:
-         - name: {{ .Values.userEndpoint.label }}-container  
+         - name: {{ .Values.userEndpoint.label }}-container
            image: {{ .Values.userEndpoint.image }}
            ports:
            - name: {{ .Values.userEndpoint.port.name }}
              containerPort: {{ .Values.userEndpoint.port.number }}
            env:
-              - name: "_OtusApp_Port_User_Endpoint"
+              - name: {{ .Values.userEndpoint.env.appPort }}
                 value: {{ .Values.userEndpoint.port.number | quote }}
               - name: {{ .Values.db.env.uri }}
                 valueFrom:

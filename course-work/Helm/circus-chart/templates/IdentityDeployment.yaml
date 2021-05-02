@@ -1,0 +1,41 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+   name: {{ .Values.identityEndpoint.label }}-deployment
+spec:
+   replicas: {{ .Values.identityEndpoint.replicaCount }}
+   selector:
+      matchLabels:
+         app: {{ .Values.identityEndpoint.label }}
+   template:
+      metadata:
+         labels:
+            app: {{ .Values.identityEndpoint.label }}
+         annotations:
+            checksum/secret: {{ include (print $.Template.BasePath "/Secret.yaml") . | sha256sum }}
+            checksum/config: {{ include (print $.Template.BasePath "/Config.yaml") . | sha256sum }}
+      spec:
+         containers:
+         - name: {{ .Values.identityEndpoint.label }}-container
+           image: {{ .Values.identityEndpoint.image }}
+           ports:
+           - name: {{ .Values.identityEndpoint.port.name }}
+             containerPort: {{ .Values.identityEndpoint.port.number }}
+           env:
+              - name: {{ .Values.identityEndpoint.env.appPort }}
+                value: {{ .Values.identityEndpoint.port.number | quote }}
+              - name: {{ .Values.identityEndpoint.env.token }}
+                valueFrom:
+                   secretKeyRef:
+                      name: {{ .Values.common.secret }}
+                      key: {{ .Values.identityEndpoint.env.token }}
+              - name: {{ .Values.userEndpoint.env.uri }}
+                valueFrom:
+                   configMapKeyRef:
+                      name: {{ .Values.common.config }}
+                      key: {{ .Values.userEndpoint.env.uri }}
+              - name: {{ .Values.userEndpoint.env.token }}
+                valueFrom:
+                   secretKeyRef:
+                      name: {{ .Values.common.secret }}
+                      key: {{ .Values.userEndpoint.env.token }}

@@ -13,7 +13,7 @@ spec:
             app: {{ .Values.bookingEndpoint.label }}
          annotations:
             checksum/secret: {{ include (print $.Template.BasePath "/Secret.yaml") . | sha256sum }}
-            checksum/config: {{ include (print $.Template.BasePath "/Config.yaml") . | sha256sum }}            
+            checksum/config: {{ include (print $.Template.BasePath "/Config.yaml") . | sha256sum }}
       spec:
          containers:
          - name: {{ .Values.bookingEndpoint.label }}-container
@@ -22,7 +22,7 @@ spec:
            - name: {{ .Values.bookingEndpoint.port.name }}
              containerPort: {{ .Values.bookingEndpoint.port.number }}
            env:
-              - name: "_OtusApp_Port_Booking_Endpoint"
+              - name: {{ .Values.bookingEndpoint.env.appPort }}
                 value: {{ .Values.bookingEndpoint.port.number | quote }}
               - name: {{ .Values.timetableEndpoint.env.uri }}
                 valueFrom:

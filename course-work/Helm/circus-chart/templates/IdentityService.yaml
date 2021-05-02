@@ -1,0 +1,14 @@
+apiVersion: v1
+kind: Service
+{{- with .Values.identityEndpoint }}
+metadata:
+  name: {{ .service.name }}
+spec:
+  type: {{ .service.type }}
+  ports:
+    - port: {{ .service.port.number }}
+      targetPort: {{ .port.name }}
+      protocol: {{ .service.port.protocol }}
+  selector:
+    app: {{ .label }}
+{{- end }}

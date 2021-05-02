@@ -38,7 +38,8 @@ timetableEndpoint:
    replicaCount: 1
    image: gennadytiunov/circus-timetable-endpoint:v3
    env:
-      uri: _OtusApp_URI_Timetable_Endpoint
+      appPort: _OtusApp_Port_Endpoint_Timetable
+      uri: _OtusApp_URI_Endpoint_Timetable
    port:
       number: 10000
       name: timetable-port
@@ -53,6 +54,8 @@ bookingEndpoint:
    label: booking-endpoint
    replicaCount: 1
    image: gennadytiunov/circus-booking-endpoint:v3
+   env:
+      appPort: _OtusApp_Port_Endpoint_Booking
    port:
       number: 10100
       name: bookings-port
@@ -67,6 +70,8 @@ paymentEndpoint:
    label: payment-endpoint
    replicaCount: 1
    image: gennadytiunov/circus-payment-endpoint:v3
+   env:
+      appPort: _OtusApp_Port_Endpoint_Payment
    port:
       number: 10200
       name: payment-port
@@ -81,6 +86,8 @@ notificationEndpoint:
    label: notifier-endpoint
    replicaCount: 1
    image: gennadytiunov/circus-notification-endpoint:v3
+   env:
+      appPort: _OtusApp_Port_Endpoint_Notification
    port:
       number: 10300
       name: notifier-port
@@ -91,19 +98,76 @@ notificationEndpoint:
          number: "10300"
          protocol: TCP
          
+authEndpoint:
+   label: auth-endpoint
+   replicaCount: 1
+   image: gennadytiunov/circus-auth-service:v3
+   env:
+      appPort: _OtusApp_Port_Endpoint_Auth
+      uri: _OtusApp_URI_Endpoint_Auth
+   port:
+      number: 11000
+      name: auth-port
+   service:
+      name: auth-service
+      type: NodePort
+      port:
+         number: "11000"
+         protocol: TCP
+
 userEndpoint:
    label: user-endpoint
    replicaCount: 1
    image: gennadytiunov/circus-user-endpoint:v3
+   env:
+      appPort: _OtusApp_Port_Endpoint_User
+      uri: _OtusApp_URI_Endpoint_User
+      token: _OtusApp_Token_User  
    port:
-      number: 10400
+      number: 11100
       name: user-port
    service:
       name: user-endpoint
       type: NodePort
       port:
-         number: "10400"
-         protocol: TCP         
+         number: "11100"
+         protocol: TCP
+
+identityEndpoint:
+   label: identity-service
+   replicaCount: 1
+   image: gennadytiunov/circus-identity-service:v3
+   env:
+      appPort: _OtusApp_Port_Endpoint_Identity
+      uri: _OtusApp_URI_Endpoint_Identity
+      token: _OtusApp_Token_Identity
+   port:
+      number: 11200
+      name: identities-port
+   service:
+      name: identity-service
+      type: NodePort
+      port:
+         number: "11200"
+         protocol: TCP
+
+sessionEndpoint:
+   label: session-service
+   replicaCount: 1
+   image: gennadytiunov/circus-session-service:v3
+   env:
+      appPort: _OtusApp_Port_Endpoint_Session
+      uri: _OtusApp_URI_Endpoint_Session
+      token: _OtusApp_Token_Session
+   port:
+      number: 11300
+      name: sessions-port
+   service:
+      name: session-service
+      type: NodePort
+      port:
+         number: "11300"
+         protocol: TCP
 
 db:
    label: mssqlexpress

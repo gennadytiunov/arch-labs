@@ -13,6 +13,7 @@ spec:
             app: {{ .Values.paymentEndpoint.label }}
          annotations:
             checksum/secret: {{ include (print $.Template.BasePath "/Secret.yaml") . | sha256sum }}
+            checksum/config: {{ include (print $.Template.BasePath "/Config.yaml") . | sha256sum }}
       spec:
          containers:
          - name: {{ .Values.paymentEndpoint.label }}-container  
@@ -21,7 +22,7 @@ spec:
            - name: {{ .Values.paymentEndpoint.port.name }}
              containerPort: {{ .Values.paymentEndpoint.port.number }}
            env:
-              - name: "_OtusApp_Port_Payment_Endpoint"
+              - name: {{ .Values.paymentEndpoint.env.appPort }}
                 value: {{ .Values.paymentEndpoint.port.number | quote }}
               - name: {{ .Values.db.env.uri }}
                 valueFrom:

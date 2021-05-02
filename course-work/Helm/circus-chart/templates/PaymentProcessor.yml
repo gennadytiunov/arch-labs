@@ -29,4 +29,4 @@ spec:
         - name: "_OtusApp_Kafka_Group_Payment_UserMessageListener"
           value: {{ .Values.paymentProcessor.listeners.users | quote }}
         - name: "_OtusApp_Kafka_Group_Payment_PaymentMessageListener"
-          value: {{ .Values.paymentProcessor.listeners.payments | quote }}          
+          value: {{ .Values.paymentProcessor.listeners.payments | quote }}

@@ -13,15 +13,16 @@ spec:
             app: {{ .Values.notificationEndpoint.label }}
          annotations:
             checksum/secret: {{ include (print $.Template.BasePath "/Secret.yaml") . | sha256sum }}
+            checksum/config: {{ include (print $.Template.BasePath "/Config.yaml") . | sha256sum }}
       spec:
          containers:
-         - name: {{ .Values.notificationEndpoint.label }}-container  
+         - name: {{ .Values.notificationEndpoint.label }}-container
            image: {{ .Values.notificationEndpoint.image }}
            ports:
            - name: {{ .Values.notificationEndpoint.port.name }}
              containerPort: {{ .Values.notificationEndpoint.port.number }}
            env:
-              - name: "_OtusApp_Port_Notification_Endpoint"
+              - name: {{ .Values.notificationEndpoint.env.appPort }}
                 value: {{ .Values.notificationEndpoint.port.number | quote }}
               - name: {{ .Values.db.env.uri }}
                 valueFrom:

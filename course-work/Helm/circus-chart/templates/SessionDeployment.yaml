@@ -1,0 +1,36 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+   name: {{ .Values.sessionEndpoint.label }}-deployment
+spec:
+   replicas: {{ .Values.sessionEndpoint.replicaCount }}
+   selector:
+      matchLabels:
+         app: {{ .Values.sessionEndpoint.label }}
+   template:
+      metadata:
+         labels:
+            app: {{ .Values.sessionEndpoint.label }}
+         annotations:
+            checksum/secret: {{ include (print $.Template.BasePath "/Secret.yaml") . | sha256sum }}
+            checksum/config: {{ include (print $.Template.BasePath "/Config.yaml") . | sha256sum }}
+      spec:
+         containers:
+         - name: {{ .Values.sessionEndpoint.label }}-container  
+           image: {{ .Values.sessionEndpoint.image }}
+           ports:
+           - name: {{ .Values.sessionEndpoint.port.name }}
+             containerPort: {{ .Values.sessionEndpoint.port.number }}
+           env:
+              - name: {{ .Values.sessionEndpoint.env.appPort }}
+                value: {{ .Values.sessionEndpoint.port.number | quote }}
+              - name: {{ .Values.db.env.uri }}
+                valueFrom:
+                   secretKeyRef:
+                      name: {{ .Values.common.secret }}
+                      key: DBURI
+              - name: {{ .Values.sessionEndpoint.env.token }}
+                valueFrom:
+                   secretKeyRef:
+                      name: {{ .Values.common.secret }}
+                      key: {{ .Values.sessionEndpoint.env.token }}

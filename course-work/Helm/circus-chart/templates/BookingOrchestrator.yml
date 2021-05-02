@@ -11,7 +11,7 @@ spec:
      image: {{ .image }}
 {{- end }}     
      env:
-        - name: {{ .Values.db.env.uri }}
+        - name: {{ .Values.db.env.uri }}    
           valueFrom:
              secretKeyRef:
                 name: {{ .Values.common.secret }}

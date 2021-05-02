@@ -4,3 +4,6 @@ metadata:
    name: {{ .Values.common.config }}
 data:
    {{ .Values.timetableEndpoint.env.uri }}: "http://{{ .Values.timetableEndpoint.service.name }}:{{ .Values.timetableEndpoint.service.port.number }}"
+   {{ .Values.identityEndpoint.env.uri }}: "http://{{ .Values.identityEndpoint.service.name }}:{{ .Values.identityEndpoint.port.number }}"
+   {{ .Values.sessionEndpoint.env.uri }}: "http://{{ .Values.sessionEndpoint.service.name }}:{{ .Values.sessionEndpoint.port.number }}"
+   {{ .Values.userEndpoint.env.uri }}: "http://{{ .Values.userEndpoint.service.name }}:{{ .Values.userEndpoint.port.number }}"  

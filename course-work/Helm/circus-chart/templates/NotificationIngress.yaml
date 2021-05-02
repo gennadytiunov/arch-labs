@@ -9,7 +9,7 @@ spec:
    rules:
    - host: {{ .Values.common.host }}
      http:
-{{- with .Values.notificationEndpoint }}     
+{{- with .Values.notificationEndpoint }}
         paths:
         - path: /{{ .label }}/(.*)
           backend:
