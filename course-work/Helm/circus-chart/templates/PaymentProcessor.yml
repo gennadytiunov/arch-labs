@@ -1,0 +1,32 @@
+apiVersion: v1
+kind: Pod
+metadata:
+{{- with .Values.paymentProcessor }}
+   name: {{ .name }}-pod
+   labels:
+      app: {{ .name }}
+spec:
+   containers:
+   - name: {{ .name }}-container
+     image: {{ .image }}
+{{- end }}     
+     env:
+        - name: {{ .Values.db.env.uri }}
+          valueFrom:
+             secretKeyRef:
+                name: {{ .Values.common.secret }}
+                key: DBURI
+{{- with .Values.kafka }}
+        - name: "_OtusApp_Kafka_Servers"
+          value: {{ .servers | quote }}
+        - name: "_OtusApp_Kafka_Topic_Users"
+          value: {{ .topics.users | quote }}          
+        - name: "_OtusApp_Kafka_Topic_Payments"
+          value: {{ .topics.payments | quote }}
+        - name: "_OtusApp_Kafka_Topic_Payments_Replies"
+          value: {{ .topics.paymentsreplies | quote }}          
+{{- end }}          
+        - name: "_OtusApp_Kafka_Group_Payment_UserMessageListener"
+          value: {{ .Values.paymentProcessor.listeners.users | quote }}
+        - name: "_OtusApp_Kafka_Group_Payment_PaymentMessageListener"
+          value: {{ .Values.paymentProcessor.listeners.payments | quote }}          

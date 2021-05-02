@@ -1,0 +1,34 @@
+apiVersion: v1
+kind: Pod
+metadata:
+{{- with .Values.bookingOrchestrator }}
+   name: {{ .name }}-pod
+   labels:
+      app: {{ .name }}
+spec:
+   containers:
+   - name: {{ .name }}-container
+     image: {{ .image }}
+{{- end }}     
+     env:
+        - name: {{ .Values.db.env.uri }}
+          valueFrom:
+             secretKeyRef:
+                name: {{ .Values.common.secret }}
+                key: DBURI
+{{- with .Values.kafka }}
+        - name: "_OtusApp_Kafka_Servers"
+          value: {{ .servers | quote }}
+        - name: "_OtusApp_Kafka_Topic_Bookings"
+          value: {{ .topics.bookings | quote }}
+        - name: "_OtusApp_Kafka_Topic_Payments"
+          value: {{ .topics.payments | quote }}
+        - name: "_OtusApp_Kafka_Topic_Payments_Replies"
+          value: {{ .topics.paymentsreplies | quote }}
+        - name: "_OtusApp_Kafka_Topic_Notifications"
+          value: {{ .topics.notifications | quote }}
+{{- end }}
+        - name: "_OtusApp_Kafka_Group_Booking_BookingMessageListener"
+          value: {{ .Values.bookingOrchestrator.listeners.bookings | quote }}
+        - name: "_OtusApp_Kafka_Group_Booking_PaymentMessageListener"
+          value: {{ .Values.bookingOrchestrator.listeners.payments | quote }}

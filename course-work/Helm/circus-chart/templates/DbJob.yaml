@@ -1,0 +1,66 @@
+apiVersion: batch/v1
+kind: Job
+metadata:
+   name: db-job
+spec:
+   backoffLimit: 3
+   template:
+      metadata:
+         name: db-initializer
+      spec:
+         restartPolicy: Never
+         initContainers:
+         - name: db-service-awaiter
+           image: {{ .Values.db.awaiterImage }}
+           command: [
+                       'sh',
+                       '-c',
+                       'until nslookup {{ .Values.db.service.name }}.$(cat /var/run/secrets/kubernetes.io/serviceaccount/namespace).svc.cluster.local; do echo waiting for db service; sleep 2; done'
+                    ]
+         containers:
+         - name:  db-init-container
+           image: {{ .Values.db.msTools.image }}
+           command:
+           - sh
+           - "-c"
+           - |
+              export PATH="$PATH:{{ .Values.db.msTools.path }}";
+              sqlcmd -S $DB_URI -U sa -P $SA_PASSWORD -Q "ALTER DATABASE {{ .Values.db.name }} SET SINGLE_USER WITH ROLLBACK IMMEDIATE";
+              sqlcmd -S $DB_URI -U sa -P $SA_PASSWORD -Q "DROP DATABASE {{ .Values.db.name }}";
+              sqlcmd -S $DB_URI -U sa -P $SA_PASSWORD -Q "CREATE DATABASE {{ .Values.db.name }}";
+              sqlcmd -S $DB_URI -U sa -P $SA_PASSWORD -Q "USE {{ .Values.db.name }}; CREATE TABLE [dbo].[HallSeat]([Row] [int] NOT NULL, [Number] [int] NOT NULL)";
+              sqlcmd -S $DB_URI -U sa -P $SA_PASSWORD -Q "USE {{ .Values.db.name }}; CREATE TABLE [dbo].[Show]([Id] [int] IDENTITY(1,1) NOT NULL, [Name] [nvarchar](100) NOT NULL, [Description] [nvarchar](500) NOT NULL)";
+              sqlcmd -S $DB_URI -U sa -P $SA_PASSWORD -Q "USE {{ .Values.db.name }}; CREATE TABLE [dbo].[ShowSession]([ShowId] [int] NOT NULL, [Date] [datetime] NOT NULL, [Price] [money] NOT NULL, [Currency] [varchar](5) NOT NULL)";
+              sqlcmd -S $DB_URI -U sa -P $SA_PASSWORD -Q "USE {{ .Values.db.name }}; CREATE TABLE [dbo].[User]([Id] [int] IDENTITY(1,1) NOT NULL, [Email] [nvarchar](50) NOT NULL, [Password] [nvarchar](50) NULL, [FirstName] [nvarchar](50) NOT NULL, [LastName] [nvarchar](50) NOT NULL)";
+              sqlcmd -S $DB_URI -U sa -P $SA_PASSWORD -Q "USE {{ .Values.db.name }}; CREATE TABLE [dbo].[Account]([UserId] [int] NOT NULL, [UserEmail] [nvarchar](100) NOT NULL, [Balance] [money] NULL, [Currency] [varchar](5) NULL, [CreationDate] [datetime] NOT NULL, [UpdateDate] [datetime] NULL)";
+              sqlcmd -S $DB_URI -U sa -P $SA_PASSWORD -Q "USE {{ .Values.db.name }}; CREATE TABLE [dbo].[Booking]([Id] [uniqueidentifier] NOT NULL, [PaymentId] [uniqueidentifier] NULL, [UserId] [int] NOT NULL, [ShowId] [int] NOT NULL, [SessionDate] [datetime] NOT NULL, [Amount] [money] NOT NULL, [Currency] [varchar](5) NOT NULL, [Email] [varchar](100) NOT NULL, [Status] [varchar](50) NOT NULL, [SubStatus] [varchar](50) NULL, [CreationDate] [datetime] NOT NULL, [UpdateDate] [datetime] NULL)";
+              sqlcmd -S $DB_URI -U sa -P $SA_PASSWORD -Q "USE {{ .Values.db.name }}; CREATE TABLE [dbo].[BookingSeat]([BookingId] [uniqueidentifier] NOT NULL, [Row] [int] NOT NULL, [Number] [int] NOT NULL)";
+              sqlcmd -S $DB_URI -U sa -P $SA_PASSWORD -Q "USE {{ .Values.db.name }}; CREATE TABLE [dbo].[Notification]([Id] [int] IDENTITY(1,1) NOT NULL, [EmailTo] [nvarchar](max) NOT NULL, [EmailFrom] [nvarchar](max) NOT NULL, [Subject] [nvarchar](max) NOT NULL, [Message] [nvarchar](max) NOT NULL, [Date] [datetime] NOT NULL)";
+              sqlcmd -S $DB_URI -U sa -P $SA_PASSWORD -Q "USE {{ .Values.db.name }}; CREATE TABLE [dbo].[Transaction]([Id] [uniqueidentifier] NOT NULL, [UserId] [int] NOT NULL, [Type] [varchar](50) NOT NULL, [Details] [nvarchar](max) NOT NULL, [Amount] [money] NOT NULL, [Currency] [varchar](5) NOT NULL, [Date] [datetime] NOT NULL)";
+              sqlcmd -S $DB_URI -U sa -P $SA_PASSWORD -Q "USE {{ .Values.db.name }}; INSERT INTO Show (Name, Description) VALUES ('Avatar', 'A tribute to the world famous movie will astonish you with the marvelous acrobatic performance.')";
+              sqlcmd -S $DB_URI -U sa -P $SA_PASSWORD -Q "USE {{ .Values.db.name }}; INSERT INTO Show (Name, Description) VALUES ('Wild Jungles', 'An exotic performance with the most dangerous wild beasts ever.')";
+              sqlcmd -S $DB_URI -U sa -P $SA_PASSWORD -Q "USE {{ .Values.db.name }}; INSERT INTO Show (Name, Description) VALUES ('Russian Fairytales', 'A traditional Russian performance with bears on bikes and acrobats under circus dome.')";
+              sqlcmd -S $DB_URI -U sa -P $SA_PASSWORD -Q "USE {{ .Values.db.name }}; INSERT INTO ShowSession (ShowId, Date, Price, Currency) VALUES (1, '2021-06-06 18:00:00', 1500, 'RUB')";
+              sqlcmd -S $DB_URI -U sa -P $SA_PASSWORD -Q "USE {{ .Values.db.name }}; INSERT INTO ShowSession (ShowId, Date, Price, Currency) VALUES (1, '2021-06-07 18:00:00', 1500, 'RUB')";
+              sqlcmd -S $DB_URI -U sa -P $SA_PASSWORD -Q "USE {{ .Values.db.name }}; INSERT INTO ShowSession (ShowId, Date, Price, Currency) VALUES (2, '2021-06-06 15:00:00', 1000, 'RUB')";
+              sqlcmd -S $DB_URI -U sa -P $SA_PASSWORD -Q "USE {{ .Values.db.name }}; INSERT INTO ShowSession (ShowId, Date, Price, Currency) VALUES (2, '2021-06-07 15:00:00', 1000, 'RUB')";
+              sqlcmd -S $DB_URI -U sa -P $SA_PASSWORD -Q "USE {{ .Values.db.name }}; INSERT INTO ShowSession (ShowId, Date, Price, Currency) VALUES (3, '2021-06-06 12:00:00', 500, 'RUB')";
+              sqlcmd -S $DB_URI -U sa -P $SA_PASSWORD -Q "USE {{ .Values.db.name }}; INSERT INTO ShowSession (ShowId, Date, Price, Currency) VALUES (3, '2021-06-07 12:00:00', 500, 'RUB')";
+              sqlcmd -S $DB_URI -U sa -P $SA_PASSWORD -Q "USE {{ .Values.db.name }}; INSERT INTO HallSeat (Row, Number) Values (1, 1)";
+              sqlcmd -S $DB_URI -U sa -P $SA_PASSWORD -Q "USE {{ .Values.db.name }}; INSERT INTO HallSeat (Row, Number) Values (1, 2)";
+              sqlcmd -S $DB_URI -U sa -P $SA_PASSWORD -Q "USE {{ .Values.db.name }}; INSERT INTO HallSeat (Row, Number) Values (1, 3)";
+              sqlcmd -S $DB_URI -U sa -P $SA_PASSWORD -Q "USE {{ .Values.db.name }}; INSERT INTO HallSeat (Row, Number) Values (1, 4)";
+              sqlcmd -S $DB_URI -U sa -P $SA_PASSWORD -Q "USE {{ .Values.db.name }}; INSERT INTO HallSeat (Row, Number) Values (1, 5)";
+              sqlcmd -S $DB_URI -U sa -P $SA_PASSWORD -Q "USE {{ .Values.db.name }}; INSERT INTO HallSeat (Row, Number) Values (2, 1)";
+              sqlcmd -S $DB_URI -U sa -P $SA_PASSWORD -Q "USE {{ .Values.db.name }}; INSERT INTO HallSeat (Row, Number) Values (2, 2)";
+              sqlcmd -S $DB_URI -U sa -P $SA_PASSWORD -Q "USE {{ .Values.db.name }}; INSERT INTO HallSeat (Row, Number) Values (2, 3)";
+              sqlcmd -S $DB_URI -U sa -P $SA_PASSWORD -Q "USE {{ .Values.db.name }}; INSERT INTO HallSeat (Row, Number) Values (2, 4)";
+              sqlcmd -S $DB_URI -U sa -P $SA_PASSWORD -Q "USE {{ .Values.db.name }}; INSERT INTO HallSeat (Row, Number) Values (2, 5)";
+           env:
+              - name: DB_URI
+                value: {{ printf "%s,%s" .Values.db.service.name .Values.db.service.port.number | quote }}
+              - name: SA_PASSWORD
+                valueFrom:
+                   secretKeyRef:
+                      name: {{ .Values.common.secret }}
+                      key: DBPASSWORD

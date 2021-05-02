@@ -1,0 +1,30 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+   name: {{ .Values.timetableEndpoint.label }}-deployment
+spec:
+   replicas: {{ .Values.timetableEndpoint.replicaCount }}
+   selector:
+      matchLabels:
+         app: {{ .Values.timetableEndpoint.label }}
+   template:
+      metadata:
+         labels:
+            app: {{ .Values.timetableEndpoint.label }}
+         annotations:
+            checksum/secret: {{ include (print $.Template.BasePath "/Secret.yaml") . | sha256sum }}
+      spec:
+         containers:
+         - name: {{ .Values.timetableEndpoint.label }}-container  
+           image: {{ .Values.timetableEndpoint.image }}
+           ports:
+           - name: {{ .Values.timetableEndpoint.port.name }}
+             containerPort: {{ .Values.timetableEndpoint.port.number }}
+           env:
+              - name: "_OtusApp_Port_Timetable_Endpoint"
+                value: {{ .Values.timetableEndpoint.port.number | quote }}
+              - name: {{ .Values.db.env.uri }}
+                valueFrom:
+                   secretKeyRef:
+                      name: {{ .Values.common.secret }}
+                      key: DBURI

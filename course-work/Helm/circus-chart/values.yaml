@@ -1,0 +1,138 @@
+common:
+   secret: secret
+   config: config
+   namespace: circus
+   host: arch.homework
+
+kafka:
+   servers: "cp-cp-kafka-headless.kafka.svc.cluster.local:9092"
+   topics:
+      users: "users"
+      bookings: "bookings"
+      payments: "payments"
+      paymentsreplies: "payments-replies"
+      notifications: "notifications"
+
+bookingOrchestrator:
+   name: booking-orchestrator
+   image: gennadytiunov/circus-booking-orchestrator:v3
+   listeners:
+      bookings: "Group.Booking.BookingMessageListener"
+      payments: "Group.Booking.PaymentMessageListener"
+
+paymentProcessor:
+   name: payment-processor
+   image: gennadytiunov/circus-payment-listeners:v3
+   listeners:
+      users: "Group.Payment.UserMessageListener"
+      payments: "Group.Payment.PaymentMessageListener"
+
+notificationProcessor:
+   name: notification-processor
+   image: gennadytiunov/circus-notification-listeners:v3
+   listeners:
+      bookings: "Group.Notification.BookingNotificationListener"
+
+timetableEndpoint:
+   label: timetable-endpoint
+   replicaCount: 1
+   image: gennadytiunov/circus-timetable-endpoint:v3
+   env:
+      uri: _OtusApp_URI_Timetable_Endpoint
+   port:
+      number: 10000
+      name: timetable-port
+   service:
+      name: timetable-endpoint
+      type: NodePort
+      port:
+         number: "10000"
+         protocol: TCP
+
+bookingEndpoint:
+   label: booking-endpoint
+   replicaCount: 1
+   image: gennadytiunov/circus-booking-endpoint:v3
+   port:
+      number: 10100
+      name: bookings-port
+   service:
+      name: booking-endpoint
+      type: NodePort
+      port:
+         number: "10100"
+         protocol: TCP
+
+paymentEndpoint:
+   label: payment-endpoint
+   replicaCount: 1
+   image: gennadytiunov/circus-payment-endpoint:v3
+   port:
+      number: 10200
+      name: payment-port
+   service:
+      name: payment-endpoint
+      type: NodePort
+      port:
+         number: "10200"
+         protocol: TCP
+
+notificationEndpoint:
+   label: notifier-endpoint
+   replicaCount: 1
+   image: gennadytiunov/circus-notification-endpoint:v3
+   port:
+      number: 10300
+      name: notifier-port
+   service:
+      name: notifier-endpoint
+      type: NodePort
+      port:
+         number: "10300"
+         protocol: TCP
+         
+userEndpoint:
+   label: user-endpoint
+   replicaCount: 1
+   image: gennadytiunov/circus-user-endpoint:v3
+   port:
+      number: 10400
+      name: user-port
+   service:
+      name: user-endpoint
+      type: NodePort
+      port:
+         number: "10400"
+         protocol: TCP         
+
+db:
+   label: mssqlexpress
+   replicaCount: 1
+   image: mcr.microsoft.com/mssql/server
+   awaiterImage: busybox:1.28
+   env:
+      uri: _OtusApp_DB_URI
+   mssql:
+      acceptEula: "Y"
+      edition: "Express"
+   mount:
+      name: mssqlexpressvolume
+      path: /var/opt/mssql
+      access: "ReadWriteOnce"
+      class: standard
+      size: 500Mi
+   name: OtusLabs
+   user: sa
+   password: "0tuS1@b$"
+   port:
+      number: 1433
+      name: sql-port
+   service:
+      name: db-service
+      type: NodePort
+      port:
+         number: "15000"
+         protocol: TCP
+   msTools:
+      image: mcr.microsoft.com/mssql-tools
+      path: /opt/mssql-tools/bin
