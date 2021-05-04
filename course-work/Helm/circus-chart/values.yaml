@@ -4,39 +4,81 @@ common:
    namespace: circus
    host: arch.homework
 
-kafka:
-   servers: "cp-cp-kafka-headless.kafka.svc.cluster.local:9092"
-   topics:
-      users: "users"
-      bookings: "bookings"
-      payments: "payments"
-      paymentsreplies: "payments-replies"
-      notifications: "notifications"
+authEndpoint:
+   label: auth-endpoint
+   replicaCount: 1
+   image: gennadytiunov/circus-auth-service:v10
+   env:
+      appPort: _OtusApp_Port_Endpoint_Auth
+      uri: _OtusApp_URI_Endpoint_Auth
+   port:
+      number: 1000
+      name: auth-port
+   service:
+      name: auth-service
+      type: NodePort
+      port:
+         number: "1000"
+         protocol: TCP
 
-bookingOrchestrator:
-   name: booking-orchestrator
-   image: gennadytiunov/circus-booking-orchestrator:v3
-   listeners:
-      bookings: "Group.Booking.BookingMessageListener"
-      payments: "Group.Booking.PaymentMessageListener"
+identityEndpoint:
+   label: identity-service
+   replicaCount: 1
+   image: gennadytiunov/circus-identity-service:v10
+   env:
+      appPort: _OtusApp_Port_Endpoint_Identity
+      uri: _OtusApp_URI_Endpoint_Identity
+      token: _OtusApp_Token_Identity
+   port:
+      number: 1100
+      name: identities-port
+   service:
+      name: identity-service
+      type: NodePort
+      port:
+         number: "1100"
+         protocol: TCP
 
-paymentProcessor:
-   name: payment-processor
-   image: gennadytiunov/circus-payment-listeners:v3
-   listeners:
-      users: "Group.Payment.UserMessageListener"
-      payments: "Group.Payment.PaymentMessageListener"
+sessionEndpoint:
+   label: session-service
+   replicaCount: 1
+   image: gennadytiunov/circus-session-service:v10
+   env:
+      appPort: _OtusApp_Port_Endpoint_Session
+      uri: _OtusApp_URI_Endpoint_Session
+      token: _OtusApp_Token_Session
+   port:
+      number: 1200
+      name: sessions-port
+   service:
+      name: session-service
+      type: NodePort
+      port:
+         number: "1200"
+         protocol: TCP
 
-notificationProcessor:
-   name: notification-processor
-   image: gennadytiunov/circus-notification-listeners:v3
-   listeners:
-      bookings: "Group.Notification.BookingNotificationListener"
+userEndpoint:
+   label: user-endpoint
+   replicaCount: 1
+   image: gennadytiunov/circus-user-endpoint:v10
+   env:
+      appPort: _OtusApp_Port_Endpoint_User
+      uri: _OtusApp_URI_Endpoint_User
+      token: _OtusApp_Token_User  
+   port:
+      number: 1300
+      name: user-port
+   service:
+      name: user-endpoint
+      type: NodePort
+      port:
+         number: "1300"
+         protocol: TCP
 
 timetableEndpoint:
    label: timetable-endpoint
    replicaCount: 1
-   image: gennadytiunov/circus-timetable-endpoint:v3
+   image: gennadytiunov/circus-timetable-endpoint:v10
    env:
       appPort: _OtusApp_Port_Endpoint_Timetable
       uri: _OtusApp_URI_Endpoint_Timetable
@@ -53,7 +95,7 @@ timetableEndpoint:
 bookingEndpoint:
    label: booking-endpoint
    replicaCount: 1
-   image: gennadytiunov/circus-booking-endpoint:v3
+   image: gennadytiunov/circus-booking-endpoint:v10
    env:
       appPort: _OtusApp_Port_Endpoint_Booking
    port:
@@ -69,7 +111,7 @@ bookingEndpoint:
 paymentEndpoint:
    label: payment-endpoint
    replicaCount: 1
-   image: gennadytiunov/circus-payment-endpoint:v3
+   image: gennadytiunov/circus-payment-endpoint:v10
    env:
       appPort: _OtusApp_Port_Endpoint_Payment
    port:
@@ -85,7 +127,7 @@ paymentEndpoint:
 notificationEndpoint:
    label: notifier-endpoint
    replicaCount: 1
-   image: gennadytiunov/circus-notification-endpoint:v3
+   image: gennadytiunov/circus-notification-endpoint:v10
    env:
       appPort: _OtusApp_Port_Endpoint_Notification
    port:
@@ -98,76 +140,34 @@ notificationEndpoint:
          number: "10300"
          protocol: TCP
          
-authEndpoint:
-   label: auth-endpoint
-   replicaCount: 1
-   image: gennadytiunov/circus-auth-service:v3
-   env:
-      appPort: _OtusApp_Port_Endpoint_Auth
-      uri: _OtusApp_URI_Endpoint_Auth
-   port:
-      number: 11000
-      name: auth-port
-   service:
-      name: auth-service
-      type: NodePort
-      port:
-         number: "11000"
-         protocol: TCP
+bookingOrchestrator:
+   name: booking-orchestrator
+   image: gennadytiunov/circus-booking-orchestrator:v10
+   listeners:
+      bookings: "Group.Booking.BookingMessageListener"
+      payments: "Group.Booking.PaymentMessageListener"
 
-userEndpoint:
-   label: user-endpoint
-   replicaCount: 1
-   image: gennadytiunov/circus-user-endpoint:v3
-   env:
-      appPort: _OtusApp_Port_Endpoint_User
-      uri: _OtusApp_URI_Endpoint_User
-      token: _OtusApp_Token_User  
-   port:
-      number: 11100
-      name: user-port
-   service:
-      name: user-endpoint
-      type: NodePort
-      port:
-         number: "11100"
-         protocol: TCP
+paymentProcessor:
+   name: payment-processor
+   image: gennadytiunov/circus-payment-listeners:v10
+   listeners:
+      users: "Group.Payment.UserMessageListener"
+      payments: "Group.Payment.PaymentMessageListener"
 
-identityEndpoint:
-   label: identity-service
-   replicaCount: 1
-   image: gennadytiunov/circus-identity-service:v3
-   env:
-      appPort: _OtusApp_Port_Endpoint_Identity
-      uri: _OtusApp_URI_Endpoint_Identity
-      token: _OtusApp_Token_Identity
-   port:
-      number: 11200
-      name: identities-port
-   service:
-      name: identity-service
-      type: NodePort
-      port:
-         number: "11200"
-         protocol: TCP
+notificationProcessor:
+   name: notification-processor
+   image: gennadytiunov/circus-notification-listeners:v10
+   listeners:
+      bookings: "Group.Notification.BookingNotificationListener"
 
-sessionEndpoint:
-   label: session-service
-   replicaCount: 1
-   image: gennadytiunov/circus-session-service:v3
-   env:
-      appPort: _OtusApp_Port_Endpoint_Session
-      uri: _OtusApp_URI_Endpoint_Session
-      token: _OtusApp_Token_Session
-   port:
-      number: 11300
-      name: sessions-port
-   service:
-      name: session-service
-      type: NodePort
-      port:
-         number: "11300"
-         protocol: TCP
+kafka:
+   servers: "cp-cp-kafka-headless.kafka.svc.cluster.local:9092"
+   topics:
+      users: "users"
+      bookings: "bookings"
+      payments: "payments"
+      paymentsreplies: "payments-replies"
+      notifications: "notifications"
 
 db:
    label: mssqlexpress
