@@ -7,7 +7,7 @@ common:
 authEndpoint:
    label: auth-endpoint
    replicaCount: 1
-   image: gennadytiunov/circus-auth-service:v10
+   image: gennadytiunov/circus-auth-endpoint:v10
    env:
       appPort: _OtusApp_Port_Endpoint_Auth
       uri: _OtusApp_URI_Endpoint_Auth
@@ -15,43 +15,43 @@ authEndpoint:
       number: 1000
       name: auth-port
    service:
-      name: auth-service
+      name: auth-endpoint
       type: NodePort
       port:
          number: "1000"
          protocol: TCP
 
 identityEndpoint:
-   label: identity-service
+   label: identity-endpoint
    replicaCount: 1
-   image: gennadytiunov/circus-identity-service:v10
+   image: gennadytiunov/circus-identity-endpoint:v10
    env:
       appPort: _OtusApp_Port_Endpoint_Identity
       uri: _OtusApp_URI_Endpoint_Identity
       token: _OtusApp_Token_Identity
    port:
       number: 1100
-      name: identities-port
+      name: identity-port
    service:
-      name: identity-service
+      name: identity-endpoint
       type: NodePort
       port:
          number: "1100"
          protocol: TCP
 
 sessionEndpoint:
-   label: session-service
+   label: session-endpoint
    replicaCount: 1
-   image: gennadytiunov/circus-session-service:v10
+   image: gennadytiunov/circus-session-endpoint:v10
    env:
       appPort: _OtusApp_Port_Endpoint_Session
       uri: _OtusApp_URI_Endpoint_Session
       token: _OtusApp_Token_Session
    port:
       number: 1200
-      name: sessions-port
+      name: session-port
    service:
-      name: session-service
+      name: session-endpoint
       type: NodePort
       port:
          number: "1200"
