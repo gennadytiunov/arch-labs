@@ -9,10 +9,10 @@ spec:
    rules:
    - host: {{ .Values.common.host }}
      http:
-{{- with .Values.timetableEndpoint }}     
+{{- with .Values.timetableEndpoint.service }}
         paths:
-        - path: /{{ .label }}/(.*)
+        - path: /{{ .name }}/(.*)
           backend:
-             serviceName: {{ .service.name }}
-             servicePort: {{ .service.port.number }}
+             serviceName: {{ .name }}
+             servicePort: {{ .port.number }}
 {{- end }}

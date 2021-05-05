@@ -10,9 +10,9 @@ docker image build -t gennadytiunov/circus-payment-endpoint:v10 .
 docker image build -t gennadytiunov/circus-notification-listeners:v10 .
 docker image build -t gennadytiunov/circus-notification-endpoint:v10 .
 
-docker push gennadytiunov/circus-auth-endpoint:v10 .
-docker push gennadytiunov/circus-identity-endpoint:v10 .
-docker push gennadytiunov/circus-session-endpoint:v10 .
+docker push gennadytiunov/circus-auth-endpoint:v10
+docker push gennadytiunov/circus-identity-endpoint:v10
+docker push gennadytiunov/circus-session-endpoint:v10
 docker push gennadytiunov/circus-user-endpoint:v10
 docker push gennadytiunov/circus-timetable-endpoint:v10
 docker push gennadytiunov/circus-booking-orchestrator:v10
@@ -21,7 +21,6 @@ docker push gennadytiunov/circus-payment-listeners:v10
 docker push gennadytiunov/circus-payment-endpoint:v10
 docker push gennadytiunov/circus-notification-listeners:v10
 docker push gennadytiunov/circus-notification-endpoint:v10
-
 
 kubectl get namespaces
 
@@ -47,3 +46,8 @@ kubectl exec kafka-client -- kafka-topics --create --zookeeper cp-cp-zookeeper:2
 kubectl exec kafka-client -- kafka-topics --create --zookeeper cp-cp-zookeeper:2181 -replication-factor 1 --partitions 1 --topic bookings
 kubectl exec kafka-client -- kafka-topics --create --zookeeper cp-cp-zookeeper:2181 -replication-factor 1 --partitions 1 --topic payments
 kubectl exec kafka-client -- kafka-topics --create --zookeeper cp-cp-zookeeper:2181 -replication-factor 1 --partitions 1 --topic notifications
+
+Tokens:
+ - identityEndpoint: "OGNhNTE2MjQtOTI5MS00ZDcwLWFiMTctMDhhNjE3OGVhYWJm" / 8ca51624-9291-4d70-ab17-08a6178eaabf
+ - sessionEndpoint: "ZmJmZGY2MTItODQxZi00NjQzLWEyMWQtNzA5YjFiNDhjMmJl" / fbfdf612-841f-4643-a21d-709b1b48c2be
+ - userEndpoint: "YmI0NTMxODktMjljYy00ZWE5LWE3N2QtMDNiNjExM2Y2ODMz" / bb453189-29cc-4ea9-a77d-03b6113f6833

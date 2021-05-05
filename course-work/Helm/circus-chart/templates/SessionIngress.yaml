@@ -1,7 +1,7 @@
 apiVersion: networking.k8s.io/v1beta1
 kind: Ingress
 metadata:
-   name: {{ .Values.userEndpoint.label }}-ingress
+   name: {{ .Values.sessionEndpoint.label }}-ingress
    annotations:
       kubernetes.io/ingress.class: "nginx"
       nginx.ingress.kubernetes.io/rewrite-target: /$1
@@ -9,7 +9,7 @@ spec:
    rules:
    - host: {{ .Values.common.host }}
      http:
-{{- with .Values.userEndpoint.service }}
+{{- with .Values.sessionEndpoint.service }}
         paths:
         - path: /{{ .name }}/(.*)
           backend:

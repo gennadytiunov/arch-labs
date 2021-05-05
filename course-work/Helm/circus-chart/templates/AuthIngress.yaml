@@ -1,31 +1,38 @@
 apiVersion: networking.k8s.io/v1beta1
 kind: Ingress
 metadata:
-  name: auth-proxy
-{{- with .Values.authEndpoint }}
+   name: auth-proxy
+   annotations:
+      kubernetes.io/ingress.class: "nginx"
+      nginx.ingress.kubernetes.io/rewrite-target: /$1
 spec:
-  rules:
-  - host: {{ .host }}
-    http:
-      paths:
-      - backend:
-          serviceName: {{ .service.name }}
-          servicePort: {{ .service.port.number }}
-        path: /auth
-      - backend:
-          serviceName: {{ .service.name }}
-          servicePort: {{ .service.port.number }}
-        path: /signin
-      - backend:
-          serviceName: {{ .service.name }}
-          servicePort: {{ .service.port.number }}
-        path: /signup
-      - backend:
-          serviceName: {{ .service.name }}
-          servicePort: {{ .service.port.number }}
-        path: /signout
-      - backend:
-          serviceName: {{ .service.name }}
-          servicePort: {{ .service.port.number }}
-        path: /sessions
+   rules:
+   - host: {{ .Values.common.host }}
+{{- with .Values.authEndpoint.service }}
+     http:
+        paths:
+        - path: /{{ .name }}/(health)
+          backend:
+             serviceName: {{ .name }}
+             servicePort: {{ .port.number }}
+        - path: /{{ .name }}/(auth)
+          backend:
+             serviceName: {{ .name }}
+             servicePort: {{ .port.number }}
+        - path: /{{ .name }}/(signin)
+          backend:
+             serviceName: {{ .name }}
+             servicePort: {{ .port.number }}
+        - path: /{{ .name }}/(signup)
+          backend:
+             serviceName: {{ .name }}
+             servicePort: {{ .port.number }}
+        - path: /{{ .name }}/(signout)
+          backend:
+             serviceName: {{ .name }}
+             servicePort: {{ .port.number }}
+        - path: /{{ .name }}/(sessions)
+          backend:
+             serviceName: {{ .name }}
+             servicePort: {{ .port.number }}
 {{- end}}

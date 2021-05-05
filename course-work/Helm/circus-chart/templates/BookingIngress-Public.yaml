@@ -1,7 +1,7 @@
 apiVersion: networking.k8s.io/v1beta1
 kind: Ingress
 metadata:
-   name: {{ .Values.userEndpoint.label }}-ingress
+   name: {{ .Values.bookingEndpoint.label }}-ingress-public
    annotations:
       kubernetes.io/ingress.class: "nginx"
       nginx.ingress.kubernetes.io/rewrite-target: /$1
@@ -9,9 +9,13 @@ spec:
    rules:
    - host: {{ .Values.common.host }}
      http:
-{{- with .Values.userEndpoint.service }}
+{{- with .Values.bookingEndpoint.service }}
         paths:
-        - path: /{{ .name }}/(.*)
+        - path: /{{ .name }}/(health)
+          backend:
+             serviceName: {{ .name }}
+             servicePort: {{ .port.number }}
+        - path: /{{ .name }}/(seats.*)
           backend:
              serviceName: {{ .name }}
              servicePort: {{ .port.number }}

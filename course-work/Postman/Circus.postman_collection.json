@@ -1,10 +1,267 @@
 {
 	"info": {
 		"_postman_id": "8bce3aa4-74f0-43eb-a8f7-5acfe522f59e",
-		"name": "Saga",
+		"name": "Circus",
 		"schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json"
 	},
 	"item": [
+		{
+			"name": "Timetable Endpoint Health - OK",
+			"event": [
+				{
+					"listen": "test",
+					"script": {
+						"exec": [
+							"pm.test(\"Check Timetable Endpoint - OK\", function () {\r",
+							"    pm.response.to.have.status(200);\r",
+							"    pm.expect(pm.response.text()).contains(\"OK from TimetableController\");\r",
+							"});"
+						],
+						"type": "text/javascript"
+					}
+				},
+				{
+					"listen": "prerequest",
+					"script": {
+						"exec": [
+							""
+						],
+						"type": "text/javascript"
+					}
+				}
+			],
+			"request": {
+				"method": "GET",
+				"header": [],
+				"url": {
+					"raw": "{{BaseUrl}}{{TimetableEndpoint}}/health",
+					"host": [
+						"{{BaseUrl}}{{TimetableEndpoint}}"
+					],
+					"path": [
+						"health"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "Bookings Endpoint Health - OK",
+			"event": [
+				{
+					"listen": "test",
+					"script": {
+						"exec": [
+							"pm.test(\"Check Booking Endpoint - OK\", function () {\r",
+							"    pm.response.to.have.status(200);\r",
+							"    pm.expect(pm.response.text()).contains(\"OK from BookingsController\");\r",
+							"});"
+						],
+						"type": "text/javascript"
+					}
+				}
+			],
+			"request": {
+				"method": "GET",
+				"header": [],
+				"url": {
+					"raw": "{{BaseUrl}}{{BookingEndpoint}}/health",
+					"host": [
+						"{{BaseUrl}}{{BookingEndpoint}}"
+					],
+					"path": [
+						"health"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "Payment Endpoint Health - OK",
+			"event": [
+				{
+					"listen": "test",
+					"script": {
+						"exec": [
+							"pm.test(\"Check Payment Endpoint - OK\", function () {\r",
+							"    pm.response.to.have.status(200);\r",
+							"    pm.expect(pm.response.text()).contains(\"OK from PaymentsController\");\r",
+							"});"
+						],
+						"type": "text/javascript"
+					}
+				}
+			],
+			"request": {
+				"method": "GET",
+				"header": [],
+				"url": {
+					"raw": "{{BaseUrl}}{{PaymentEndpoint}}/health",
+					"host": [
+						"{{BaseUrl}}{{PaymentEndpoint}}"
+					],
+					"path": [
+						"health"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "Notification Endpoint Health - OK",
+			"event": [
+				{
+					"listen": "test",
+					"script": {
+						"exec": [
+							"pm.test(\"Check Notification Endpoint - OK\", function () {\r",
+							"    pm.response.to.have.status(200);\r",
+							"    pm.expect(pm.response.text()).contains(\"OK from NotificationsController\");\r",
+							"});"
+						],
+						"type": "text/javascript"
+					}
+				}
+			],
+			"request": {
+				"method": "GET",
+				"header": [],
+				"url": {
+					"raw": "{{BaseUrl}}{{NotificationEndpoint}}/health",
+					"host": [
+						"{{BaseUrl}}{{NotificationEndpoint}}"
+					],
+					"path": [
+						"health"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "Auth Endpoint Health - OK",
+			"event": [
+				{
+					"listen": "test",
+					"script": {
+						"exec": [
+							"pm.test(\"Check Auth Endpoint - OK\", function () {\r",
+							"    pm.response.to.have.status(200);\r",
+							"    pm.expect(pm.response.text()).contains(\"OK from AuthController\");\r",
+							"});"
+						],
+						"type": "text/javascript"
+					}
+				}
+			],
+			"request": {
+				"method": "GET",
+				"header": [],
+				"url": {
+					"raw": "{{BaseUrl}}{{AuthEndpoint}}/health",
+					"host": [
+						"{{BaseUrl}}{{AuthEndpoint}}"
+					],
+					"path": [
+						"health"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "User Endpoint Health - OK",
+			"event": [
+				{
+					"listen": "test",
+					"script": {
+						"exec": [
+							"pm.test(\"Check User Endpoint - OK\", function () {\r",
+							"    pm.response.to.have.status(200);\r",
+							"    pm.expect(pm.response.text()).contains(\"OK from UsersController\");\r",
+							"});"
+						],
+						"type": "text/javascript"
+					}
+				}
+			],
+			"request": {
+				"method": "GET",
+				"header": [],
+				"url": {
+					"raw": "{{BaseUrl}}{{UserEndpoint}}/health",
+					"host": [
+						"{{BaseUrl}}{{UserEndpoint}}"
+					],
+					"path": [
+						"health"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "Session Endpoint Health - OK",
+			"event": [
+				{
+					"listen": "test",
+					"script": {
+						"exec": [
+							"pm.test(\"Check Session Endpoint - OK\", function () {\r",
+							"    pm.response.to.have.status(200);\r",
+							"    pm.expect(pm.response.text()).contains(\"OK from SessionsController\");\r",
+							"});"
+						],
+						"type": "text/javascript"
+					}
+				}
+			],
+			"request": {
+				"method": "GET",
+				"header": [],
+				"url": {
+					"raw": "{{BaseUrl}}{{SessionEndpoint}}/health",
+					"host": [
+						"{{BaseUrl}}{{SessionEndpoint}}"
+					],
+					"path": [
+						"health"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "Identity Endpoint Health - OK",
+			"event": [
+				{
+					"listen": "test",
+					"script": {
+						"exec": [
+							"pm.test(\"Check Session Endpoint - OK\", function () {\r",
+							"    pm.response.to.have.status(200);\r",
+							"    pm.expect(pm.response.text()).contains(\"OK from IdentityController\");\r",
+							"});"
+						],
+						"type": "text/javascript"
+					}
+				}
+			],
+			"request": {
+				"method": "GET",
+				"header": [],
+				"url": {
+					"raw": "{{BaseUrl}}{{IdentityEndpoint}}/health",
+					"host": [
+						"{{BaseUrl}}{{IdentityEndpoint}}"
+					],
+					"path": [
+						"health"
+					]
+				}
+			},
+			"response": []
+		},
 		{
 			"name": "Timetable - Get Shows",
 			"event": [
@@ -180,12 +437,12 @@
 				"method": "GET",
 				"header": [],
 				"url": {
-					"raw": "{{BaseUrl}}{{BookingEndpoint}}/health",
+					"raw": "{{BaseUrl}}{{BookingEndpoint}}/bookings",
 					"host": [
 						"{{BaseUrl}}{{BookingEndpoint}}"
 					],
 					"path": [
-						"health"
+						"bookings"
 					]
 				}
 			},
@@ -1401,28 +1658,16 @@
 			"value": "/user-endpoint"
 		},
 		{
-			"key": "email",
-			"value": ""
+			"key": "AuthEndpoint",
+			"value": "/auth-endpoint"
 		},
 		{
-			"key": "firstName",
-			"value": ""
+			"key": "SessionEndpoint",
+			"value": "/session-endpoint"
 		},
 		{
-			"key": "lastName",
-			"value": ""
-		},
-		{
-			"key": "password",
-			"value": ""
-		},
-		{
-			"key": "userId",
-			"value": ""
-		},
-		{
-			"key": "bookingId",
-			"value": ""
+			"key": "IdentityEndpoint",
+			"value": "/identity-endpoint"
 		}
 	]
 }
