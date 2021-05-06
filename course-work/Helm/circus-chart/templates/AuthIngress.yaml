@@ -11,27 +11,7 @@ spec:
 {{- with .Values.authEndpoint.service }}
      http:
         paths:
-        - path: /{{ .name }}/(health)
-          backend:
-             serviceName: {{ .name }}
-             servicePort: {{ .port.number }}
-        - path: /{{ .name }}/(auth)
-          backend:
-             serviceName: {{ .name }}
-             servicePort: {{ .port.number }}
-        - path: /{{ .name }}/(signin)
-          backend:
-             serviceName: {{ .name }}
-             servicePort: {{ .port.number }}
-        - path: /{{ .name }}/(signup)
-          backend:
-             serviceName: {{ .name }}
-             servicePort: {{ .port.number }}
-        - path: /{{ .name }}/(signout)
-          backend:
-             serviceName: {{ .name }}
-             servicePort: {{ .port.number }}
-        - path: /{{ .name }}/(sessions)
+        - path: /{{ .name }}/(.*)
           backend:
              serviceName: {{ .name }}
              servicePort: {{ .port.number }}
