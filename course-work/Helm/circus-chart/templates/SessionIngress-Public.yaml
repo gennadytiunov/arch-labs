@@ -11,7 +11,11 @@ spec:
      http:
 {{- with .Values.sessionEndpoint.service }}
         paths:
-        - path: /{{ .name }}/(.*)
+        - path: /{{ .name }}/(health)
+          backend:
+             serviceName: {{ .name }}
+             servicePort: {{ .port.number }}
+        - path: /{{ .name }}/(sessions)
           backend:
              serviceName: {{ .name }}
              servicePort: {{ .port.number }}

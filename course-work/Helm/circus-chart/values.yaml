@@ -7,7 +7,7 @@ common:
 authEndpoint:
    label: auth-endpoint
    replicaCount: 1
-   image: gennadytiunov/circus-auth-endpoint:v10
+   image: gennadytiunov/circus-auth-endpoint:v11
    env:
       appPort: _OtusApp_Port_Endpoint_Auth
       uri: _OtusApp_URI_Endpoint_Auth
@@ -24,7 +24,7 @@ authEndpoint:
 identityEndpoint:
    label: identity-endpoint
    replicaCount: 1
-   image: gennadytiunov/circus-identity-endpoint:v10
+   image: gennadytiunov/circus-identity-endpoint:v11
    env:
       appPort: _OtusApp_Port_Endpoint_Identity
       uri: _OtusApp_URI_Endpoint_Identity
@@ -42,7 +42,7 @@ identityEndpoint:
 sessionEndpoint:
    label: session-endpoint
    replicaCount: 1
-   image: gennadytiunov/circus-session-endpoint:v10
+   image: gennadytiunov/circus-session-endpoint:v11
    env:
       appPort: _OtusApp_Port_Endpoint_Session
       uri: _OtusApp_URI_Endpoint_Session
@@ -60,7 +60,7 @@ sessionEndpoint:
 userEndpoint:
    label: user-endpoint
    replicaCount: 1
-   image: gennadytiunov/circus-user-endpoint:v10
+   image: gennadytiunov/circus-user-endpoint:v11
    env:
       appPort: _OtusApp_Port_Endpoint_User
       uri: _OtusApp_URI_Endpoint_User
@@ -78,7 +78,7 @@ userEndpoint:
 timetableEndpoint:
    label: timetable-endpoint
    replicaCount: 1
-   image: gennadytiunov/circus-timetable-endpoint:v10
+   image: gennadytiunov/circus-timetable-endpoint:v11
    env:
       appPort: _OtusApp_Port_Endpoint_Timetable
       uri: _OtusApp_URI_Endpoint_Timetable
@@ -95,7 +95,7 @@ timetableEndpoint:
 bookingEndpoint:
    label: booking-endpoint
    replicaCount: 1
-   image: gennadytiunov/circus-booking-endpoint:v10
+   image: gennadytiunov/circus-booking-endpoint:v11
    env:
       appPort: _OtusApp_Port_Endpoint_Booking
    port:
@@ -111,7 +111,7 @@ bookingEndpoint:
 paymentEndpoint:
    label: payment-endpoint
    replicaCount: 1
-   image: gennadytiunov/circus-payment-endpoint:v10
+   image: gennadytiunov/circus-payment-endpoint:v11
    env:
       appPort: _OtusApp_Port_Endpoint_Payment
    port:
@@ -127,7 +127,7 @@ paymentEndpoint:
 notificationEndpoint:
    label: notifier-endpoint
    replicaCount: 1
-   image: gennadytiunov/circus-notification-endpoint:v10
+   image: gennadytiunov/circus-notification-endpoint:v11
    env:
       appPort: _OtusApp_Port_Endpoint_Notification
    port:

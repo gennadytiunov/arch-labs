@@ -1,26 +1,26 @@
-docker image build -t gennadytiunov/circus-auth-endpoint:v10 .
-docker image build -t gennadytiunov/circus-identity-endpoint:v10 .
-docker image build -t gennadytiunov/circus-session-endpoint:v10 .
-docker image build -t gennadytiunov/circus-user-endpoint:v10 .
-docker image build -t gennadytiunov/circus-timetable-endpoint:v10 .
+docker image build -t gennadytiunov/circus-auth-endpoint:v11 .
+docker image build -t gennadytiunov/circus-identity-endpoint:v11 .
+docker image build -t gennadytiunov/circus-session-endpoint:v11 .
+docker image build -t gennadytiunov/circus-user-endpoint:v11 .
+docker image build -t gennadytiunov/circus-timetable-endpoint:v11 .
 docker image build -t gennadytiunov/circus-booking-orchestrator:v10 .
-docker image build -t gennadytiunov/circus-booking-endpoint:v10 .
+docker image build -t gennadytiunov/circus-booking-endpoint:v11 .
 docker image build -t gennadytiunov/circus-payment-listeners:v10 .
-docker image build -t gennadytiunov/circus-payment-endpoint:v10 .
+docker image build -t gennadytiunov/circus-payment-endpoint:v11 .
 docker image build -t gennadytiunov/circus-notification-listeners:v10 .
-docker image build -t gennadytiunov/circus-notification-endpoint:v10 .
+docker image build -t gennadytiunov/circus-notification-endpoint:v11 .
 
-docker push gennadytiunov/circus-auth-endpoint:v10
-docker push gennadytiunov/circus-identity-endpoint:v10
-docker push gennadytiunov/circus-session-endpoint:v10
-docker push gennadytiunov/circus-user-endpoint:v10
-docker push gennadytiunov/circus-timetable-endpoint:v10
+docker push gennadytiunov/circus-auth-endpoint:v11
+docker push gennadytiunov/circus-identity-endpoint:v11
+docker push gennadytiunov/circus-session-endpoint:v11
+docker push gennadytiunov/circus-user-endpoint:v11
+docker push gennadytiunov/circus-timetable-endpoint:v11
 docker push gennadytiunov/circus-booking-orchestrator:v10
-docker push gennadytiunov/circus-booking-endpoint:v10
+docker push gennadytiunov/circus-booking-endpoint:v11
 docker push gennadytiunov/circus-payment-listeners:v10
-docker push gennadytiunov/circus-payment-endpoint:v10
+docker push gennadytiunov/circus-payment-endpoint:v11
 docker push gennadytiunov/circus-notification-listeners:v10
-docker push gennadytiunov/circus-notification-endpoint:v10
+docker push gennadytiunov/circus-notification-endpoint:v11
 
 kubectl get namespaces
 
@@ -50,4 +50,8 @@ kubectl exec kafka-client -- kafka-topics --create --zookeeper cp-cp-zookeeper:2
 Tokens:
  - identityEndpoint: "OGNhNTE2MjQtOTI5MS00ZDcwLWFiMTctMDhhNjE3OGVhYWJm" / 8ca51624-9291-4d70-ab17-08a6178eaabf
  - sessionEndpoint: "ZmJmZGY2MTItODQxZi00NjQzLWEyMWQtNzA5YjFiNDhjMmJl" / fbfdf612-841f-4643-a21d-709b1b48c2be
- - userEndpoint: "YmI0NTMxODktMjljYy00ZWE5LWE3N2QtMDNiNjExM2Y2ODMz" / bb453189-29cc-4ea9-a77d-03b6113f6833
+ - userEndpoint: "YmI0NTMxODktMjljYy00ZWE5LWE3N2QtMDNiNjExM2Y2ODMz" / bb453189kube-29cc-4ea9-a77d-03b6113f6833
+ 
+ 
+kubectl exec -it pod/auth-endpoint-deployment-cdc65b7c5-lznrh -- /bin/bash
+ 

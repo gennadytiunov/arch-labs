@@ -11,7 +11,7 @@ spec:
      http:
 {{- with .Values.userEndpoint.service }}
         paths:
-        - path: /{{ .name }}/(.*)
+        - path: /{{ .name }}/(health)
           backend:
              serviceName: {{ .name }}
              servicePort: {{ .port.number }}
