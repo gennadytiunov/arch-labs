@@ -15,8 +15,4 @@ spec:
           backend:
              serviceName: {{ .name }}
              servicePort: {{ .port.number }}
-        - path: /{{ .name }}/(sessions)
-          backend:
-             serviceName: {{ .name }}
-             servicePort: {{ .port.number }}
 {{- end }}

@@ -2,7 +2,7 @@ common:
    secret: secret
    config: config
    namespace: circus
-   host: arch.homework
+   host: arch.coursework
 
 authEndpoint:
    label: auth-endpoint
@@ -185,7 +185,7 @@ db:
       access: "ReadWriteOnce"
       class: standard
       size: 500Mi
-   name: OtusLabs
+   name: Circus
    user: sa
    password: "0tuS1@b$"
    port:

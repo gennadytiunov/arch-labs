@@ -16,6 +16,9 @@
 
 К курсовой:
  - web app перещелать в profile / web app (либо profile перенести в auth controller)
+ - логин / пароль к DB в values
+ - добавить CreationDate к Users
+ - Удалять старые сессии
  - убрать обращение к user service напрямую
  - добавить аутентификацию / авторизацию
    -- за API Gateway скрыть: booking service, payment service, Notification service

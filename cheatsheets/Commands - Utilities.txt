@@ -9,6 +9,7 @@ ls -a1
 
 export PATH="$PATH:/opt/mssql-tools/bin"
 
+C:\Program Files\Microsoft SQL Server\Client SDK\ODBC\170\Tools\Binn
 sqlcmd -S 10.102.223.188,1433 -U sa -P "0tuS1@b$" -Q "USE OtusLabs; SELECT * FROM [User];"
 sqlcmd -S 172.28.52.210,30777 -U sa -P "0tuS1@b$" -Q "SELECT name, physical_name from sys.master_files"
  
