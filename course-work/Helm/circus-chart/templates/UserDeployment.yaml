@@ -29,6 +29,11 @@ spec:
                    secretKeyRef:
                       name: {{ .Values.common.secret }}
                       key: DBURI
+              - name: {{ .Values.userEndpoint.env.token }}
+                valueFrom:
+                   secretKeyRef:
+                      name: {{ .Values.common.secret }}
+                      key: {{ .Values.userEndpoint.env.token }}                      
 {{- with .Values.kafka }}
               - name: "_OtusApp_Kafka_Servers"
                 value: {{ .servers | quote }}

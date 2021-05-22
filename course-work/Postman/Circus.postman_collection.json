@@ -14,7 +14,7 @@
 						"exec": [
 							"pm.test(\"Check Timetable Endpoint - OK\", function () {\r",
 							"    pm.response.to.have.status(200);\r",
-							"    pm.expect(pm.response.text()).contains(\"OK from TimetableController\");\r",
+							"    pm.expect(pm.response.text()).contains(\"Hello from TimetableController\");\r",
 							"});"
 						],
 						"type": "text/javascript"
@@ -54,7 +54,7 @@
 						"exec": [
 							"pm.test(\"Check Booking Endpoint - OK\", function () {\r",
 							"    pm.response.to.have.status(200);\r",
-							"    pm.expect(pm.response.text()).contains(\"OK from BookingsController\");\r",
+							"    pm.expect(pm.response.text()).contains(\"Hello from BookingsController\");\r",
 							"});"
 						],
 						"type": "text/javascript"
@@ -85,7 +85,7 @@
 						"exec": [
 							"pm.test(\"Check Payment Endpoint - OK\", function () {\r",
 							"    pm.response.to.have.status(200);\r",
-							"    pm.expect(pm.response.text()).contains(\"OK from PaymentsController\");\r",
+							"    pm.expect(pm.response.text()).contains(\"Hello from PaymentsController\");\r",
 							"});"
 						],
 						"type": "text/javascript"
@@ -116,7 +116,7 @@
 						"exec": [
 							"pm.test(\"Check Notification Endpoint - OK\", function () {\r",
 							"    pm.response.to.have.status(200);\r",
-							"    pm.expect(pm.response.text()).contains(\"OK from NotificationsController\");\r",
+							"    pm.expect(pm.response.text()).contains(\"Hello from NotificationsController\");\r",
 							"});"
 						],
 						"type": "text/javascript"
@@ -147,7 +147,7 @@
 						"exec": [
 							"pm.test(\"Check Auth Endpoint - OK\", function () {\r",
 							"    pm.response.to.have.status(200);\r",
-							"    pm.expect(pm.response.text()).contains(\"OK from AuthController\");\r",
+							"    pm.expect(pm.response.text()).contains(\"Hello from AuthController\");\r",
 							"});"
 						],
 						"type": "text/javascript"
@@ -178,8 +178,57 @@
 						"exec": [
 							"pm.test(\"Check User Endpoint - OK\", function () {\r",
 							"    pm.response.to.have.status(200);\r",
-							"    pm.expect(pm.response.text()).contains(\"OK from UsersController\");\r",
+							"    pm.expect(pm.response.text()).contains(\"Hello from UsersController\");\r",
 							"});"
+						],
+						"type": "text/javascript"
+					}
+				},
+				{
+					"listen": "prerequest",
+					"script": {
+						"exec": [
+							"pm.request.headers.add({ key: 'X-Service-Token', value: pm.collectionVariables.get(\"X-Service-Token-User\") });"
+						],
+						"type": "text/javascript"
+					}
+				}
+			],
+			"request": {
+				"method": "GET",
+				"header": [],
+				"url": {
+					"raw": "{{BaseUrl}}{{UserEndpoint}}/health",
+					"host": [
+						"{{BaseUrl}}{{UserEndpoint}}"
+					],
+					"path": [
+						"health"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "User Endpoint Health - S2S Authorization Failure",
+			"event": [
+				{
+					"listen": "test",
+					"script": {
+						"exec": [
+							"pm.test(\"Check User Endpoint - Forbidden (403)\", function () {\r",
+							"    pm.response.to.have.status(403);\r",
+							"    pm.expect(pm.response.text()).contains(\"S2S authorization failed\");\r",
+							"});"
+						],
+						"type": "text/javascript"
+					}
+				},
+				{
+					"listen": "prerequest",
+					"script": {
+						"exec": [
+							""
 						],
 						"type": "text/javascript"
 					}
@@ -209,8 +258,57 @@
 						"exec": [
 							"pm.test(\"Check Session Endpoint - OK\", function () {\r",
 							"    pm.response.to.have.status(200);\r",
-							"    pm.expect(pm.response.text()).contains(\"OK from SessionsController\");\r",
+							"    pm.expect(pm.response.text()).contains(\"Hello from SessionsController\");\r",
 							"});"
+						],
+						"type": "text/javascript"
+					}
+				},
+				{
+					"listen": "prerequest",
+					"script": {
+						"exec": [
+							"pm.request.headers.add({ key: 'X-Service-Token', value: pm.collectionVariables.get(\"X-Service-Token-Session\") });"
+						],
+						"type": "text/javascript"
+					}
+				}
+			],
+			"request": {
+				"method": "GET",
+				"header": [],
+				"url": {
+					"raw": "{{BaseUrl}}{{SessionEndpoint}}/health",
+					"host": [
+						"{{BaseUrl}}{{SessionEndpoint}}"
+					],
+					"path": [
+						"health"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "Session Endpoint Health - S2S Authorization Failure",
+			"event": [
+				{
+					"listen": "test",
+					"script": {
+						"exec": [
+							"pm.test(\"Check Session Endpoint - Forbidden (403)\", function () {\r",
+							"    pm.response.to.have.status(403);\r",
+							"    pm.expect(pm.response.text()).contains(\"S2S authorization failed\");\r",
+							"});"
+						],
+						"type": "text/javascript"
+					}
+				},
+				{
+					"listen": "prerequest",
+					"script": {
+						"exec": [
+							""
 						],
 						"type": "text/javascript"
 					}
@@ -240,8 +338,17 @@
 						"exec": [
 							"pm.test(\"Check Session Endpoint - OK\", function () {\r",
 							"    pm.response.to.have.status(200);\r",
-							"    pm.expect(pm.response.text()).contains(\"OK from IdentityController\");\r",
+							"    pm.expect(pm.response.text()).contains(\"Hello from IdentityController\");\r",
 							"});"
+						],
+						"type": "text/javascript"
+					}
+				},
+				{
+					"listen": "prerequest",
+					"script": {
+						"exec": [
+							"pm.request.headers.add({ key: 'X-Service-Token', value: pm.collectionVariables.get(\"X-Service-Token-Identity\") });"
 						],
 						"type": "text/javascript"
 					}
@@ -263,16 +370,25 @@
 			"response": []
 		},
 		{
-			"name": "Session Endpoint - All Session - OK",
+			"name": "Identity Endpoint Health - S2S Authorization Failure",
 			"event": [
 				{
 					"listen": "test",
 					"script": {
 						"exec": [
-							"pm.test(\"Check Session Endpoint - OK\", function () {\r",
-							"    pm.response.to.have.status(200);\r",
-							"    pm.expect(pm.response.text()).contains(\"OK from SessionsController\");\r",
+							"pm.test(\"Check Session Endpoint - Forbidden (403\", function () {\r",
+							"    pm.response.to.have.status(403);\r",
+							"    pm.expect(pm.response.text()).contains(\"S2S authorization failed\");\r",
 							"});"
+						],
+						"type": "text/javascript"
+					}
+				},
+				{
+					"listen": "prerequest",
+					"script": {
+						"exec": [
+							""
 						],
 						"type": "text/javascript"
 					}
@@ -280,33 +396,181 @@
 			],
 			"request": {
 				"method": "GET",
-				"header": [
-					{
-						"key": "X-Service-Token",
-						"value": "fbfdf612-841f-4643-a21d-709b1b48c2be",
-						"type": "text"
-					}
-				],
+				"header": [],
 				"url": {
-					"raw": "{{BaseUrl}}{{SessionEndpoint}}/sessions",
+					"raw": "{{BaseUrl}}{{IdentityEndpoint}}/health",
 					"host": [
-						"{{BaseUrl}}{{SessionEndpoint}}"
+						"{{BaseUrl}}{{IdentityEndpoint}}"
 					],
 					"path": [
-						"sessions"
+						"health"
 					]
 				}
 			},
 			"response": []
 		},
 		{
-			"name": "Timetable - Get Shows",
+			"name": "Sign Up User 1 - Success",
+			"event": [
+				{
+					"listen": "prerequest",
+					"script": {
+						"exec": [
+							"pm.collectionVariables.set(\"email\", pm.variables.replaceIn('{{$randomEmail}}'));\r",
+							"pm.collectionVariables.set(\"password\", pm.variables.replaceIn('{{$randomPassword}}'));\r",
+							"pm.collectionVariables.set(\"firstName\", pm.variables.replaceIn('{{$randomFirstName}}'));\r",
+							"pm.collectionVariables.set(\"lastName\", pm.variables.replaceIn('{{$randomLastName}}'));"
+						],
+						"type": "text/javascript"
+					}
+				},
+				{
+					"listen": "test",
+					"script": {
+						"exec": [
+							"pm.test(\"Sign Up - 201 (Created)\", function () {\r",
+							"    pm.response.to.have.status(201);\r",
+							"\r",
+							"    var jsonData = pm.response.json();\r",
+							"    pm.expect(jsonData.email).to.eql(pm.collectionVariables.get(\"email\"));\r",
+							"    pm.expect(jsonData.password).to.eql(pm.collectionVariables.get(\"password\"));\r",
+							"    pm.expect(jsonData.firstName).to.eql(pm.collectionVariables.get(\"firstName\"));\r",
+							"    pm.expect(jsonData.lastName).to.eql(pm.collectionVariables.get(\"lastName\"));\r",
+							"\r",
+							"    pm.collectionVariables.set(\"id\", jsonData.id);\r",
+							"\r",
+							"    pm.collectionVariables.set(\"SessionId\", pm.response.headers.get(\"SessionId\"));\r",
+							"    pm.collectionVariables.set(\"FirstUserId\", jsonData.id);\r",
+							"});"
+						],
+						"type": "text/javascript"
+					}
+				}
+			],
+			"request": {
+				"method": "POST",
+				"header": [],
+				"body": {
+					"mode": "raw",
+					"raw": "{\r\n    \"email\" : \"{{email}}\",\r\n    \"password\" : \"{{password}}\",\r\n    \"firstName\" : \"{{firstName}}\",\r\n    \"lastName\" : \"{{lastName}}\"\r\n}",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": {
+					"raw": "{{BaseUrl}}{{AuthEndpoint}}/signup",
+					"host": [
+						"{{BaseUrl}}{{AuthEndpoint}}"
+					],
+					"path": [
+						"signup"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "Sign Out User 1 - Success",
+			"event": [
+				{
+					"listen": "prerequest",
+					"script": {
+						"exec": [
+							"pm.request.headers.add({ key: 'SessionId', value: pm.collectionVariables.get(\"SessionId\") });"
+						],
+						"type": "text/javascript"
+					}
+				},
+				{
+					"listen": "test",
+					"script": {
+						"exec": [
+							"pm.test(\"Sign Out - 204 (NoContent)\", function () {\r",
+							"    pm.response.to.have.status(204);\r",
+							"\r",
+							"    pm.collectionVariables.set(\"SessionId\", null);\r",
+							"});"
+						],
+						"type": "text/javascript"
+					}
+				}
+			],
+			"request": {
+				"method": "POST",
+				"header": [],
+				"url": {
+					"raw": "{{BaseUrl}}{{AuthEndpoint}}/signout",
+					"host": [
+						"{{BaseUrl}}{{AuthEndpoint}}"
+					],
+					"path": [
+						"signout"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "Sign Up User 1 - Failure",
+			"event": [
+				{
+					"listen": "prerequest",
+					"script": {
+						"exec": [
+							""
+						],
+						"type": "text/javascript"
+					}
+				},
+				{
+					"listen": "test",
+					"script": {
+						"exec": [
+							"pm.test(\"Sign Up - 409 (Conflict)\", function () {\r",
+							"    pm.response.to.have.status(409);\r",
+							"});"
+						],
+						"type": "text/javascript"
+					}
+				}
+			],
+			"request": {
+				"method": "POST",
+				"header": [],
+				"body": {
+					"mode": "raw",
+					"raw": "{\r\n    \"email\" : \"{{email}}\",\r\n    \"password\" : \"{{password}}\",\r\n    \"firstName\" : \"{{firstName}}\",\r\n    \"lastName\" : \"{{lastName}}\"\r\n}",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": {
+					"raw": "{{BaseUrl}}{{AuthEndpoint}}/signup",
+					"host": [
+						"{{BaseUrl}}{{AuthEndpoint}}"
+					],
+					"path": [
+						"signup"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "Timetable - Get Shows - Success",
 			"event": [
 				{
 					"listen": "test",
 					"script": {
 						"exec": [
-							""
+							"pm.test(\"Getting shows - several ones returned, OK (200)\", function () {\r",
+							"    var jsonData = pm.response.json();\r",
+							"    pm.expect(jsonData.length).to.gt(0);\r",
+							"});"
 						],
 						"type": "text/javascript"
 					}
@@ -328,13 +592,14 @@
 			"response": []
 		},
 		{
-			"name": "Timetable - Get Show",
+			"name": "Timetable - Get Show - Success",
 			"event": [
 				{
 					"listen": "test",
 					"script": {
 						"exec": [
-							""
+							"pm.test(\"Getting show - one returned, OK (200)\", function () {\r",
+							"});"
 						],
 						"type": "text/javascript"
 					}
@@ -357,13 +622,16 @@
 			"response": []
 		},
 		{
-			"name": "Timetable - Get Show Sessions",
+			"name": "Timetable - Get Show Sessions - Success",
 			"event": [
 				{
 					"listen": "test",
 					"script": {
 						"exec": [
-							""
+							"pm.test(\"Getting show sessions - several ones returned, OK (200)\", function () {\r",
+							"    var jsonData = pm.response.json();\r",
+							"    pm.expect(jsonData.length).to.gt(0);\r",
+							"});"
 						],
 						"type": "text/javascript"
 					}
@@ -452,7 +720,7 @@
 			"response": []
 		},
 		{
-			"name": "Bookings - Get Available Seats",
+			"name": "Bookings - Get Available Seats - Success",
 			"event": [
 				{
 					"listen": "test",
@@ -487,15 +755,15 @@
 			"response": []
 		},
 		{
-			"name": "Bookings - Get User Bookings - Empty",
+			"name": "Bookings - Get User Bookings - Sign In",
 			"event": [
 				{
 					"listen": "test",
 					"script": {
 						"exec": [
-							"pm.test(\"Check no user bookings exist - OK\", function () {\r",
-							"    var jsonData = pm.response.json();\r",
-							"    pm.expect(jsonData.length).to.eq(0);\r",
+							"pm.test(\"Rediirect to Sign In - 200\", function () {\r",
+							"    pm.response.to.have.status(200);\r",
+							"    pm.response.to.have.body(\"Please, POST your credentials to sign in.\");\r",
 							"});"
 						],
 						"type": "text/javascript"
@@ -506,23 +774,34 @@
 				"method": "GET",
 				"header": [],
 				"url": {
-					"raw": "{{BaseUrl}}{{BookingEndpoint}}/user-bookings/{{userId}}",
+					"raw": "{{BaseUrl}}{{BookingEndpoint}}/user-bookings",
 					"host": [
 						"{{BaseUrl}}{{BookingEndpoint}}"
 					],
 					"path": [
-						"user-bookings",
-						"{{userId}}"
+						"user-bookings"
 					]
 				}
 			},
 			"response": []
 		},
 		{
-			"name": "Bookings - Get All Bookings",
+			"name": "Payments - Get User Payment Account - Sign In",
 			"event": [
 				{
 					"listen": "test",
+					"script": {
+						"exec": [
+							"pm.test(\"Rediirect to Sign In - 200\", function () {\r",
+							"    pm.response.to.have.status(200);\r",
+							"    pm.response.to.have.body(\"Please, POST your credentials to sign in.\");\r",
+							"});"
+						],
+						"type": "text/javascript"
+					}
+				},
+				{
+					"listen": "prerequest",
 					"script": {
 						"exec": [
 							""
@@ -535,89 +814,27 @@
 				"method": "GET",
 				"header": [],
 				"url": {
-					"raw": "{{BaseUrl}}{{BookingEndpoint}}/bookings",
-					"host": [
-						"{{BaseUrl}}{{BookingEndpoint}}"
-					],
-					"path": [
-						"bookings"
-					]
-				}
-			},
-			"response": []
-		},
-		{
-			"name": "Users - Get All Users - Empty",
-			"event": [
-				{
-					"listen": "test",
-					"script": {
-						"exec": [
-							"pm.test(\"Check no users exist - OK\", function () {\r",
-							"    var jsonData = pm.response.json();\r",
-							"    pm.expect(jsonData.length).to.eq(0);\r",
-							"});"
-						],
-						"type": "text/javascript"
-					}
-				}
-			],
-			"request": {
-				"method": "GET",
-				"header": [],
-				"url": {
-					"raw": "{{BaseUrl}}{{UserEndpoint}}/users",
-					"host": [
-						"{{BaseUrl}}{{UserEndpoint}}"
-					],
-					"path": [
-						"users"
-					]
-				}
-			},
-			"response": []
-		},
-		{
-			"name": "Payments - Get All Payment Accounts - Empty",
-			"event": [
-				{
-					"listen": "test",
-					"script": {
-						"exec": [
-							"pm.test(\"Check no payment accounts exist - OK\", function () {\r",
-							"    var jsonData = pm.response.json();\r",
-							"    pm.expect(jsonData.length).to.eq(0);\r",
-							"});"
-						],
-						"type": "text/javascript"
-					}
-				}
-			],
-			"request": {
-				"method": "GET",
-				"header": [],
-				"url": {
-					"raw": "{{BaseUrl}}{{PaymentEndpoint}}/accounts",
+					"raw": "{{BaseUrl}}{{PaymentEndpoint}}/user-account",
 					"host": [
 						"{{BaseUrl}}{{PaymentEndpoint}}"
 					],
 					"path": [
-						"accounts"
+						"user-account"
 					]
 				}
 			},
 			"response": []
 		},
 		{
-			"name": "Notifications - Get All Notifications - Empty",
+			"name": "Payments - Get User Transactions - Sign In",
 			"event": [
 				{
 					"listen": "test",
 					"script": {
 						"exec": [
-							"pm.test(\"Check no notifications exist - OK\", function () {\r",
-							"    var jsonData = pm.response.json();\r",
-							"    pm.expect(jsonData.length).to.eq(0);\r",
+							"pm.test(\"Rediirect to Sign In - 200\", function () {\r",
+							"    pm.response.to.have.status(200);\r",
+							"    pm.response.to.have.body(\"Please, POST your credentials to sign in.\");\r",
 							"});"
 						],
 						"type": "text/javascript"
@@ -628,47 +845,38 @@
 				"method": "GET",
 				"header": [],
 				"url": {
-					"raw": "{{BaseUrl}}{{NotificationEndpoint}}/notifications",
+					"raw": "{{BaseUrl}}{{PaymentEndpoint}}/user-transactions",
 					"host": [
-						"{{BaseUrl}}{{NotificationEndpoint}}"
+						"{{BaseUrl}}{{PaymentEndpoint}}"
 					],
 					"path": [
-						"notifications"
+						"user-transactions"
 					]
 				}
 			},
 			"response": []
 		},
 		{
-			"name": "Users - Add User - Success",
+			"name": "Sign In User 1  - Success",
 			"event": [
 				{
-					"listen": "test",
+					"listen": "prerequest",
 					"script": {
 						"exec": [
-							"pm.test(\"User created - Status code is 201 (Created)\", function () {\r",
-							"    pm.response.to.have.status(201);\r",
-							"\r",
-							"    var jsonData = pm.response.json();\r",
-							"    pm.expect(jsonData.email).to.eq(pm.collectionVariables.get(\"email\"));\r",
-							"    pm.expect(jsonData.password).to.eq(pm.collectionVariables.get(\"password\"));\r",
-							"    pm.expect(jsonData.firstName).to.eq(pm.collectionVariables.get(\"firstName\"));\r",
-							"    pm.expect(jsonData.lastName).to.eq(pm.collectionVariables.get(\"lastName\"));\r",
-							"\r",
-							"    pm.collectionVariables.set(\"userId\", jsonData.id);\r",
-							"});"
+							""
 						],
 						"type": "text/javascript"
 					}
 				},
 				{
-					"listen": "prerequest",
+					"listen": "test",
 					"script": {
 						"exec": [
-							"pm.collectionVariables.set(\"email\", pm.variables.replaceIn('{{$randomEmail}}'));\r",
-							"pm.collectionVariables.set(\"password\", pm.variables.replaceIn('{{$randomPassword}}'));\r",
-							"pm.collectionVariables.set(\"firstName\", pm.variables.replaceIn('{{$randomFirstName}}'));\r",
-							"pm.collectionVariables.set(\"lastName\", pm.variables.replaceIn('{{$randomLastName}}'));"
+							"pm.test(\"Status code is 200 - OK\", function () {\r",
+							"    pm.response.to.have.status(200);\r",
+							"\r",
+							"    pm.collectionVariables.set(\"SessionId\", pm.response.headers.get(\"SessionId\"));\r",
+							"});"
 						],
 						"type": "text/javascript"
 					}
@@ -676,16 +884,10 @@
 			],
 			"request": {
 				"method": "POST",
-				"header": [
-					{
-						"key": "X-Service-Token",
-						"type": "text",
-						"value": "9860c9cd-5101-455f-85ca-0916908ee464"
-					}
-				],
+				"header": [],
 				"body": {
 					"mode": "raw",
-					"raw": "{\r\n    \"email\": \"{{email}}\",\r\n    \"password\": \"{{password}}\",\r\n    \"firstName\": \"{{firstName}}\",\r\n    \"lastName\": \"{{lastName}}\"\r\n}",
+					"raw": "{\r\n    \"email\": \"{{email}}\",\r\n    \"password\": \"{{password}}\"\r\n}",
 					"options": {
 						"raw": {
 							"language": "json"
@@ -693,29 +895,29 @@
 					}
 				},
 				"url": {
-					"raw": "{{BaseUrl}}{{UserEndpoint}}/users",
+					"raw": "{{BaseUrl}}{{AuthEndpoint}}/signin",
 					"host": [
-						"{{BaseUrl}}{{UserEndpoint}}"
+						"{{BaseUrl}}{{AuthEndpoint}}"
 					],
 					"path": [
-						"users"
+						"signin"
 					]
 				}
 			},
 			"response": []
 		},
 		{
-			"name": "Payments - Get Payment Account by Id - Success",
+			"name": "Bookings - Get User Bookings - Empty",
 			"event": [
 				{
 					"listen": "test",
 					"script": {
 						"exec": [
-							"pm.test(\"Payment account found - Status code is 200 (OK)\", function () {\r",
+							"pm.test(\"Getting user bookings - none returned (200)\", function () {\r",
 							"    pm.response.to.have.status(200);\r",
 							"\r",
 							"    var jsonData = pm.response.json();\r",
-							"    pm.expect(jsonData.userId).to.eq(pm.collectionVariables.get(\"userId\"));\r",
+							"    pm.expect(jsonData.length).to.eq(0);\r",
 							"});"
 						],
 						"type": "text/javascript"
@@ -725,7 +927,7 @@
 					"listen": "prerequest",
 					"script": {
 						"exec": [
-							" setTimeout(function(){}, 3000)"
+							"pm.request.headers.add({ key: 'SessionId', value: pm.collectionVariables.get(\"SessionId\") });"
 						],
 						"type": "text/javascript"
 					}
@@ -735,29 +937,36 @@
 				"method": "GET",
 				"header": [],
 				"url": {
-					"raw": "{{BaseUrl}}{{PaymentEndpoint}}/accounts/{{userId}}",
+					"raw": "{{BaseUrl}}{{BookingEndpoint}}/user-bookings",
 					"host": [
-						"{{BaseUrl}}{{PaymentEndpoint}}"
+						"{{BaseUrl}}{{BookingEndpoint}}"
 					],
 					"path": [
-						"accounts",
-						"{{userId}}"
+						"user-bookings"
 					]
 				}
 			},
 			"response": []
 		},
 		{
-			"name": "Payments - Get UserTransactions - Empty",
+			"name": "Payments - Get User Payment Account -  Success",
 			"event": [
 				{
 					"listen": "test",
 					"script": {
 						"exec": [
-							"pm.test(\"Check no user transactions exist - OK\", function () {\r",
-							"    var jsonData = pm.response.json();\r",
-							"    pm.expect(jsonData.length).to.eq(0);\r",
+							"pm.test(\"Getting user payment paccount - expected one returned (200)\", function () {\r",
+							"    pm.response.to.have.status(200);\r",
 							"});"
+						],
+						"type": "text/javascript"
+					}
+				},
+				{
+					"listen": "prerequest",
+					"script": {
+						"exec": [
+							"pm.request.headers.add({ key: 'SessionId', value: pm.collectionVariables.get(\"SessionId\") });"
 						],
 						"type": "text/javascript"
 					}
@@ -767,14 +976,54 @@
 				"method": "GET",
 				"header": [],
 				"url": {
-					"raw": "{{BaseUrl}}{{PaymentEndpoint}}/transactions/user/{{userId}}",
+					"raw": "{{BaseUrl}}{{PaymentEndpoint}}/user-account",
 					"host": [
 						"{{BaseUrl}}{{PaymentEndpoint}}"
 					],
 					"path": [
-						"transactions",
-						"user",
-						"{{userId}}"
+						"user-account"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "Payments - Get User Transactions - Empty",
+			"event": [
+				{
+					"listen": "test",
+					"script": {
+						"exec": [
+							"pm.test(\"Getting user transactions - none returned (200)\", function () {\r",
+							"    pm.response.to.have.status(200);\r",
+							"\r",
+							"    var jsonData = pm.response.json();\r",
+							"    pm.expect(jsonData.length).to.eq(0);\r",
+							"});"
+						],
+						"type": "text/javascript"
+					}
+				},
+				{
+					"listen": "prerequest",
+					"script": {
+						"exec": [
+							"pm.request.headers.add({ key: 'SessionId', value: pm.collectionVariables.get(\"SessionId\") });"
+						],
+						"type": "text/javascript"
+					}
+				}
+			],
+			"request": {
+				"method": "GET",
+				"header": [],
+				"url": {
+					"raw": "{{BaseUrl}}{{PaymentEndpoint}}/user-transactions",
+					"host": [
+						"{{BaseUrl}}{{PaymentEndpoint}}"
+					],
+					"path": [
+						"user-transactions"
 					]
 				}
 			},
@@ -787,7 +1036,7 @@
 					"listen": "test",
 					"script": {
 						"exec": [
-							"pm.test(\"Deposit amount - Status code is 200 (OK)\", function () {\r",
+							"pm.test(\"Deposit amount - OK (200)\", function () {\r",
 							"    pm.response.to.have.status(200);\r",
 							"});"
 						],
@@ -798,7 +1047,7 @@
 					"listen": "prerequest",
 					"script": {
 						"exec": [
-							""
+							"pm.request.headers.add({ key: 'SessionId', value: pm.collectionVariables.get(\"SessionId\") });"
 						],
 						"type": "text/javascript"
 					}
@@ -817,28 +1066,30 @@
 					}
 				},
 				"url": {
-					"raw": "{{BaseUrl}}{{PaymentEndpoint}}/deposit/{{userId}}",
+					"raw": "{{BaseUrl}}{{PaymentEndpoint}}/deposit-amount",
 					"host": [
 						"{{BaseUrl}}{{PaymentEndpoint}}"
 					],
 					"path": [
-						"deposit",
-						"{{userId}}"
+						"deposit-amount"
 					]
 				}
 			},
 			"response": []
 		},
 		{
-			"name": "Payments - Get UserTransactions - Exists One",
+			"name": "Payments - Check Account Balance - Success",
 			"event": [
 				{
 					"listen": "test",
 					"script": {
 						"exec": [
-							"pm.test(\"Check one user transaction exist - OK\", function () {\r",
+							"pm.test(\"Check account balance - OK (200)\", function () {\r",
+							"    pm.response.to.have.status(200);\r",
+							"\r",
 							"    var jsonData = pm.response.json();\r",
-							"    pm.expect(jsonData.length).to.eq(1);\r",
+							"    pm.expect(jsonData.balance).to.eq(1000);\r",
+							"    pm.expect(jsonData.currency).to.eq(\"RUB\");\r",
 							"});"
 						],
 						"type": "text/javascript"
@@ -848,7 +1099,7 @@
 					"listen": "prerequest",
 					"script": {
 						"exec": [
-							" setTimeout(function(){}, 3000)"
+							"pm.request.headers.add({ key: 'SessionId', value: pm.collectionVariables.get(\"SessionId\") });"
 						],
 						"type": "text/javascript"
 					}
@@ -858,14 +1109,58 @@
 				"method": "GET",
 				"header": [],
 				"url": {
-					"raw": "{{BaseUrl}}{{PaymentEndpoint}}/transactions/user/{{userId}}",
+					"raw": "{{BaseUrl}}{{PaymentEndpoint}}/user-account",
 					"host": [
 						"{{BaseUrl}}{{PaymentEndpoint}}"
 					],
 					"path": [
-						"transactions",
-						"user",
-						"{{userId}}"
+						"user-account"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "Payments - Get User Transactions - Deposit Exists",
+			"event": [
+				{
+					"listen": "test",
+					"script": {
+						"exec": [
+							"pm.test(\"Check one user transaction exists - OK (200)\", function () {\r",
+							"    var jsonData = pm.response.json();\r",
+							"    \r",
+							"    pm.expect(jsonData.length).to.eq(1);\r",
+							"\r",
+							"    var transaction = jsonData[0];\r",
+							"    pm.expect(transaction.type).to.eq(\"Deposit\");\r",
+							"    pm.expect(transaction.amount).to.eq(1000);\r",
+							"    pm.expect(transaction.currency).to.eq(\"RUB\");\r",
+							"});"
+						],
+						"type": "text/javascript"
+					}
+				},
+				{
+					"listen": "prerequest",
+					"script": {
+						"exec": [
+							"pm.request.headers.add({ key: 'SessionId', value: pm.collectionVariables.get(\"SessionId\") });"
+						],
+						"type": "text/javascript"
+					}
+				}
+			],
+			"request": {
+				"method": "GET",
+				"header": [],
+				"url": {
+					"raw": "{{BaseUrl}}{{PaymentEndpoint}}/user-transactions",
+					"host": [
+						"{{BaseUrl}}{{PaymentEndpoint}}"
+					],
+					"path": [
+						"user-transactions"
 					]
 				}
 			},
@@ -892,6 +1187,8 @@
 					"listen": "prerequest",
 					"script": {
 						"exec": [
+							"pm.request.headers.add({ key: 'SessionId', value: pm.collectionVariables.get(\"SessionId\") });\r",
+							"\r",
 							"pm.collectionVariables.set(\"bookingId\", pm.variables.replaceIn('{{$guid}}'));"
 						],
 						"type": "text/javascript"
@@ -917,13 +1214,12 @@
 					}
 				},
 				"url": {
-					"raw": "{{BaseUrl}}{{BookingEndpoint}}/user-bookings/{{userId}}",
+					"raw": "{{BaseUrl}}{{BookingEndpoint}}/user-bookings",
 					"host": [
 						"{{BaseUrl}}{{BookingEndpoint}}"
 					],
 					"path": [
-						"user-bookings",
-						"{{userId}}"
+						"user-bookings"
 					]
 				}
 			},
@@ -936,7 +1232,7 @@
 					"listen": "test",
 					"script": {
 						"exec": [
-							"pm.test(\"Get booking - Status code is 200 (OK), Status is Created, Substatus is PaymentInitiated\", function () {\r",
+							"pm.test(\"Get booking - OK (200), Booking Status is Created, SubStatus is PaymentInitiated\", function () {\r",
 							"    pm.response.to.have.status(200);\r",
 							"\r",
 							"    var jsonData = pm.response.json();\r",
@@ -951,7 +1247,9 @@
 					"listen": "prerequest",
 					"script": {
 						"exec": [
-							" setTimeout(function(){}, 3000)"
+							"setTimeout(function(){}, 3000)\r",
+							"\r",
+							"pm.request.headers.add({ key: 'SessionId', value: pm.collectionVariables.get(\"SessionId\") });"
 						],
 						"type": "text/javascript"
 					}
@@ -961,12 +1259,12 @@
 				"method": "GET",
 				"header": [],
 				"url": {
-					"raw": "{{BaseUrl}}{{BookingEndpoint}}/bookings/{{bookingId}}",
+					"raw": "{{BaseUrl}}{{BookingEndpoint}}/user-bookings/{{bookingId}}",
 					"host": [
 						"{{BaseUrl}}{{BookingEndpoint}}"
 					],
 					"path": [
-						"bookings",
+						"user-bookings",
 						"{{bookingId}}"
 					]
 				}
@@ -980,7 +1278,7 @@
 					"listen": "test",
 					"script": {
 						"exec": [
-							"pm.test(\"Get booking - Status code is 200 (OK), Status is Failed\", function () {\r",
+							"pm.test(\"Get booking - OK (200)), Booking Status is Failed\", function () {\r",
 							"    pm.response.to.have.status(200);\r",
 							"\r",
 							"    var jsonData = pm.response.json();\r",
@@ -994,7 +1292,9 @@
 					"listen": "prerequest",
 					"script": {
 						"exec": [
-							" setTimeout(function(){}, 7000)"
+							" setTimeout(function(){}, 7000)\r",
+							"\r",
+							" pm.request.headers.add({ key: 'SessionId', value: pm.collectionVariables.get(\"SessionId\") });"
 						],
 						"type": "text/javascript"
 					}
@@ -1004,56 +1304,13 @@
 				"method": "GET",
 				"header": [],
 				"url": {
-					"raw": "{{BaseUrl}}{{BookingEndpoint}}/bookings/{{bookingId}}",
+					"raw": "{{BaseUrl}}{{BookingEndpoint}}/user-bookings/{{bookingId}}",
 					"host": [
 						"{{BaseUrl}}{{BookingEndpoint}}"
 					],
 					"path": [
-						"bookings",
+						"user-bookings",
 						"{{bookingId}}"
-					]
-				}
-			},
-			"response": []
-		},
-		{
-			"name": "Payments - Check Account Balance - Not Changed",
-			"event": [
-				{
-					"listen": "test",
-					"script": {
-						"exec": [
-							"pm.test(\"Check account balance - Status code is 200 (OK)\", function () {\r",
-							"    pm.response.to.have.status(200);\r",
-							"\r",
-							"    var jsonData = pm.response.json();\r",
-							"    pm.expect(jsonData.balance).to.eq(1000);\r",
-							"});"
-						],
-						"type": "text/javascript"
-					}
-				},
-				{
-					"listen": "prerequest",
-					"script": {
-						"exec": [
-							""
-						],
-						"type": "text/javascript"
-					}
-				}
-			],
-			"request": {
-				"method": "GET",
-				"header": [],
-				"url": {
-					"raw": "{{BaseUrl}}{{PaymentEndpoint}}/accounts/{{userId}}",
-					"host": [
-						"{{BaseUrl}}{{PaymentEndpoint}}"
-					],
-					"path": [
-						"accounts",
-						"{{userId}}"
 					]
 				}
 			},
@@ -1103,6 +1360,37 @@
 					"path": [
 						"deposit",
 						"{{userId}}"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "Notifications - Get All Notifications - Empty",
+			"event": [
+				{
+					"listen": "test",
+					"script": {
+						"exec": [
+							"pm.test(\"Check no notifications exist - OK\", function () {\r",
+							"    var jsonData = pm.response.json();\r",
+							"    pm.expect(jsonData.length).to.eq(0);\r",
+							"});"
+						],
+						"type": "text/javascript"
+					}
+				}
+			],
+			"request": {
+				"method": "GET",
+				"header": [],
+				"url": {
+					"raw": "{{BaseUrl}}{{NotificationEndpoint}}/notifications",
+					"host": [
+						"{{BaseUrl}}{{NotificationEndpoint}}"
+					],
+					"path": [
+						"notifications"
 					]
 				}
 			},
@@ -1676,6 +1964,86 @@
 				}
 			},
 			"response": []
+		},
+		{
+			"name": "User Endpoint Health - S2S Authorization Failure Copy",
+			"event": [
+				{
+					"listen": "test",
+					"script": {
+						"exec": [
+							"pm.test(\"Check User Endpoint - OK\", function () {\r",
+							"    pm.response.to.have.status(200);\r",
+							"    pm.expect(pm.response.text()).contains(\"OK from UsersController\");\r",
+							"});"
+						],
+						"type": "text/javascript"
+					}
+				},
+				{
+					"listen": "prerequest",
+					"script": {
+						"exec": [
+							"pm.request.headers.add({ key: 'X-Service-Token', value: pm.collectionVariables.get(\"X-Service-Token-User\") });"
+						],
+						"type": "text/javascript"
+					}
+				}
+			],
+			"request": {
+				"method": "GET",
+				"header": [],
+				"url": {
+					"raw": "{{BaseUrl}}{{UserEndpoint}}/health",
+					"host": [
+						"{{BaseUrl}}{{UserEndpoint}}"
+					],
+					"path": [
+						"health"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "Session Endpoint Health - S2S Authorization Failure Copy",
+			"event": [
+				{
+					"listen": "test",
+					"script": {
+						"exec": [
+							"pm.test(\"Check Session Endpoint - OK\", function () {\r",
+							"    pm.response.to.have.status(200);\r",
+							"    pm.expect(pm.response.text()).contains(\"OK from SessionsController\");\r",
+							"});"
+						],
+						"type": "text/javascript"
+					}
+				},
+				{
+					"listen": "prerequest",
+					"script": {
+						"exec": [
+							""
+						],
+						"type": "text/javascript"
+					}
+				}
+			],
+			"request": {
+				"method": "GET",
+				"header": [],
+				"url": {
+					"raw": "{{BaseUrl}}{{SessionEndpoint}}/health",
+					"host": [
+						"{{BaseUrl}}{{SessionEndpoint}}"
+					],
+					"path": [
+						"health"
+					]
+				}
+			},
+			"response": []
 		}
 	],
 	"event": [
@@ -1701,7 +2069,7 @@
 	"variable": [
 		{
 			"key": "BaseUrl",
-			"value": "http://arch.homework"
+			"value": "http://arch.coursework"
 		},
 		{
 			"key": "TimetableEndpoint",
@@ -1734,6 +2102,50 @@
 		{
 			"key": "IdentityEndpoint",
 			"value": "/identity-endpoint"
+		},
+		{
+			"key": "email",
+			"value": ""
+		},
+		{
+			"key": "password",
+			"value": ""
+		},
+		{
+			"key": "firstName",
+			"value": ""
+		},
+		{
+			"key": "lastName",
+			"value": ""
+		},
+		{
+			"key": "id",
+			"value": ""
+		},
+		{
+			"key": "SessionId",
+			"value": ""
+		},
+		{
+			"key": "FirstUserId",
+			"value": ""
+		},
+		{
+			"key": "X-Service-Token-Session",
+			"value": "fbfdf612-841f-4643-a21d-709b1b48c2be"
+		},
+		{
+			"key": "X-Service-Token-User",
+			"value": "bb453189-29cc-4ea9-a77d-03b6113f6833"
+		},
+		{
+			"key": "X-Service-Token-Identity",
+			"value": "8ca51624-9291-4d70-ab17-08a6178eaabf"
+		},
+		{
+			"key": "bookingId",
+			"value": ""
 		}
 	]
 }

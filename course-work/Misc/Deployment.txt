@@ -47,9 +47,4 @@ kubectl exec kafka-client -- kafka-topics --create --zookeeper cp-cp-zookeeper:2
 kubectl exec kafka-client -- kafka-topics --create --zookeeper cp-cp-zookeeper:2181 -replication-factor 1 --partitions 1 --topic payments
 kubectl exec kafka-client -- kafka-topics --create --zookeeper cp-cp-zookeeper:2181 -replication-factor 1 --partitions 1 --topic notifications
 
-Tokens:
- - identityEndpoint: "OGNhNTE2MjQtOTI5MS00ZDcwLWFiMTctMDhhNjE3OGVhYWJm" / 8ca51624-9291-4d70-ab17-08a6178eaabf
- - sessionEndpoint: "ZmJmZGY2MTItODQxZi00NjQzLWEyMWQtNzA5YjFiNDhjMmJl" / fbfdf612-841f-4643-a21d-709b1b48c2be
- - userEndpoint: "YmI0NTMxODktMjljYy00ZWE5LWE3N2QtMDNiNjExM2Y2ODMz" / bb453189kube-29cc-4ea9-a77d-03b6113f6833
- 
 kubectl exec -it pod/auth-endpoint-deployment-58ccf6c7f8-57l56 -- /bin/bash

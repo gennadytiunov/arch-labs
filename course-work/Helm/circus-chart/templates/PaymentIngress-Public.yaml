@@ -1,7 +1,7 @@
 apiVersion: networking.k8s.io/v1beta1
 kind: Ingress
 metadata:
-   name: {{ .Values.paymentEndpoint.label }}-ingress
+   name: {{ .Values.paymentEndpoint.label }}-ingress-public
    annotations:
       kubernetes.io/ingress.class: "nginx"
       nginx.ingress.kubernetes.io/rewrite-target: /$1
@@ -11,7 +11,7 @@ spec:
      http:
 {{- with .Values.paymentEndpoint.service }}
         paths:
-        - path: /{{ .name }}/(.*)
+        - path: /{{ .name }}/(health)
           backend:
              serviceName: {{ .name }}
              servicePort: {{ .port.number }}
