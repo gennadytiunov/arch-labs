@@ -124,22 +124,6 @@ paymentEndpoint:
          number: "10200"
          protocol: TCP
 
-notificationEndpoint:
-   label: notifier-endpoint
-   replicaCount: 1
-   image: gennadytiunov/circus-notification-endpoint:v11
-   env:
-      appPort: _OtusApp_Port_Endpoint_Notification
-   port:
-      number: 10300
-      name: notifier-port
-   service:
-      name: notifier-endpoint
-      type: NodePort
-      port:
-         number: "10300"
-         protocol: TCP
-         
 bookingOrchestrator:
    name: booking-orchestrator
    image: gennadytiunov/circus-booking-orchestrator:v10

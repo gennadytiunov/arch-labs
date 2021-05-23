@@ -8,7 +8,6 @@ docker image build -t gennadytiunov/circus-booking-endpoint:v11 .
 docker image build -t gennadytiunov/circus-payment-listeners:v10 .
 docker image build -t gennadytiunov/circus-payment-endpoint:v11 .
 docker image build -t gennadytiunov/circus-notification-listeners:v10 .
-docker image build -t gennadytiunov/circus-notification-endpoint:v11 .
 
 docker push gennadytiunov/circus-auth-endpoint:v11
 docker push gennadytiunov/circus-identity-endpoint:v11
@@ -20,7 +19,6 @@ docker push gennadytiunov/circus-booking-endpoint:v11
 docker push gennadytiunov/circus-payment-listeners:v10
 docker push gennadytiunov/circus-payment-endpoint:v11
 docker push gennadytiunov/circus-notification-listeners:v10
-docker push gennadytiunov/circus-notification-endpoint:v11
 
 kubectl get namespaces
 
@@ -47,4 +45,7 @@ kubectl exec kafka-client -- kafka-topics --create --zookeeper cp-cp-zookeeper:2
 kubectl exec kafka-client -- kafka-topics --create --zookeeper cp-cp-zookeeper:2181 -replication-factor 1 --partitions 1 --topic payments
 kubectl exec kafka-client -- kafka-topics --create --zookeeper cp-cp-zookeeper:2181 -replication-factor 1 --partitions 1 --topic notifications
 
-kubectl exec -it pod/auth-endpoint-deployment-58ccf6c7f8-57l56 -- /bin/bash
+kubectl exec -it pod/booking-orchestrator-pod -- /bin/bash
+kubectl exec -it pod/payment-processor-pod -- /bin/bash
+kubectl exec -it pod/notification-processor-pod -- /bin/bash
+
