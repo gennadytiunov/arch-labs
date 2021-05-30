@@ -11,6 +11,36 @@ spec:
      image: {{ .image }}
 {{- end }}     
      env:
+        - name: _OtusApp_SMTP_Server
+          valueFrom:
+             configMapKeyRef:
+                name: {{ .Values.common.config }}
+                key: SMTP_Server
+        - name: _OtusApp_SMTP_Port
+          valueFrom:
+             configMapKeyRef:
+                name: {{ .Values.common.config }}
+                key: SMTP_Port
+        - name: _OtusApp_SMTP_Sender_Name
+          valueFrom:
+             configMapKeyRef:
+                name: {{ .Values.common.config }}
+                key: SMTP_Sender_Name
+        - name: _OtusApp_SMTP_Sender_Email
+          valueFrom:
+             configMapKeyRef:
+                name: {{ .Values.common.config }}
+                key: SMTP_Sender_Email
+        - name: _OtusApp_SMTP_Login
+          valueFrom:
+             secretKeyRef:
+                name: {{ .Values.common.secret }}
+                key: SMTPLOGIN
+        - name: _OtusApp_SMTP_Password
+          valueFrom:
+             secretKeyRef:
+                name: {{ .Values.common.secret }}
+                key: SMTPPASSWORD
         - name: {{ .Values.db.env.uri }}
           valueFrom:
              secretKeyRef:

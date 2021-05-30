@@ -3,6 +3,10 @@ kind: ConfigMap
 metadata:
    name: {{ .Values.common.config }}
 data:
+   SMTP_Server: "smtp.avp.ru"   
+   SMTP_Port: "25"
+   SMTP_Sender_Name: "Gennady Tiunov"
+   SMTP_Sender_Email: "gennady.tiunov@kaspersky.com"
    {{ .Values.timetableEndpoint.env.uri }}: "http://{{ .Values.timetableEndpoint.service.name }}:{{ .Values.timetableEndpoint.service.port.number }}"
    {{ .Values.identityEndpoint.env.uri }}: "http://{{ .Values.identityEndpoint.service.name }}:{{ .Values.identityEndpoint.port.number }}"
    {{ .Values.sessionEndpoint.env.uri }}: "http://{{ .Values.sessionEndpoint.service.name }}:{{ .Values.sessionEndpoint.port.number }}"

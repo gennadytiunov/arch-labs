@@ -20,6 +20,8 @@ docker push gennadytiunov/circus-payment-listeners:v10
 docker push gennadytiunov/circus-payment-endpoint:v11
 docker push gennadytiunov/circus-notification-listeners:v10
 
+minikube addons enable ingress
+
 kubectl get namespaces
 
 kubectl create namespace kafka
@@ -28,13 +30,14 @@ kubectl config set-context --current --namespace=kafka
 helm repo add confluentinc https://confluentinc.github.io/cp-helm-charts/
 helm repo update
 helm install cp confluentinc/cp-helm-charts --set cp-schema-registry.enabled=false,cp-kafka-rest.enabled=false,cp-kafka-connect.enabled=false,cp-ksql-server.enabled=false,cp-control-center.enabled=false
+...WAIT UNTIL KAFKA IS UP...
+cd circus-chart
+kubectl apply -f KafkaJob.yaml
 
 kubectl create namespace circus
 kubectl config set-context --current --namespace=circus
 
 helm install circus-app ./circus-chart
-
-kubectl apply -f kafka-client.yaml
 kubectl exec kafka-client -- kafka-topics --list --zookeeper cp-cp-zookeeper:2181
 
 kubectl exec -it pod/cp-cp-kafka-0 -- /bin/bash
@@ -48,4 +51,6 @@ kubectl exec kafka-client -- kafka-topics --create --zookeeper cp-cp-zookeeper:2
 kubectl exec -it pod/booking-orchestrator-pod -- /bin/bash
 kubectl exec -it pod/payment-processor-pod -- /bin/bash
 kubectl exec -it pod/notification-processor-pod -- /bin/bash
+kubectl exec -it pod/booking-endpoint-deployment-7cfd6bcd88-vh9w9 -- /bin/bash
+
 

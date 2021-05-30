@@ -3,6 +3,10 @@ common:
    config: config
    namespace: circus
    host: arch.coursework
+   
+smtp:
+   login: ...
+   password: ...
 
 authEndpoint:
    label: auth-endpoint
