@@ -31,14 +31,13 @@ helm repo add confluentinc https://confluentinc.github.io/cp-helm-charts/
 helm repo update
 helm install cp confluentinc/cp-helm-charts --set cp-schema-registry.enabled=false,cp-kafka-rest.enabled=false,cp-kafka-connect.enabled=false,cp-ksql-server.enabled=false,cp-control-center.enabled=false
 ...WAIT UNTIL KAFKA IS UP...
-cd circus-chart
-kubectl apply -f KafkaJob.yaml
+kubectl apply -f KafkaCreator.yaml
 
 kubectl create namespace circus
 kubectl config set-context --current --namespace=circus
 
-helm install circus-app ./circus-chart
-kubectl exec kafka-client -- kafka-topics --list --zookeeper cp-cp-zookeeper:2181
+helm install circus-app circus-chart
+kubectl exec kafka-client -- kafka-topics --list --zookeeper cp-cp-zookeeper-headless.kafka.svc.cluster.local:2181
 
 kubectl exec -it pod/cp-cp-kafka-0 -- /bin/bash
 kafka-topics --list --zookeeper cp-cp-zookeeper.kafka.svc.cluster.local:2181 
@@ -49,8 +48,36 @@ kubectl exec kafka-client -- kafka-topics --create --zookeeper cp-cp-zookeeper:2
 kubectl exec kafka-client -- kafka-topics --create --zookeeper cp-cp-zookeeper:2181 -replication-factor 1 --partitions 1 --topic notifications
 
 kubectl exec -it pod/booking-orchestrator-pod -- /bin/bash
+kubectl exec -it pod/booking-endpoint-deployment-6875dcc55b-7gvvl-- /bin/bash
+
 kubectl exec -it pod/payment-processor-pod -- /bin/bash
 kubectl exec -it pod/notification-processor-pod -- /bin/bash
-kubectl exec -it pod/booking-endpoint-deployment-7cfd6bcd88-vh9w9 -- /bin/bash
+kubectl exec -it pod/booking-endpoint-deployment-6875dcc55b-527px -- /bin/bash
+
+kubectl exec -it pod/cp-cp-kafka-0 -- /bin/bash
+kubectl exec -it pod/cp-cp-zookeeper-0 -- /bin/bash
+
+kubectl exec -it pod/kafka-job-snb5z -- /bin/bash
+
+2021-06-01 21:55:46.142 +00:00 [WRN] MessageDeserializer: Message 'OtusApp.Circus.Booking.Contract.Messages.BookingCreated' is not BookingCreated.
+2021-06-01 21:55:46.144 +00:00 [INF] BookingMessageListener: Message {"BookingId":"0211a22f-1cc2-4b7f-9ec4-cce7d9bd2c0d","Id":"ea6ebf17-f05a-4a1c-af99-6249d676b686","Name":"BookingCancelled","Type":"Event","Date":"2021-06-01T21:55:46.1251171Z"} is recognized by BookingMessageListener as BookingCancelled event and will be processed.
+2021-06-01 21:55:46.171 +00:00 [INF] BookingMessageListener: Message {"BookingId":"0211a22f-1cc2-4b7f-9ec4-cce7d9bd2c0d","Id":"ea6ebf17-f05a-4a1c-af99-6249d676b686","Name":"BookingCancelled","Type":"Event","Date":"2021-06-01T21:55:46.1251171Z"} was processed.
+2021-06-01 21:55:46.172 +00:00 [INF] BookingMessageListener: Consuming next message.
+2021-06-01 21:55:46.178 +00:00 [INF] BookingStateMachine: BookingCancelledEvent received: {"BookingId":"0211a22f-1cc2-4b7f-9ec4-cce7d9bd2c0d","Date":"0001-01-01T00:00:00"}
+2021-06-01 21:55:46.181 +00:00 [INF] BookingStateMachine: BookingCancelledEvent: Sending RefundPayment: {"BookingId":"0211a22f-1cc2-4b7f-9ec4-cce7d9bd2c0d","Date":"2021-06-01T21:55:46.1803676Z"}
+2021-06-01 21:55:46.199 +00:00 [INF] BookingProcessor: RefundPayment received: {"BookingId":"0211a22f-1cc2-4b7f-9ec4-cce7d9bd2c0d","Date":"2021-06-01T21:55:46.1803676Z"}
+2021-06-01 21:55:46.203 +00:00 [INF] BookingStateMachine: BookingCancelledEvent: Sending NotifyBookingCancellation: {"BookingId":"0211a22f-1cc2-4b7f-9ec4-cce7d9bd2c0d","Date":"2021-06-01T21:55:46.2030252Z"}
+2021-06-01 21:55:46.210 +00:00 [INF] BookingProcessor: RefundPayment: Sending RefundPayment : {"PaymentId":"eee9f028-3cb7-42e3-8907-3859c7487bf4","UserId":1,"Id":"34bb4723-90ac-42bf-b619-4df245c8234e","Name":"RefundPayment","Type":2,"Date":"2021-06-01T21:55:46.2080521Z"}
+2021-06-01 21:55:46.211 +00:00 [INF] KafkaProxy: Sending message '{"PaymentId":"eee9f028-3cb7-42e3-8907-3859c7487bf4","UserId":1,"Id":"34bb4723-90ac-42bf-b619-4df245c8234e","Name":"RefundPayment","Type":"Command","Date":"2021-06-01T21:55:46.2080521Z"}' to 'cp-cp-kafka-headless.kafka.svc.cluster.local:9092'.
+2021-06-01 21:55:46.266 +00:00 [INF] PaymentMessageListener: Consumed message '{"PaymentId":"eee9f028-3cb7-42e3-8907-3859c7487bf4","Id":"56c7a3eb-a40b-4c0c-b7f9-968beda23d78","Name":"RefundCompleted","Type":"Event","Date":"2021-06-01T21:55:46.2533352Z"}' at offset 'payments-replies [[0]] @3'.
+2021-06-01 21:55:46.267 +00:00 [WRN] MessageDeserializer: Message 'OtusApp.Circus.Payment.Contract.Messages.PaymentSucceeded' is not PaymentSucceeded.
+2021-06-01 21:55:46.267 +00:00 [WRN] MessageDeserializer: Message 'OtusApp.Circus.Payment.Contract.Messages.PaymentFailed' is not PaymentFailed.
+2021-06-01 21:55:46.267 +00:00 [INF] PaymentMessageListener: Message {"PaymentId":"eee9f028-3cb7-42e3-8907-3859c7487bf4","Id":"56c7a3eb-a40b-4c0c-b7f9-968beda23d78","Name":"RefundCompleted","Type":"Event","Date":"2021-06-01T21:55:46.2533352Z"} is not recognized by PaymentMessageListener and will be skipped.
+2021-06-01 21:55:46.267 +00:00 [INF] PaymentMessageListener: Consuming next message.
+2021-06-01 21:55:47.148 +00:00 [INF] KafkaProxy: Delivered '{"PaymentId":"eee9f028-3cb7-42e3-8907-3859c7487bf4","UserId":1,"Id":"34bb4723-90ac-42bf-b619-4df245c8234e","Name":"RefundPayment","Type":"Command","Date":"2021-06-01T21:55:46.2080521Z"}' to offset 'payments [[0]] @3' on 'cp-cp-kafka-headless.kafka.svc.cluster.local:9092'.
+2021-06-01 21:55:47.153 +00:00 [INF] BookingProcessor: NotifyBookingCancellation received: {"BookingId":"0211a22f-1cc2-4b7f-9ec4-cce7d9bd2c0d","Date":"2021-06-01T21:55:46.2030252Z"}
+2021-06-01 21:55:47.157 +00:00 [INF] BookingProcessor: NotifyBookingCancellation: Sending NotifyBookingCancellation : {"BookingId":"0211a22f-1cc2-4b7f-9ec4-cce7d9bd2c0d","Email":"gennady.tiunov@gmail.com","Amount":3000.0000,"Currency":"RUB","Id":"805c7ad2-d8c7-45ff-8624-48d6a95e92b7","Name":"NotifyBookingCancellation","Type":2,"Date":"2021-06-01T21:55:47.1563291Z"}
+2021-06-01 21:55:47.158 +00:00 [INF] KafkaProxy: Sending message '{"BookingId":"0211a22f-1cc2-4b7f-9ec4-cce7d9bd2c0d","Email":"gennady.tiunov@gmail.com","Amount":3000.0000,"Currency":"RUB","Id":"805c7ad2-d8c7-45ff-8624-48d6a95e92b7","Name":"NotifyBookingCancellation","Type":"Command","Date":"2021-06-01T21:55:47.1563291Z"}' to 'cp-cp-kafka-headless.kafka.svc.cluster.local:9092'.
+2021-06-01 21:55:47.168 +00:00 [INF] KafkaProxy: Delivered '{"BookingId":"0211a22f-1cc2-4b7f-9ec4-cce7d9bd2c0d","Email":"gennady.tiunov@gmail.com","Amount":3000.0000,"Currency":"RUB","Id":"805c7ad2-d8c7-45ff-8624-48d6a95e92b7","Name":"NotifyBookingCancellation","Type":"Command","Date":"2021-06-01T21:55:47.1563291Z"}' to offset 'notifications [[0]] @3' on 'cp-cp-kafka-headless.kafka.svc.cluster.local:9092'.
 
 

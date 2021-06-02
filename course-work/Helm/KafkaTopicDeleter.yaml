@@ -1,0 +1,23 @@
+apiVersion: batch/v1
+kind: Job
+metadata:
+   name: kafka-deleter
+spec:
+   backoffLimit: 1
+   template:
+      metadata:
+         name: kafka-deleter
+      spec:
+         restartPolicy: Never
+         containers:
+         - name:  kafka-deleter-container
+           image: confluentinc/cp-kafka:5.0.1
+           command:
+           - sh
+           - "-c"
+           - |
+              kafka-topics --delete --zookeeper cp-cp-zookeeper-headless.kafka.svc.cluster.local:2181 --topic users
+              kafka-topics --delete --zookeeper cp-cp-zookeeper-headless.kafka.svc.cluster.local:2181 --topic bookings
+              kafka-topics --delete --zookeeper cp-cp-zookeeper-headless.kafka.svc.cluster.local:2181 --topic payments
+              kafka-topics --delete --zookeeper cp-cp-zookeeper-headless.kafka.svc.cluster.local:2181 --topic payments-replies
+              kafka-topics --delete --zookeeper cp-cp-zookeeper-headless.kafka.svc.cluster.local:2181 --topic notifications

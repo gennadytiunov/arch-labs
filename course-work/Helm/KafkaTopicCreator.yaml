@@ -1,0 +1,23 @@
+apiVersion: batch/v1
+kind: Job
+metadata:
+   name: kafka-creator
+spec:
+   backoffLimit: 1
+   template:
+      metadata:
+         name: kafka-creator
+      spec:
+         restartPolicy: Never
+         containers:
+         - name:  kafka-creator-container
+           image: confluentinc/cp-kafka:5.0.1
+           command:
+           - sh
+           - "-c"
+           - |
+              kafka-topics --create --zookeeper cp-cp-zookeeper-headless.kafka.svc.cluster.local:2181 -replication-factor 1 --partitions 1 --topic users --if-not-exists
+              kafka-topics --create --zookeeper cp-cp-zookeeper-headless.kafka.svc.cluster.local:2181 -replication-factor 1 --partitions 1 --topic bookings --if-not-exists
+              kafka-topics --create --zookeeper cp-cp-zookeeper-headless.kafka.svc.cluster.local:2181 -replication-factor 1 --partitions 1 --topic payments --if-not-exists
+              kafka-topics --create --zookeeper cp-cp-zookeeper-headless.kafka.svc.cluster.local:2181 -replication-factor 1 --partitions 1 --topic payments-replies --if-not-exists
+              kafka-topics --create --zookeeper cp-cp-zookeeper-headless.kafka.svc.cluster.local:2181 -replication-factor 1 --partitions 1 --topic notifications --if-not-exists
