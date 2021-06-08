@@ -1,0 +1,8 @@
+kubectl exec kafka-client -- kafka-topics --list --zookeeper cp-cp-zookeeper-headless.kafka.svc.cluster.local:2181
+
+kubectl exec kafka-client -- kafka-topics --create --zookeeper cp-cp-zookeeper:2181 -replication-factor 1 --partitions 1 --topic users
+kubectl exec kafka-client -- kafka-topics --create --zookeeper cp-cp-zookeeper:2181 -replication-factor 1 --partitions 1 --topic bookings
+kubectl exec kafka-client -- kafka-topics --create --zookeeper cp-cp-zookeeper:2181 -replication-factor 1 --partitions 1 --topic payments
+kubectl exec kafka-client -- kafka-topics --create --zookeeper cp-cp-zookeeper:2181 -replication-factor 1 --partitions 1 --topic notifications
+
+kafka-topics --list --zookeeper cp-cp-zookeeper.kafka.svc.cluster.local:2181

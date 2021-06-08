@@ -1,16 +1,16 @@
 apiVersion: batch/v1
 kind: Job
 metadata:
-   name: kafka-deleter
+   name: kafka-topic-deleter
 spec:
    backoffLimit: 1
    template:
       metadata:
-         name: kafka-deleter
+         name: kafka-topic-deleter
       spec:
          restartPolicy: Never
          containers:
-         - name:  kafka-deleter-container
+         - name:  kafka-topic-deleter
            image: confluentinc/cp-kafka:5.0.1
            command:
            - sh

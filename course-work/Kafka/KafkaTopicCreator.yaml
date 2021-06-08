@@ -1,16 +1,16 @@
 apiVersion: batch/v1
 kind: Job
 metadata:
-   name: kafka-creator
+   name: kafka-topic-creator
 spec:
    backoffLimit: 1
    template:
       metadata:
-         name: kafka-creator
+         name: kafka-topic-creator
       spec:
          restartPolicy: Never
          containers:
-         - name:  kafka-creator-container
+         - name:  kafka-topic-creator
            image: confluentinc/cp-kafka:5.0.1
            command:
            - sh

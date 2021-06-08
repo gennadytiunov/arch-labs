@@ -5,8 +5,8 @@ common:
    host: arch.coursework
    
 smtp:
-   login: ...
-   password: ...
+   login: "..."
+   password: "..."
 
 authEndpoint:
    label: auth-endpoint
