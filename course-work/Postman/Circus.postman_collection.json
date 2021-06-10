@@ -1167,9 +1167,10 @@
 				"method": "POST",
 				"header": [
 					{
-						"key": "X-Service-Token",
+						"key": "",
 						"type": "text",
-						"value": "9860c9cd-5101-455f-85ca-0916908ee464"
+						"value": "",
+						"disabled": true
 					}
 				],
 				"body": {
@@ -1309,9 +1310,10 @@
 				"method": "DELETE",
 				"header": [
 					{
-						"key": "X-Service-Token",
+						"key": "",
 						"type": "text",
-						"value": "9860c9cd-5101-455f-85ca-0916908ee464"
+						"value": "",
+						"disabled": true
 					}
 				],
 				"url": {
@@ -1549,9 +1551,10 @@
 				"method": "POST",
 				"header": [
 					{
-						"key": "X-Service-Token",
+						"key": "",
 						"type": "text",
-						"value": "9860c9cd-5101-455f-85ca-0916908ee464"
+						"value": "",
+						"disabled": true
 					}
 				],
 				"body": {
@@ -1691,9 +1694,10 @@
 				"method": "POST",
 				"header": [
 					{
-						"key": "X-Service-Token",
+						"key": "",
 						"type": "text",
-						"value": "9860c9cd-5101-455f-85ca-0916908ee464"
+						"value": "",
+						"disabled": true
 					}
 				],
 				"body": {
@@ -1747,9 +1751,10 @@
 				"method": "POST",
 				"header": [
 					{
-						"key": "X-Service-Token",
+						"key": "",
 						"type": "text",
-						"value": "9860c9cd-5101-455f-85ca-0916908ee464"
+						"value": "",
+						"disabled": true
 					}
 				],
 				"body": {
@@ -1851,9 +1856,10 @@
 				"method": "POST",
 				"header": [
 					{
-						"key": "X-Service-Token",
+						"key": "",
 						"type": "text",
-						"value": "9860c9cd-5101-455f-85ca-0916908ee464"
+						"value": "",
+						"disabled": true
 					}
 				],
 				"body": {
@@ -2072,9 +2078,10 @@
 				"method": "DELETE",
 				"header": [
 					{
-						"key": "X-Service-Token",
+						"key": "",
 						"type": "text",
-						"value": "9860c9cd-5101-455f-85ca-0916908ee464"
+						"value": "",
+						"disabled": true
 					}
 				],
 				"url": {
@@ -2209,9 +2216,10 @@
 				"method": "POST",
 				"header": [
 					{
-						"key": "X-Service-Token",
+						"key": "",
 						"type": "text",
-						"value": "9860c9cd-5101-455f-85ca-0916908ee464"
+						"value": "",
+						"disabled": true
 					}
 				],
 				"body": {
