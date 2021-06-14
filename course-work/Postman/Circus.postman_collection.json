@@ -2142,7 +2142,7 @@
 			"response": []
 		},
 		{
-			"name": "Payments - Check Balance - 0 RUB Copy",
+			"name": "Payments - Check Balance - 3000 RUB",
 			"event": [
 				{
 					"listen": "test",

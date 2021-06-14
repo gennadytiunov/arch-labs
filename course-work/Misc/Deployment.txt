@@ -31,7 +31,7 @@ helm repo add confluentinc https://confluentinc.github.io/cp-helm-charts/
 helm repo update
 helm install cp confluentinc/cp-helm-charts --set cp-schema-registry.enabled=false,cp-kafka-rest.enabled=false,cp-kafka-connect.enabled=false,cp-ksql-server.enabled=false,cp-control-center.enabled=false
 ...WAIT UNTIL KAFKA IS UP...
-kubectl apply -f KafkaCreator.yaml
+kubectl apply -f KafkaTopicCreator.yaml
 
 ...
 УКАЗАТЬ актуальные SMTP-настройки
